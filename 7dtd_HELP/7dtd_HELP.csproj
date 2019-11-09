@@ -51,8 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphicsMapDrawer.cs" />
+    <Compile Include="IMapDrawer.cs" />
     <Compile Include="IMapLoader.cs" />
     <Compile Include="InputSet.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="MapPoint.cs" />
     <Compile Include="HelperForm.cs">
       <SubType>Form</SubType>

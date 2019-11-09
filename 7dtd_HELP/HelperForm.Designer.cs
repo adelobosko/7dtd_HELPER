@@ -104,7 +104,7 @@
             this.loadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.prefabsXMLToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // prefabsXMLToolStripMenuItem
@@ -119,7 +119,7 @@
             this.scaleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scaleToolStripTextBox});
             this.scaleToolStripMenuItem.Name = "scaleToolStripMenuItem";
-            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.scaleToolStripMenuItem.Text = "Scale";
             // 
             // scaleToolStripTextBox
@@ -135,7 +135,7 @@
             this.sizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeToolStripTextBox});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // sizeToolStripTextBox
@@ -151,7 +151,7 @@
             this.sizeCellToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeCellToolStripTextBox});
             this.sizeCellToolStripMenuItem.Name = "sizeCellToolStripMenuItem";
-            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.sizeCellToolStripMenuItem.Text = "SizeCell";
             // 
             // sizeCellToolStripTextBox
@@ -250,7 +250,7 @@
             this.mapSacleTrackBar.TabIndex = 33;
             this.mapSacleTrackBar.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.mapSacleTrackBar.Value = 10;
-            this.mapSacleTrackBar.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.mapSacleTrackBar.ValueChanged += new System.EventHandler(this.mapSacleTrackBar_ValueChanged);
             // 
             // HelperForm
             // 

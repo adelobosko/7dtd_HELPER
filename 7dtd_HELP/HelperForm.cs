@@ -27,6 +27,26 @@ namespace _7dtd_HELP
             this.MouseDown += this.HelperForm_MouseDown;
             this.MouseMove += this.HelperForm_MouseMove;
             this.MouseUp += this.HelperForm_MouseUp;
+
+            this.MouseWheel += new MouseEventHandler(helperForm_MouseWheel);
+        }
+
+        public void helperForm_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                if (mapSacleTrackBar.Value == mapSacleTrackBar.Maximum)
+                    return;
+
+                mapSacleTrackBar.Value = ++mapSacleTrackBar.Value;
+            }
+            else
+            {
+                if (mapSacleTrackBar.Value == mapSacleTrackBar.Minimum)
+                    return;
+
+                mapSacleTrackBar.Value = --mapSacleTrackBar.Value;
+            }
         }
 
         private void KeyBoardHookIntialize()
@@ -231,12 +251,6 @@ namespace _7dtd_HELP
             Invalidate();
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            scaleToolStripTextBox.TextBox.Text = mapSacleTrackBar.Value.ToString();
-            this.Refresh();
-        }
-
         private void HelperForm_SizeChanged(object sender, EventArgs e)
         {
             graphicsMapDrawer.Width = Width;
@@ -295,120 +309,11 @@ namespace _7dtd_HELP
             int cellSize = int.TryParse(sizeCellToolStripTextBox.Text, out cellSize) ? cellSize : 50;
             map.CellSize = cellSize;
         }
-    }
 
-    public interface IMapDrawer
-    {
-        void DrawMap(Map map);
-    }
-
-    public class GraphicsMapDrawer : IMapDrawer
-    {
-        public Graphics Graphics { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public void DrawMap(Map map)
+        private void mapSacleTrackBar_ValueChanged(object sender, EventArgs e)
         {
-            var scaledR = (map.Size / map.Scale);
-            var rowsAndColumns = (map.Size / map.Scale) / map.CellSize;
-
-            float x0 = map.Offset.X + Width / 2;
-            float y0 = map.Offset.Y + Height / 2;
-
-            Graphics.FillRectangle(Brushes.Black, x0 - 4, y0 - 4, 8, 8);
-
-            Graphics.DrawRectangle(Pens.Red,
-                x0 - scaledR,
-                y0 - scaledR,
-                scaledR * 2,
-                scaledR * 2);
-
-            for (var i = 0; i < rowsAndColumns; i++)
-            {
-                Graphics.DrawLine(Pens.Gray,
-                    x0,
-                    y0 + map.CellSize * i,
-                    x0 + scaledR,
-                    y0 + map.CellSize * i);
-                Graphics.DrawLine(Pens.Gray,
-                    x0,
-                    y0 - map.CellSize * i,
-                    x0 + scaledR,
-                    y0 - map.CellSize * i);
-
-                Graphics.DrawLine(Pens.Gray,
-                    x0 + map.CellSize * i,
-                    y0,
-                    x0 + map.CellSize * i,
-                    y0 + scaledR);
-                Graphics.DrawLine(Pens.Gray,
-                    x0 + map.CellSize * i,
-                    y0,
-                    x0 + map.CellSize * i,
-                    y0 - scaledR);
-
-
-
-                Graphics.DrawLine(Pens.Gray,
-                    x0,
-                    y0 - map.CellSize * i,
-                    x0 - scaledR,
-                    y0 - map.CellSize * i);
-                Graphics.DrawLine(Pens.Gray,
-                    x0,
-                    y0 + map.CellSize * i,
-                    x0 - scaledR,
-                    y0 + map.CellSize * i);
-
-                Graphics.DrawLine(Pens.Gray,
-                    x0 - map.CellSize * i,
-                    y0,
-                    x0 - map.CellSize * i,
-                    y0 - scaledR);
-                Graphics.DrawLine(Pens.Gray,
-                    x0 - map.CellSize * i,
-                    y0,
-                    x0 - map.CellSize * i,
-                    y0 + scaledR);
-            }
-        }
-
-        public GraphicsMapDrawer(Graphics graphics)
-        {
-            Graphics = graphics;
-        }
-    }
-
-    public class Map
-    {
-        public int CellSize { get; set; }
-        public int Size {get; set; }
-        public int Scale { get; set; }
-        public Point Offset { get; set; }
-        public Dictionary<string,List<MapPoint>> MapCollection { get; }
-        public List<MapPoint> Perfabs { get; }
-        public Map(int size = 3072, int sclae = 10, int cellSize = 50)
-        {
-            Size = size;
-            Scale = sclae;
-            CellSize = cellSize;
-            MapCollection = new Dictionary<string, List<MapPoint>>();
-            Perfabs = new List<MapPoint>();
-        }
-
-        public void LoadPerfabs(string filename, IMapLoader mapLoader)
-        {
-            Perfabs.Clear();
-            var mapPoints = mapLoader.LoadMapPoints(filename);
-            if(mapPoints == null)
-                return;
-
-            Perfabs.AddRange(mapPoints);
-        }
-
-        public void Draw(IMapDrawer mapDrawer)
-        {
-            mapDrawer.DrawMap(this);
+            scaleToolStripTextBox.Text = mapSacleTrackBar.Value.ToString();
+            this.Refresh();
         }
     }
 }
