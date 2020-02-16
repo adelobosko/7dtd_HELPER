@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
 using System.Media;
+using System.Net;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using static _7dtd_HELP.Win32;
@@ -13,15 +17,19 @@ namespace _7dtd_HELP
     public partial class HelperForm : Form
     {
         private GlobalKeyboardHook gHook;
+        // git kui/7dtd-map
         private Map map;
+        private Config config;
         private GraphicsMapDrawer graphicsMapDrawer;
         private string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         public HelperForm()
         {
             InitializeComponent();
-            KeyBoardHookIntialize();
+            KeyBoardHookInitialize();
             graphicsMapDrawer = new GraphicsMapDrawer(this.CreateGraphics());
+            GlobalHelper.WebHelper = new WebHelper("");
+            GlobalHelper.UpdateStatus = OnStatusChanged;
             map = new Map();
             this.Paint += this.HelperForm_Paint;
             this.MouseDown += this.HelperForm_MouseDown;
@@ -29,6 +37,22 @@ namespace _7dtd_HELP
             this.MouseUp += this.HelperForm_MouseUp;
 
             this.MouseWheel += new MouseEventHandler(helperForm_MouseWheel);
+
+        }
+
+        public void OnStatusChanged(object sender, string message, int percentage)
+        {
+            try
+            {
+                Invoke(new Action(() =>
+                {
+                    this.statusToolStripStatusLabel.Text = message;
+                    this.statusToolStripProgressBar.Value = percentage;
+                }));
+            }
+            catch
+            {
+            }
         }
 
         public void helperForm_MouseWheel(object sender, MouseEventArgs e)
@@ -49,7 +73,7 @@ namespace _7dtd_HELP
             }
         }
 
-        private void KeyBoardHookIntialize()
+        private void KeyBoardHookInitialize()
         {
             gHook = new GlobalKeyboardHook();
             gHook.KeyDown += gHook_KeyDown;
@@ -97,7 +121,7 @@ namespace _7dtd_HELP
                     {
                         SystemSounds.Hand.Play();
                     }
-
+                    atouseGimmeToolStripMenuItem.Checked = gimmeTimer.Enabled;
                     e.Handled = true;
                     break;
                 }
@@ -125,6 +149,39 @@ namespace _7dtd_HELP
             SystemSounds.Beep.Play();
             gHook.hook();
             openFileDialog.InitialDirectory = defaultPath;
+
+            if (graphicsMapDrawer != null)
+            {
+                graphicsMapDrawer.Width = Width;
+                graphicsMapDrawer.Height = Height;
+                this.Refresh();
+            }
+
+            LoadConfig();
+            // TODO: make that easily
+            map.AllowedDecorations.Clear();
+            foreach (ToolStripMenuItem item in prefabsToolStripMenuItem.DropDownItems)
+            {
+                map.AllowedDecorations.Add(new ConfiguredDecoration()
+                {
+                    Name = item.Text,
+                    Enabled = item.Checked
+                });
+            }
+        }
+
+        private void LoadConfig()
+        {
+            if (!Directory.Exists(GlobalHelper.Paths.ConfigFolder))
+            {
+                Directory.CreateDirectory(GlobalHelper.Paths.ConfigFolder);
+            }
+
+            if (!File.Exists(GlobalHelper.Paths.ConfigFile))
+            {
+                config = new Config();
+            }
+
         }
 
 
@@ -141,7 +198,7 @@ namespace _7dtd_HELP
             this.Text = gimmeCounter.ToString();
             try
             {
-                timeToGimme = Convert.ToInt32(gimmeToolStripTextBox.Text) * 60;
+                timeToGimme = Convert.ToInt32(gimmeDelayToolStripTextBox.Text) * 60;
             }
             catch
             {
@@ -178,11 +235,6 @@ namespace _7dtd_HELP
         private Point prevMousePosition;
         private void HelperForm_MouseDown(object sender, MouseEventArgs e)
         {
-            /*
-             * if (e.Button != MouseButtons.Left) return;
-             * ReleaseCapture();
-             * SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            */
             prevMousePosition = e.Location;
             isMove = true;
         }
@@ -191,46 +243,9 @@ namespace _7dtd_HELP
         {
             graphicsMapDrawer.Graphics = e.Graphics;
             map.Draw(graphicsMapDrawer);
-            
-
-            /*foreach (var t in decorations)
-            {
-                foreach (ToolStripMenuItem item in perfabsToolStripMenuItem.DropDownItems)
-                {
-                    if (t.Name != item.Text || !item.Checked) continue;
-                    var size = 2;
-
-                    var x = x0 + t.X / map.Scale;
-                    var y = y0 - t.Y / map.Scale;
-
-                    //var x = e.Location.X - x0;
-                    //var y = y0 - e.Location.Y;
-
-                    e.Graphics.FillRectangle(Brushes.Blue, x - size, y - size, size * 2, size * 2);
-                    e.Graphics.DrawString(t.Name, this.Font, Brushes.Black, x, y);
-                }
-            }*/
-
-            /*foreach (var t in decorations)
-            {
-                if (perList.Contains(t.Name))
-                {
-                    var size = 2;
-
-                    var x = x0 + t.X / map.Scale;
-                    var y = y0 - t.Y / map.Scale;
-
-                    //var x = e.Location.X - x0;
-                    //var y = y0 - e.Location.Y;
-
-                    e.Graphics.FillRectangle(Brushes.Blue, x - size, y - size, size * 2, size * 2);
-                    e.Graphics.DrawString(t.Name, this.Font, Brushes.Black, x, y);
-                }
-            }*/
         }
 
-        List<string> perList = new List<string>() { "business_burnt_01", "house_old_bungalow_03", "cornfield_med", "cornfield_sm", "potatofield_sm" +
-            "" };
+        
         private void HelperForm_MouseUp(object sender, MouseEventArgs e)
         {
             isMove = false;
@@ -253,6 +268,9 @@ namespace _7dtd_HELP
 
         private void HelperForm_SizeChanged(object sender, EventArgs e)
         {
+            if(graphicsMapDrawer == null)
+                return;
+            
             graphicsMapDrawer.Width = Width;
             graphicsMapDrawer.Height = Height;
             this.Refresh();
@@ -264,7 +282,7 @@ namespace _7dtd_HELP
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            map.LoadPerfabs(openFileDialog.FileName, new XmlPerfabsMapLoader());
+            map.LoadPrefabs(openFileDialog.FileName, new XmlPrefabsMapLoader());
             this.Refresh();
             /*if (decorations.Count <= 0)
                 return;
@@ -281,7 +299,7 @@ namespace _7dtd_HELP
                 {
                     item.Checked = !item.Checked;
                 };
-                perfabsToolStripMenuItem.DropDownItems.Add(item);
+                prefabsToolStripMenuItem.DropDownItems.Add(item);
             }*/
         }
 
@@ -314,6 +332,27 @@ namespace _7dtd_HELP
         {
             scaleToolStripTextBox.Text = mapSacleTrackBar.Value.ToString();
             this.Refresh();
+        }
+
+        private void prefabsChangedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            map.AllowedDecorations.Clear();
+            foreach (ToolStripMenuItem item in prefabsToolStripMenuItem.DropDownItems)
+            {
+                map.AllowedDecorations.Add(new ConfiguredDecoration()
+                {
+                    Name = item.Text,
+                    Enabled = item.Checked
+                });
+            }
+        }
+
+        private void updatePrefabsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Thread(() =>
+            {
+                config.PrefabsConfig.UpdatePrefabs();
+            }).Start();
         }
     }
 }

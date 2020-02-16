@@ -10,24 +10,26 @@ namespace _7dtd_HELP
         public int Scale { get; set; }
         public Point Offset { get; set; }
         public Dictionary<string,List<MapPoint>> MapCollection { get; }
-        public List<MapPoint> Perfabs { get; }
-        public Map(int size = 3072, int sclae = 10, int cellSize = 50)
+        public List<MapPoint> Prefabs { get; }
+        public List<ConfiguredDecoration> AllowedDecorations { get; set; }
+        public Map(int size = 3072, int scale = 10, int cellSize = 50)
         {
             Size = size;
-            Scale = sclae;
+            Scale = scale;
             CellSize = cellSize;
             MapCollection = new Dictionary<string, List<MapPoint>>();
-            Perfabs = new List<MapPoint>();
+            Prefabs = new List<MapPoint>();
+            AllowedDecorations = new List<ConfiguredDecoration>();
         }
 
-        public void LoadPerfabs(string filename, IMapLoader mapLoader)
+        public void LoadPrefabs(string filename, IMapLoader mapLoader)
         {
-            Perfabs.Clear();
+            Prefabs.Clear();
             var mapPoints = mapLoader.LoadMapPoints(filename);
             if(mapPoints == null)
                 return;
 
-            Perfabs.AddRange(mapPoints);
+            Prefabs.AddRange(mapPoints);
         }
 
         public void Draw(IMapDrawer mapDrawer)
