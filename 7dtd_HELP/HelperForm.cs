@@ -48,10 +48,12 @@ namespace _7dtd_HELP
                 {
                     this.statusToolStripStatusLabel.Text = message;
                     this.statusToolStripProgressBar.Value = percentage;
+                    Console.WriteLine($"{message} {percentage}%");
                 }));
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
             }
         }
 
@@ -172,9 +174,9 @@ namespace _7dtd_HELP
 
         private void LoadConfig()
         {
-            if (!Directory.Exists(GlobalHelper.Paths.ConfigFolder))
+            if (!Directory.Exists(GlobalHelper.Paths.ConfigDirectory))
             {
-                Directory.CreateDirectory(GlobalHelper.Paths.ConfigFolder);
+                Directory.CreateDirectory(GlobalHelper.Paths.ConfigDirectory);
             }
 
             if (!File.Exists(GlobalHelper.Paths.ConfigFile))
