@@ -18,10 +18,7 @@ namespace _7dtd_HELP
     {
         private GlobalKeyboardHook gHook;
         // git kui/7dtd-map
-        private Map map;
-        private Config config;
-        private GraphicsMapDrawer graphicsMapDrawer;
-        private string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private readonly GraphicsMapDrawer graphicsMapDrawer;
 
         public HelperForm()
         {
@@ -30,7 +27,6 @@ namespace _7dtd_HELP
             graphicsMapDrawer = new GraphicsMapDrawer(this.CreateGraphics());
             GlobalHelper.WebHelper = new WebHelper("");
             GlobalHelper.UpdateStatus = OnStatusChanged;
-            map = new Map();
             this.Paint += this.HelperForm_Paint;
             this.MouseDown += this.HelperForm_MouseDown;
             this.MouseMove += this.HelperForm_MouseMove;
@@ -150,7 +146,6 @@ namespace _7dtd_HELP
         {
             SystemSounds.Beep.Play();
             gHook.hook();
-            openFileDialog.InitialDirectory = defaultPath;
 
             if (graphicsMapDrawer != null)
             {
@@ -159,36 +154,19 @@ namespace _7dtd_HELP
                 this.Refresh();
             }
 
-            LoadConfig();
-            // TODO: make that easily
-            map.AllowedDecorations.Clear();
-            foreach (ToolStripMenuItem item in prefabsToolStripMenuItem.DropDownItems)
-            {
-                map.AllowedDecorations.Add(new ConfiguredDecoration()
-                {
-                    Name = item.Text,
-                    Enabled = item.Checked
-                });
-            }
-        }
+            GlobalHelper.Config = Config.Load(GlobalHelper.Config);
 
-        private void LoadConfig()
-        {
-            if (!Directory.Exists(GlobalHelper.Paths.ConfigDirectory))
-            {
-                Directory.CreateDirectory(GlobalHelper.Paths.ConfigDirectory);
-            }
+            sizeCellToolStripTextBox.Text = GlobalHelper.Config.Map.CellSize.ToString();
+            scaleToolStripTextBox.Text = GlobalHelper.Config.Map.Scale.ToString();
+            sizeToolStripTextBox.Text = GlobalHelper.Config.Map.Size.ToString();
 
-            if (!File.Exists(GlobalHelper.Paths.ConfigFile))
-            {
-                config = new Config();
-            }
-
+            this.Text = $"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
         }
 
 
         private void HelperForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            GlobalHelper.Config.Save();
             gHook.unhook();
         }
 
@@ -211,7 +189,7 @@ namespace _7dtd_HELP
             SystemSounds.Exclamation.Play();
         }
 
-        
+
 
         private void timerInfinity_Tick(object sender, EventArgs e)
         {
@@ -232,7 +210,7 @@ namespace _7dtd_HELP
         }
 
 
-        
+
         private bool isMove;
         private Point prevMousePosition;
         private void HelperForm_MouseDown(object sender, MouseEventArgs e)
@@ -244,10 +222,13 @@ namespace _7dtd_HELP
         private void HelperForm_Paint(object sender, PaintEventArgs e)
         {
             graphicsMapDrawer.Graphics = e.Graphics;
-            map.Draw(graphicsMapDrawer);
+            if (GlobalHelper.Config?.Map != null)
+            {
+                GlobalHelper.Config.Map.Draw(graphicsMapDrawer);
+            }
         }
 
-        
+
         private void HelperForm_MouseUp(object sender, MouseEventArgs e)
         {
             isMove = false;
@@ -255,37 +236,102 @@ namespace _7dtd_HELP
 
         private void HelperForm_MouseMove(object sender, MouseEventArgs e)
         {
-            float x0 = map.Offset.X + Width / 2;
-            float y0 = map.Offset.Y + Height / 2;
+            if (GlobalHelper.Config?.Map == null)
+            {
+                return;
+            }
+
+            float x0 = GlobalHelper.Config.Map.Offset.X + Width / 2;
+            float y0 = GlobalHelper.Config.Map.Offset.Y + Height / 2;
 
             var x = e.Location.X - x0;
             var y = y0 - e.Location.Y;
-            coordinatesToolStripTextBox.Text = $"{x * map.Scale};{y * map.Scale}";
+            coordinatesToolStripTextBox.Text = $"{x * GlobalHelper.Config.Map.Scale};{y * GlobalHelper.Config.Map.Scale}";
 
             if (!isMove) return;
-            map.Offset = new Point(map.Offset.X + e.Location.X - prevMousePosition.X, map.Offset.Y + e.Location.Y - prevMousePosition.Y);
+            GlobalHelper.Config.Map.Offset = new Point(GlobalHelper.Config.Map.Offset.X + e.Location.X - prevMousePosition.X, GlobalHelper.Config.Map.Offset.Y + e.Location.Y - prevMousePosition.Y);
             prevMousePosition = e.Location;
             Invalidate();
         }
 
         private void HelperForm_SizeChanged(object sender, EventArgs e)
         {
-            if(graphicsMapDrawer == null)
+            if (graphicsMapDrawer == null)
                 return;
-            
+
             graphicsMapDrawer.Width = Width;
             graphicsMapDrawer.Height = Height;
             this.Refresh();
         }
 
 
-        private void prefabsXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mapFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() != DialogResult.OK)
-                return;
+            using (var fbd = new FolderBrowserDialog()
+            {
+                RootFolder = Environment.SpecialFolder.ApplicationData,
+                SelectedPath = GlobalHelper.Paths.MapsAppDataDirectory
+            })
+            {
+                var result = fbd.ShowDialog();
 
-            map.LoadPrefabs(openFileDialog.FileName, new XmlPrefabsMapLoader());
-            this.Refresh();
+                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath)) return;
+
+                var mapName = Path.GetFileName(fbd.SelectedPath);
+                var hostsFile = Path.Combine(fbd.SelectedPath, "hosts.txt");
+                var worldDirectory = Path.Combine(fbd.SelectedPath, "World");
+                var mapInfoFile = Path.Combine(worldDirectory, "map_info.xml");
+                var prefabsFile = Path.Combine(worldDirectory, "prefabs.xml");
+                if (!File.Exists(hostsFile) || !Directory.Exists(worldDirectory)
+                                            || !File.Exists(mapInfoFile)
+                                            || !File.Exists(prefabsFile))
+                {
+                    MessageBox.Show("It, seems, is not 7dtd map directory...");
+                    return;
+                }
+
+                var hosts = File.ReadAllText(hostsFile)
+                    .Replace("\r", "")
+                    .Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                var ip = "";
+                var port = "";
+                if (hosts.Length > 0)
+                {
+                    var host = hosts[0].Split(':');
+                    if (host.Length > 1)
+                    {
+                        ip = host[0];
+                        port = host[1];
+                    }
+                }
+
+                if (GlobalHelper.Config.Maps.Contains(mapName))
+                {
+                    var mapTwin = Map.Load(mapName);
+                    GlobalHelper.Config.Map.CellSize = mapTwin.CellSize;
+                    GlobalHelper.Config.Map.Description = mapTwin.Description;
+                    GlobalHelper.Config.Map.Offset = mapTwin.Offset;
+                    GlobalHelper.Config.Map.Scale = mapTwin.Scale;
+                }
+                else
+                {
+                    GlobalHelper.Config.Map = new Map()
+                    {
+                        Name = mapName
+                    };
+                }
+
+                GlobalHelper.Config.Map.LoadPrefabs(prefabsFile, new XmlPrefabsMapLoader());
+                GlobalHelper.Config.Map.LoadMapInfo(mapInfoFile);
+                GlobalHelper.Config.Map.Ip = ip;
+                GlobalHelper.Config.Map.Port = port;
+
+                GlobalHelper.Config.Save();
+                this.Text = $"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
+            }
+
+
             /*if (decorations.Count <= 0)
                 return;
 
@@ -312,22 +358,37 @@ namespace _7dtd_HELP
 
         private void scaleToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
-            map.Offset = new Point(0, 0);
+            if (GlobalHelper.Config?.Map == null)
+            {
+                return;
+            }
+
+            GlobalHelper.Config.Map.Offset = new Point(0, 0);
             int mapScale = int.TryParse(scaleToolStripTextBox.Text, out mapScale) ? mapScale : 1;
-            map.Scale = mapScale;
+            GlobalHelper.Config.Map.Scale = mapScale;
         }
 
         private void sizeToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
-            map.Offset = new Point(0, 0);
+            if (GlobalHelper.Config?.Map == null)
+            {
+                return;
+            }
+
+            GlobalHelper.Config.Map.Offset = new Point(0, 0);
             int mapSize = int.TryParse(sizeToolStripTextBox.Text, out mapSize) ? mapSize : 3072;
-            map.Scale = mapSize;
+            GlobalHelper.Config.Map.Scale = mapSize;
         }
 
         private void sizeCellToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
+            if (GlobalHelper.Config?.Map == null)
+            {
+                return;
+            }
+
             int cellSize = int.TryParse(sizeCellToolStripTextBox.Text, out cellSize) ? cellSize : 50;
-            map.CellSize = cellSize;
+            GlobalHelper.Config.Map.CellSize = cellSize;
         }
 
         private void mapSacleTrackBar_ValueChanged(object sender, EventArgs e)
@@ -336,24 +397,11 @@ namespace _7dtd_HELP
             this.Refresh();
         }
 
-        private void prefabsChangedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            map.AllowedDecorations.Clear();
-            foreach (ToolStripMenuItem item in prefabsToolStripMenuItem.DropDownItems)
-            {
-                map.AllowedDecorations.Add(new ConfiguredDecoration()
-                {
-                    Name = item.Text,
-                    Enabled = item.Checked
-                });
-            }
-        }
-
         private void updatePrefabsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Thread(() =>
             {
-                config.PrefabsConfig.UpdatePrefabs();
+                GlobalHelper.Config.PrefabsConfig.UpdatePrefabs();
             }).Start();
         }
     }

@@ -12,27 +12,32 @@ namespace _7dtd_HELP
 
         public void DrawMap(Map map)
         {
+            if (map == null)
+            {
+                return;
+            }
             DrawGrid(map);
             DrawPrefabs(map);
         }
 
         private void DrawPrefabs(Map map)
         {
-            var allowedPrefabs = map.AllowedDecorations.Where(ap => ap.Enabled).Select(ap => ap.Name);
-            var paintedPrefabs = map.Prefabs.Where(p => allowedPrefabs.Contains(p.Name));
-            foreach (var prefab in paintedPrefabs)
-            {
-                var font = new Font("Courier New", 14);
-                var size = 2;
-                float x0 = map.Offset.X + Width / 2;
-                float y0 = map.Offset.Y + Height / 2;
+            // TODO: draw groups
+            //var allowedPrefabs = map.AllowedDecorations.Where(ap => ap.Enabled).Select(ap => ap.Name);
+            //var paintedPrefabs = map.Prefabs.Where(p => allowedPrefabs.Contains(p.Name));
+            //foreach (var prefab in paintedPrefabs)
+            //{
+            //    var font = new Font("Courier New", 14);
+            //    var size = 2;
+            //    float x0 = map.Offset.X + Width / 2;
+            //    float y0 = map.Offset.Y + Height / 2;
 
-                var x = x0 + prefab.X / map.Scale;
-                var y = y0 - prefab.Y / map.Scale;
+            //    var x = x0 + prefab.X / map.Scale;
+            //    var y = y0 - prefab.Y / map.Scale;
 
-                Graphics.FillRectangle(Brushes.Blue, x - size, y - size, size * 2, size * 2);
-                Graphics.DrawString(prefab.Name, font, Brushes.Black, x, y);
-            }
+            //    Graphics.FillRectangle(Brushes.Blue, x - size, y - size, size * 2, size * 2);
+            //    Graphics.DrawString(prefab.Name, font, Brushes.Black, x, y);
+            //}
         }
 
         private void DrawGrid(Map map)

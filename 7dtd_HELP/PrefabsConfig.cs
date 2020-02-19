@@ -72,6 +72,37 @@ namespace _7dtd_HELP
             }
         }
 
+        public static List<Prefab> ParsPrefabs()
+        {
+            var prefabs = new List<Prefab>();
+            try
+            {
+                GlobalHelper.UpdateStatus?.Invoke("Parsing prefabs", "Parsing prefabs...", 0);
+                var prefabsDirectoryInfo = new DirectoryInfo(GlobalHelper.Paths.PrefabsDirectory);
+                var htmlFiles = prefabsDirectoryInfo.GetFiles("*.html", SearchOption.AllDirectories);
+                for (var i = 0; i < htmlFiles.Length; i++)
+                {
+                    var blocks = Prefab.GetPrefabBlocksByHtml(htmlFiles[i].FullName);
+                    var prefab = new Prefab()
+                    {
+                        FileName = htmlFiles[i].FullName,
+                        Name = Path.GetFileNameWithoutExtension(htmlFiles[i].Name),
+                        Blocks = new List<PrefabBlock>(blocks)
+                    };
+                    prefabs.Add(prefab);
+                    var percentage = (i + 1) * 100.0 / htmlFiles.Length;
+                    if (percentage > 0 && percentage < 100)
+                        GlobalHelper.UpdateStatus?.Invoke($"Parsing prefabs {prefab.Name}", $"Parsing prefabs... ({percentage:0.00}%)", (int)percentage);
+                }
+                return prefabs;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return prefabs;
+            }
+        }
+
         public void UpdatePrefabs()
         {
             ClearPrefabsCache();
@@ -113,23 +144,12 @@ namespace _7dtd_HELP
             });
             moveTask.Wait();
 
-            GlobalHelper.UpdateStatus?.Invoke(this, "Parsing prefabs...", 0);
-            var prefabsDirectoryInfo = new DirectoryInfo(GlobalHelper.Paths.PrefabsDirectory);
-            var htmlFiles = prefabsDirectoryInfo.GetFiles("*.html", SearchOption.AllDirectories);
-            Prefabs.Clear();
-            for (var i = 0; i < htmlFiles.Length; i++)
-            {
-                var blocks = Prefab.GetPrefabBlocksByHtml(htmlFiles[i].FullName);
-                Prefabs.Add(new Prefab()
-                {
-                    FileName = htmlFiles[i].FullName,
-                    Name = Path.GetFileNameWithoutExtension(htmlFiles[i].Name),
-                    Blocks = new List<PrefabBlock>(blocks)
-                });
-                var percentage = (i + 1) * 100.0 / htmlFiles.Length;
-                if (percentage > 0 && percentage < 100)
-                    GlobalHelper.UpdateStatus?.Invoke(this, $"Parsing prefabs... ({percentage:0.00}%)", (int)percentage);
-            }
+            Prefabs = new List<Prefab>(ParsPrefabs());
+            LastUpdateTime = DateTime.Now;
+
+
+            GlobalHelper.Config.Save();
+            GlobalHelper.UpdateStatus?.Invoke("Prefabs is updated", "Prefabs is updated", 100);
         }
     }
 }
