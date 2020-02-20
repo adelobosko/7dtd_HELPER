@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 
 namespace _7dtd_HELP
@@ -16,28 +17,99 @@ namespace _7dtd_HELP
             {
                 return;
             }
+            DrawBiomes(map);
             DrawGrid(map);
             DrawPrefabs(map);
+            DrawCollections(map);
+        }
+
+        private void DrawBiomes(Map map)
+        {
+            if (!map.IsBiomesShown)
+            {
+                return;
+            }
+
+            var width = map.Size / map.Scale * 2;
+            var height = map.Size / map.Scale * 2;
+            var bitmap = map.GetBiomes(width, height);
+            if (bitmap == null)
+            {
+                return;
+            }
+
+            var scaledR = (map.Size / map.Scale);
+            int x0 = map.Offset.X + Width / 2;
+            int y0 = map.Offset.Y + Height / 2;
+            Graphics.DrawImage(bitmap, new Point(x0 - scaledR, y0 - scaledR));
+        }
+
+        private void DrawCollections(Map map)
+        {
+            var size = 2;
+            float x0 = map.Offset.X + Width / 2;
+            float y0 = map.Offset.Y + Height / 2;
+
+            var paintedCollections = map.MapObjects.Where(mo => mo.IsEnabled);
+            foreach (var collection in paintedCollections)
+            {
+                foreach (var mapPoint in collection.MapPoints)
+                {
+                    var x = x0 + (float)mapPoint.X / map.Scale;
+                    var y = y0 - (float)mapPoint.Y / map.Scale;
+                    Graphics.FillRectangle(Brushes.Red, x - size, y - size, size * 2, size * 2);
+                }
+            }
+
         }
 
         private void DrawPrefabs(Map map)
         {
-            // TODO: draw groups
-            //var allowedPrefabs = map.AllowedDecorations.Where(ap => ap.Enabled).Select(ap => ap.Name);
-            //var paintedPrefabs = map.Prefabs.Where(p => allowedPrefabs.Contains(p.Name));
-            //foreach (var prefab in paintedPrefabs)
-            //{
-            //    var font = new Font("Courier New", 14);
-            //    var size = 2;
-            //    float x0 = map.Offset.X + Width / 2;
-            //    float y0 = map.Offset.Y + Height / 2;
+            var allowedGroups = GlobalHelper.Config.DecorationGroups.Where(g => g.IsEnabled).ToList();
 
-            //    var x = x0 + prefab.X / map.Scale;
-            //    var y = y0 - prefab.Y / map.Scale;
+            foreach (var prefab in map.Prefabs)
+            {
+                var firstGroup = allowedGroups.FirstOrDefault(g => g.Prefabs.Count(p => p.Name == prefab.Name) > 0);
 
-            //    Graphics.FillRectangle(Brushes.Blue, x - size, y - size, size * 2, size * 2);
-            //    Graphics.DrawString(prefab.Name, font, Brushes.Black, x, y);
-            //}
+                if (firstGroup == null)
+                    continue;
+
+                var font = new Font("Courier New", 14);
+                var size = 2;
+                float x0 = map.Offset.X + Width / 2;
+                float y0 = map.Offset.Y + Height / 2;
+
+                var x = x0 + (float)prefab.X / map.Scale;
+                var y = y0 - (float)prefab.Y / map.Scale;
+
+                if (firstGroup.Icon == null)
+                {
+                    Graphics.FillRectangle(Brushes.Blue, x - size, y - size, size * 2, size * 2);
+                }
+                else
+                {
+                    if (firstGroup.Icon.Width == -1 && firstGroup.Icon.Height == -1)
+                    {
+                        Graphics.DrawImage(
+                            firstGroup.Icon.GetBitmapByFile(), 
+                            new Point(
+                                (int)x - firstGroup.Icon.GetBitmapByFile().Width / 2, 
+                                (int)y - firstGroup.Icon.GetBitmapByFile().Height / 2
+                                )
+                            );
+                    }
+                    else
+                    {
+                        var image = firstGroup.Icon.GetBitmapByFile().ResizeImage(firstGroup.Icon.Width, firstGroup.Icon.Height);
+                        Graphics.DrawImage(image,
+                            new Point(
+                                (int)x - image.Width / 2,
+                                (int)y - image.Height / 2
+                            )
+                        );
+                    }
+                }
+            }
         }
 
         private void DrawGrid(Map map)

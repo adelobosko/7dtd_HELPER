@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.IO.Compression;
+using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Ionic.Zip;
 
 namespace _7dtd_HELP
 {
@@ -36,120 +39,130 @@ namespace _7dtd_HELP
             {
                 Directory.CreateDirectory(GlobalHelper.Paths.ConfigDirectory);
             }
-            GlobalHelper.UpdateStatus?.Invoke("Clearing prefabs cache", "Clearing prefabs cache...",25);
+            GlobalHelper.UpdateStatus?.Invoke("Clearing prefabs cache", "Clearing prefabs cache...", 25);
 
             if (File.Exists(GlobalHelper.Paths.PrefabsZipFile))
             {
                 File.Delete(GlobalHelper.Paths.PrefabsZipFile);
             }
             GlobalHelper.UpdateStatus?.Invoke("Clearing prefabs cache", "Clearing prefabs cache...", 50);
-            
-            if (Directory.Exists(GlobalHelper.Paths.UnzippedPrefabsDirectory))
+
+            if (Directory.Exists(GlobalHelper.Paths.UnzippedDirectory))
             {
-                Directory.Delete(GlobalHelper.Paths.UnzippedPrefabsDirectory, true);
+                try
+                {
+                    Directory.Delete(GlobalHelper.Paths.UnzippedDirectory, true);
+                }
+                catch
+                {
+                    Thread.Sleep(2000);
+                    Directory.Delete(GlobalHelper.Paths.UnzippedDirectory, true);
+                }
             }
             GlobalHelper.UpdateStatus?.Invoke("Clearing prefabs cache", "Clearing prefabs cache...", 75);
 
             if (Directory.Exists(GlobalHelper.Paths.PrefabsDirectory))
             {
-                Directory.Delete(GlobalHelper.Paths.PrefabsDirectory, true);
+                try
+                {
+                    Directory.Delete(GlobalHelper.Paths.PrefabsDirectory, true);
+                }
+                catch
+                {
+                    Thread.Sleep(2000);
+                    Directory.Delete(GlobalHelper.Paths.PrefabsDirectory, true);
+                }
             }
             GlobalHelper.UpdateStatus?.Invoke("Prefabs cache is cleared", "Cache are cleared", 100);
         }
 
         public static void UnzipPrefabs()
         {
-            try
+            GlobalHelper.UpdateStatus?.Invoke("Unzipping prefabs", "Prefabs unzipping...", 0);
+            using (var zip = ZipFile.Read(GlobalHelper.Paths.PrefabsZipFile))
             {
-                GlobalHelper.UpdateStatus?.Invoke("Unzipping prefabs", "Prefabs unzipping...", 0);
-                ZipFile.ExtractToDirectory(GlobalHelper.Paths.PrefabsZipFile,
-                    GlobalHelper.Paths.UnzippedPrefabsDirectory);
-                GlobalHelper.UpdateStatus?.Invoke("Prefabs are unzipped", "Prefabs are unzipped", 100);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
-
-        public static List<Prefab> ParsPrefabs()
-        {
-            var prefabs = new List<Prefab>();
-            try
-            {
-                GlobalHelper.UpdateStatus?.Invoke("Parsing prefabs", "Parsing prefabs...", 0);
-                var prefabsDirectoryInfo = new DirectoryInfo(GlobalHelper.Paths.PrefabsDirectory);
-                var htmlFiles = prefabsDirectoryInfo.GetFiles("*.html", SearchOption.AllDirectories);
-                for (var i = 0; i < htmlFiles.Length; i++)
+                zip.FlattenFoldersOnExtract = true;
+                zip.ExtractProgress += (sender, args) =>
                 {
-                    var blocks = Prefab.GetPrefabBlocksByHtml(htmlFiles[i].FullName);
-                    var prefab = new Prefab()
+                    if (args.EventType == ZipProgressEventType.Extracting_EntryBytesWritten)
                     {
-                        FileName = htmlFiles[i].FullName,
-                        Name = Path.GetFileNameWithoutExtension(htmlFiles[i].Name),
-                        Blocks = new List<PrefabBlock>(blocks)
-                    };
-                    prefabs.Add(prefab);
-                    var percentage = (i + 1) * 100.0 / htmlFiles.Length;
-                    if (percentage > 0 && percentage < 100)
-                        GlobalHelper.UpdateStatus?.Invoke($"Parsing prefabs {prefab.Name}", $"Parsing prefabs... ({percentage:0.00}%)", (int)percentage);
-                }
-                return prefabs;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return prefabs;
-            }
-        }
-
-        public void UpdatePrefabs()
-        {
-            ClearPrefabsCache();
-
-            var downloadTask = GlobalHelper.WebHelper.DownloadFileAsync(prefabsUrl, GlobalHelper.Paths.PrefabsZipFile, "Prefabs downloading...");
-            downloadTask.Wait();
-
-            UnzipPrefabs();
-
-            var moveTask = Task.Run(() =>
-            {
-                var dirInfo = new DirectoryInfo(GlobalHelper.Paths.UnzippedPrefabsDirectory);
-                long sourceDirSize = 0;
-                long destinationDirSize = 0;
-                foreach (FileInfo fi in dirInfo.GetFiles("*", SearchOption.AllDirectories))
-                {
-                    sourceDirSize += fi.Length;
-                }
-
-                var taskCopy = Task.Run(() =>
-                {
-                    Directory.Move(GlobalHelper.Paths.UnzippedPrefabsDirectory, GlobalHelper.Paths.PrefabsDirectory);
-                });
-
-                var taskWatch = Task.Run(async () =>
-                {
-                    while (sourceDirSize > destinationDirSize)
-                    {
-                        destinationDirSize = 0;
-                        foreach (FileInfo fi in dirInfo.GetFiles("*", SearchOption.AllDirectories))
-                        {
-                            destinationDirSize += fi.Length;
-                        }
-                        GlobalHelper.UpdateStatus?.Invoke(this, "Copping prefabs...", (int)sourceDirSize / 100 * (int)destinationDirSize);
-                        Task delay = Task.Delay(500);
-                        await delay;
+                        var percentage = args.BytesTransferred / (0.01 * args.TotalBytesToTransfer);
+                        GlobalHelper.UpdateSubStatus?.Invoke("Unzipping prefabs",
+                            $"{args.CurrentEntry.FileName} ({percentage:0.00})%", (int) percentage);
                     }
-                });
-            });
-            moveTask.Wait();
+                    else if (args.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
+                    {
+                        if (args.EntriesTotal <= 0) return;
 
-            Prefabs = new List<Prefab>(ParsPrefabs());
-            LastUpdateTime = DateTime.Now;
+                        var globalPercent = args.EntriesExtracted / (0.01 * args.EntriesTotal);
+                        GlobalHelper.UpdateStatus?.Invoke("Unzipping prefabs",
+                            $"Prefabs unzipping... {args.EntriesExtracted} / {args.EntriesTotal} ({globalPercent:0.00}%)",
+                            (int) globalPercent);
+                    }
+                };
 
+                zip.ExtractSelectedEntries("name = *", "7dtd-map-master\\docs\\prefabs", GlobalHelper.Paths.PrefabsDirectory, ExtractExistingFileAction.OverwriteSilently);
+            }
 
-            GlobalHelper.Config.Save();
-            GlobalHelper.UpdateStatus?.Invoke("Prefabs is updated", "Prefabs is updated", 100);
+            GlobalHelper.UpdateStatus?.Invoke("Prefabs are unzipped", "Prefabs are unzipped", 100);
+            GlobalHelper.UpdateSubStatus?.Invoke("", "", 0);
+        }
+
+    public static List<Prefab> ParsPrefabs()
+    {
+        var prefabs = new List<Prefab>();
+        try
+        {
+            GlobalHelper.UpdateStatus?.Invoke("Parsing prefabs", "Parsing prefabs...", 0);
+            var prefabsDirectoryInfo = new DirectoryInfo(GlobalHelper.Paths.PrefabsDirectory);
+            var htmlFiles = prefabsDirectoryInfo.GetFiles("*.html", SearchOption.AllDirectories);
+            for (var i = 0; i < htmlFiles.Length; i++)
+            {
+                var blocks = Prefab.GetPrefabBlocksByHtml(htmlFiles[i].FullName);
+                var prefab = new Prefab()
+                {
+                    FileName = htmlFiles[i].FullName,
+                    Name = Path.GetFileNameWithoutExtension(htmlFiles[i].Name),
+                    Blocks = new List<PrefabBlock>(blocks)
+                };
+                prefabs.Add(prefab);
+                var percentage = (i + 1) * 100.0 / htmlFiles.Length;
+                if (percentage > 0 && percentage < 100)
+                    GlobalHelper.UpdateStatus?.Invoke($"Parsing prefabs {prefab.Name}", $"Parsing prefabs... ({percentage:0.00}%)", (int)percentage);
+            }
+            return prefabs;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.ToString());
+            Console.WriteLine(ex);
+            return prefabs;
         }
     }
+
+    public void UpdatePrefabs()
+    {
+        ClearPrefabsCache();
+
+        var downloadTask = GlobalHelper.WebHelper.DownloadFileAsync(prefabsUrl, GlobalHelper.Paths.PrefabsZipFile, "Prefabs downloading...");
+        downloadTask.Wait();
+
+        UnzipPrefabs();
+        var prefabs = ParsPrefabs();
+        Prefabs = new List<Prefab>(prefabs);
+        LastUpdateTime = DateTime.Now;
+
+
+        GlobalHelper.Config.Save();
+        GlobalHelper.UpdateStatus?.Invoke("Prefabs is updated", "Prefabs is updated", 100);
+        GlobalHelper.Config = Config.Load(GlobalHelper.Config);
+        SystemSounds.Beep.Play();
+        new Thread(() =>
+        {
+            Thread.Sleep(5000);
+            GlobalHelper.UpdateStatus?.Invoke("", "", 0);
+            GlobalHelper.UpdateSubStatus?.Invoke("", "", 0);
+        }).Start();
+    }
+}
 }

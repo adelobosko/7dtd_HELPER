@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 
 namespace _7dtd_HELP
@@ -16,10 +17,7 @@ namespace _7dtd_HELP
 
         public Config()
         {
-            Map = new Map()
-            {
-                Name = "InitialEmptyMap"
-            };
+            Map = new Map();
             Maps = new List<string>();
             PrefabsConfig = new PrefabsConfig();
             DecorationGroups = new List<DecorationGroup>();
@@ -42,6 +40,7 @@ namespace _7dtd_HELP
         {
             if (config.Maps == null)
             {
+                MessageBox.Show("config.Maps = null");
                 return;
             }
             if (!Directory.Exists(GlobalHelper.Paths.ConfigDirectory))

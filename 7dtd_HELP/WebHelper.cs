@@ -37,6 +37,7 @@ namespace _7dtd_HELP
                 await webClient.DownloadFileTaskAsync(new Uri(url), savePath);
             });
 
+            task.Wait();
             return task;
         }
 

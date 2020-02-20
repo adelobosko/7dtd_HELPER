@@ -40,6 +40,7 @@
             this.mapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prefabsXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.scaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scaleToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,11 +50,17 @@
             this.updatePerfarbsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.coordinatesToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.groupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spawnPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showBiomesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delimiterToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
             this.mapSacleTrackBar = new System.Windows.Forms.TrackBar();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.subStatusToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.subStatusToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.coordinates7dtdToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapSacleTrackBar)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -76,8 +83,9 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.automationToolStripMenuItem,
             this.mapToolStripMenuItem,
+            this.groupsToolStripMenuItem,
             this.coordinatesToolStripTextBox,
-            this.groupsToolStripMenuItem});
+            this.coordinates7dtdToolStripTextBox});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
@@ -99,7 +107,7 @@
             this.hotkeyToolStripMenuItem,
             this.atouseGimmeToolStripMenuItem});
             this.gimmeToolStripMenuItem.Name = "gimmeToolStripMenuItem";
-            this.gimmeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.gimmeToolStripMenuItem.Size = new System.Drawing.Size(132, 26);
             this.gimmeToolStripMenuItem.Text = "Gimme";
             // 
             // hotkeyToolStripMenuItem
@@ -141,22 +149,27 @@
             this.prefabsXMLToolStripMenuItem,
             this.toolStripMenuItem1});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // prefabsXMLToolStripMenuItem
             // 
             this.prefabsXMLToolStripMenuItem.Name = "prefabsXMLToolStripMenuItem";
-            this.prefabsXMLToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.prefabsXMLToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
             this.prefabsXMLToolStripMenuItem.Text = "mapFolder";
             this.prefabsXMLToolStripMenuItem.Click += new System.EventHandler(this.mapFolderToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(153, 6);
             // 
             // scaleToolStripMenuItem
             // 
             this.scaleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scaleToolStripTextBox});
             this.scaleToolStripMenuItem.Name = "scaleToolStripMenuItem";
-            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.scaleToolStripMenuItem.Text = "Scale";
             // 
             // scaleToolStripTextBox
@@ -172,7 +185,7 @@
             this.sizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeToolStripTextBox});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // sizeToolStripTextBox
@@ -188,7 +201,7 @@
             this.sizeCellToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeCellToolStripTextBox});
             this.sizeCellToolStripMenuItem.Name = "sizeCellToolStripMenuItem";
-            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.sizeCellToolStripMenuItem.Text = "SizeCell";
             // 
             // sizeCellToolStripTextBox
@@ -202,7 +215,7 @@
             // updatePerfarbsToolStripMenuItem
             // 
             this.updatePerfarbsToolStripMenuItem.Name = "updatePerfarbsToolStripMenuItem";
-            this.updatePerfarbsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.updatePerfarbsToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
             this.updatePerfarbsToolStripMenuItem.Text = "UpdatePrefabs";
             this.updatePerfarbsToolStripMenuItem.Click += new System.EventHandler(this.updatePrefabsToolStripMenuItem_Click);
             // 
@@ -210,13 +223,44 @@
             // 
             this.coordinatesToolStripTextBox.Name = "coordinatesToolStripTextBox";
             this.coordinatesToolStripTextBox.ReadOnly = true;
-            this.coordinatesToolStripTextBox.Size = new System.Drawing.Size(132, 27);
+            this.coordinatesToolStripTextBox.Size = new System.Drawing.Size(100, 27);
             // 
             // groupsToolStripMenuItem
             // 
+            this.groupsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addGroupToolStripMenuItem,
+            this.spawnPointsToolStripMenuItem,
+            this.showBiomesToolStripMenuItem,
+            this.delimiterToolStripMenuItem});
             this.groupsToolStripMenuItem.Name = "groupsToolStripMenuItem";
             this.groupsToolStripMenuItem.Size = new System.Drawing.Size(68, 27);
             this.groupsToolStripMenuItem.Text = "Groups";
+            // 
+            // addGroupToolStripMenuItem
+            // 
+            this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
+            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.addGroupToolStripMenuItem.Text = "Add Group";
+            this.addGroupToolStripMenuItem.Click += new System.EventHandler(this.addGroupToolStripMenuItem_Click);
+            // 
+            // spawnPointsToolStripMenuItem
+            // 
+            this.spawnPointsToolStripMenuItem.Name = "spawnPointsToolStripMenuItem";
+            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.spawnPointsToolStripMenuItem.Text = "Spawn Points";
+            this.spawnPointsToolStripMenuItem.Click += new System.EventHandler(this.spawnPointsToolStripMenuItem_Click);
+            // 
+            // showBiomesToolStripMenuItem
+            // 
+            this.showBiomesToolStripMenuItem.Name = "showBiomesToolStripMenuItem";
+            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.showBiomesToolStripMenuItem.Text = "ShowBiomes";
+            this.showBiomesToolStripMenuItem.Click += new System.EventHandler(this.showBiomesToolStripMenuItem_Click);
+            // 
+            // delimiterToolStripMenuItem
+            // 
+            this.delimiterToolStripMenuItem.Name = "delimiterToolStripMenuItem";
+            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(213, 6);
             // 
             // mapSacleTrackBar
             // 
@@ -238,7 +282,9 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusToolStripStatusLabel,
-            this.statusToolStripProgressBar});
+            this.statusToolStripProgressBar,
+            this.subStatusToolStripStatusLabel,
+            this.subStatusToolStripProgressBar});
             this.statusStrip1.Location = new System.Drawing.Point(56, 543);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(589, 24);
@@ -255,10 +301,21 @@
             this.statusToolStripProgressBar.Name = "statusToolStripProgressBar";
             this.statusToolStripProgressBar.Size = new System.Drawing.Size(100, 18);
             // 
-            // toolStripMenuItem1
+            // subStatusToolStripStatusLabel
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(213, 6);
+            this.subStatusToolStripStatusLabel.Name = "subStatusToolStripStatusLabel";
+            this.subStatusToolStripStatusLabel.Size = new System.Drawing.Size(0, 19);
+            // 
+            // subStatusToolStripProgressBar
+            // 
+            this.subStatusToolStripProgressBar.Name = "subStatusToolStripProgressBar";
+            this.subStatusToolStripProgressBar.Size = new System.Drawing.Size(100, 18);
+            // 
+            // coordinates7dtdToolStripTextBox
+            // 
+            this.coordinates7dtdToolStripTextBox.Name = "coordinates7dtdToolStripTextBox";
+            this.coordinates7dtdToolStripTextBox.ReadOnly = true;
+            this.coordinates7dtdToolStripTextBox.Size = new System.Drawing.Size(100, 27);
             // 
             // HelperForm
             // 
@@ -317,6 +374,13 @@
         private System.Windows.Forms.ToolStripMenuItem atouseGimmeToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox gimmeDelayToolStripTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addGroupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator delimiterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem spawnPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showBiomesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel subStatusToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripProgressBar subStatusToolStripProgressBar;
+        private System.Windows.Forms.ToolStripTextBox coordinates7dtdToolStripTextBox;
     }
 }
 

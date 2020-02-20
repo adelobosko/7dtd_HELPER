@@ -34,6 +34,7 @@ namespace _7dtd_HELP
         public static WebHelper WebHelper { get; set; }
         public delegate void OnStatusChanged(object myObject, string message, int percentage);
         public static OnStatusChanged UpdateStatus { get; set; }
+        public static OnStatusChanged UpdateSubStatus { get; set; }
 
         public static class ProgramParams
         {

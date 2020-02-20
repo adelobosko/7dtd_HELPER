@@ -19,6 +19,7 @@ namespace _7dtd_HELP
         private GlobalKeyboardHook gHook;
         // git kui/7dtd-map
         private readonly GraphicsMapDrawer graphicsMapDrawer;
+        private List<ToolStripMenuItem> groupStripMenuItems;
 
         public HelperForm()
         {
@@ -27,6 +28,8 @@ namespace _7dtd_HELP
             graphicsMapDrawer = new GraphicsMapDrawer(this.CreateGraphics());
             GlobalHelper.WebHelper = new WebHelper("");
             GlobalHelper.UpdateStatus = OnStatusChanged;
+            GlobalHelper.UpdateSubStatus = OnSubStatusChanged;
+            groupStripMenuItems = new List<ToolStripMenuItem>();
             this.Paint += this.HelperForm_Paint;
             this.MouseDown += this.HelperForm_MouseDown;
             this.MouseMove += this.HelperForm_MouseMove;
@@ -44,6 +47,23 @@ namespace _7dtd_HELP
                 {
                     this.statusToolStripStatusLabel.Text = message;
                     this.statusToolStripProgressBar.Value = percentage;
+                    Console.WriteLine($"{message} {percentage}%");
+                }));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        public void OnSubStatusChanged(object sender, string message, int percentage)
+        {
+            try
+            {
+                Invoke(new Action(() =>
+                {
+                    this.subStatusToolStripStatusLabel.Text = message;
+                    this.subStatusToolStripProgressBar.Value = percentage;
                     Console.WriteLine($"{message} {percentage}%");
                 }));
             }
@@ -156,11 +176,146 @@ namespace _7dtd_HELP
 
             GlobalHelper.Config = Config.Load(GlobalHelper.Config);
 
+            foreach (var name in GlobalHelper.Config.Maps)
+            {
+                if (name == Map.DefaultName)
+                {
+                    continue;
+                }
+                var item = new ToolStripMenuItem()
+                {
+                    Name = $"{name}ToolStripMenuItem",
+                    Checked = false,
+                    Text = name
+                };
+                item.Click += (o, args) =>
+                {
+                    Map.Load(name);
+                    UpdateUI();
+                };
+                loadToolStripMenuItem.DropDownItems.Add(item);
+            }
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            var spawnPoints = GlobalHelper.Config.Map.MapObjects.SingleOrDefault(mo =>
+                string.Equals(mo.Name, "spawnPoints", StringComparison.CurrentCultureIgnoreCase));
+            if (spawnPoints == null)
+            {
+                spawnPointsToolStripMenuItem.Visible = false;
+            }
+            else
+            {
+                spawnPointsToolStripMenuItem.Visible = true;
+                spawnPointsToolStripMenuItem.Checked = spawnPoints.IsEnabled;
+            }
+
+            this.Text = $@"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
+
             sizeCellToolStripTextBox.Text = GlobalHelper.Config.Map.CellSize.ToString();
             scaleToolStripTextBox.Text = GlobalHelper.Config.Map.Scale.ToString();
             sizeToolStripTextBox.Text = GlobalHelper.Config.Map.Size.ToString();
 
-            this.Text = $"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
+            foreach (var groupStripMenuItem in groupStripMenuItems)
+            {
+                if (groupsToolStripMenuItem.DropDownItems.Contains(groupStripMenuItem))
+                {
+                    groupsToolStripMenuItem.DropDownItems.Remove(groupStripMenuItem);
+                    groupStripMenuItem.Dispose();
+                }
+            }
+
+            groupStripMenuItems.Clear();
+
+            foreach (var group in GlobalHelper.Config.DecorationGroups)
+            {
+                var item = new ToolStripMenuItem()
+                {
+                    Name = $"{group.Name}ToolStripMenuItem",
+                    Checked = group.IsEnabled,
+                    Text = group.Name
+                };
+                item.Click += (o, args) =>
+                {
+                    group.IsEnabled = !group.IsEnabled;
+                    item.Checked = group.IsEnabled;
+                };
+
+                var groupEdit = new ToolStripMenuItem()
+                {
+                    Name = $"{group.Name}EditToolStripMenuItem",
+                    Checked = false,
+                    Text = "Edit"
+                };
+                groupEdit.Click += (o, args) =>
+                {
+                    var groupPrefab = new GroupPrefabs();
+                    groupPrefab.Result = new DecorationGroup()
+                    {
+                        Name = group.Name,
+                        Prefabs = group.Prefabs,
+                        Icon = group.Icon,
+                        IsEnabled = group.IsEnabled
+                    };
+
+                    if (groupPrefab.ShowDialog(this) == DialogResult.OK)
+                    {
+                        var decorationGroup = groupPrefab.Result;
+
+                        var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
+                            string.Equals(dg.Name, decorationGroup.Name, StringComparison.CurrentCultureIgnoreCase));
+
+                        if (twin != null)
+                        {
+                            if (group.Name == twin.Name)
+                            {
+                                GlobalHelper.Config.DecorationGroups.Remove(twin);
+                            }
+                            else
+                            {
+                                decorationGroup.Name += "_Twin";
+                                MessageBox.Show(
+                                    $"{twin.Name} has already exist. Name is changed to {decorationGroup.Name}");
+                            }
+                        }
+                        GlobalHelper.Config.DecorationGroups.Add(decorationGroup);
+                    }
+                    groupPrefab.Dispose();
+
+                    GlobalHelper.Config.Save();
+                    UpdateUI();
+                };
+
+                item.DropDownItems.Add(groupEdit);
+
+                var groupDelete = new ToolStripMenuItem()
+                {
+                    Name = $"{group.Name}DeleteToolStripMenuItem",
+                    Checked = false,
+                    Text = "Delete"
+                };
+                groupDelete.Click += (o, args) =>
+                {
+                    var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
+                            string.Equals(dg.Name, group.Name, StringComparison.CurrentCultureIgnoreCase));
+
+                    if (twin == null) return;
+
+                    GlobalHelper.Config.DecorationGroups.Remove(twin);
+                    GlobalHelper.Config.Save();
+                    UpdateUI();
+                };
+
+                item.DropDownItems.Add(groupDelete);
+
+                groupStripMenuItems.Add(item);
+                groupsToolStripMenuItem.DropDownItems.Add(item);
+            }
+
+            this.Refresh();
+            Invalidate();
         }
 
 
@@ -246,7 +401,13 @@ namespace _7dtd_HELP
 
             var x = e.Location.X - x0;
             var y = y0 - e.Location.Y;
-            coordinatesToolStripTextBox.Text = $"{x * GlobalHelper.Config.Map.Scale};{y * GlobalHelper.Config.Map.Scale}";
+
+            var xCoord = x * GlobalHelper.Config.Map.Scale;
+            var yCoord = y * GlobalHelper.Config.Map.Scale;
+            var xCoord7dtd = xCoord < 0 ? $"{Math.Abs(xCoord)}W" : $"{Math.Abs(xCoord)}E";
+            var yCoord7dtd = yCoord < 0 ? $"{Math.Abs(yCoord)}S" : $"{Math.Abs(yCoord)}N";
+            coordinatesToolStripTextBox.Text = $"{xCoord};{yCoord}";
+            coordinates7dtdToolStripTextBox.Text = $"{xCoord7dtd};{yCoord7dtd}";
 
             if (!isMove) return;
             GlobalHelper.Config.Map.Offset = new Point(GlobalHelper.Config.Map.Offset.X + e.Location.X - prevMousePosition.X, GlobalHelper.Config.Map.Offset.Y + e.Location.Y - prevMousePosition.Y);
@@ -282,9 +443,11 @@ namespace _7dtd_HELP
                 var worldDirectory = Path.Combine(fbd.SelectedPath, "World");
                 var mapInfoFile = Path.Combine(worldDirectory, "map_info.xml");
                 var prefabsFile = Path.Combine(worldDirectory, "prefabs.xml");
+                var spawnPointsFile = Path.Combine(worldDirectory, "spawnpoints.xml");
                 if (!File.Exists(hostsFile) || !Directory.Exists(worldDirectory)
                                             || !File.Exists(mapInfoFile)
-                                            || !File.Exists(prefabsFile))
+                                            || !File.Exists(prefabsFile)
+                                            || !File.Exists(spawnPointsFile))
                 {
                     MessageBox.Show("It, seems, is not 7dtd map directory...");
                     return;
@@ -320,40 +483,29 @@ namespace _7dtd_HELP
                     {
                         Name = mapName
                     };
+                    var item = new ToolStripMenuItem()
+                    {
+                        Name = $"{mapName}ToolStripMenuItem",
+                        Checked = false,
+                        Text = mapName
+                    };
+                    item.Click += (o, args) =>
+                    {
+                        Map.Load(mapName);
+                    };
+                    loadToolStripMenuItem.DropDownItems.Add(item);
                 }
 
                 GlobalHelper.Config.Map.LoadPrefabs(prefabsFile, new XmlPrefabsMapLoader());
                 GlobalHelper.Config.Map.LoadMapInfo(mapInfoFile);
                 GlobalHelper.Config.Map.Ip = ip;
                 GlobalHelper.Config.Map.Port = port;
+                GlobalHelper.Config.Map.LoadSpawnPoints(spawnPointsFile);
+                GlobalHelper.Config.Map.DirectoryPath = fbd.SelectedPath;
 
                 GlobalHelper.Config.Save();
-                this.Text = $"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
+                UpdateUI();
             }
-
-
-            /*if (decorations.Count <= 0)
-                return;
-
-            foreach (var name in decorations.Select(d => d.Name).Distinct())
-            {
-                var item = new ToolStripMenuItem()
-                {
-                    Name = $"{name}ToolStripMenuItem",
-                    Checked = false,
-                    Text = name
-                };
-                item.Click += (o, args) =>
-                {
-                    item.Checked = !item.Checked;
-                };
-                prefabsToolStripMenuItem.DropDownItems.Add(item);
-            }*/
-        }
-
-        private void spawnpointsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void scaleToolStripTextBox_TextChanged(object sender, EventArgs e)
@@ -403,6 +555,57 @@ namespace _7dtd_HELP
             {
                 GlobalHelper.Config.PrefabsConfig.UpdatePrefabs();
             }).Start();
+        }
+
+        private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (GlobalHelper.Config.PrefabsConfig.Prefabs.Count == 0)
+            {
+                MessageBox.Show($"Prefabs is empty. You need to update the prefabs (Map => UpdatePrefabs)");
+                return;
+            }
+
+            var groupPrefabsForm = new GroupPrefabs();
+            if (groupPrefabsForm.ShowDialog(this) == DialogResult.OK)
+            {
+                var decorationGroup = groupPrefabsForm.Result;
+                var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
+                    string.Equals(dg.Name, decorationGroup.Name, StringComparison.CurrentCultureIgnoreCase));
+
+                if (twin != null)
+                {
+                    decorationGroup.Name += "_Twin";
+                    MessageBox.Show(
+                        $"{twin.Name} has already exist. Name is changed to {decorationGroup.Name}");
+                }
+                GlobalHelper.Config.DecorationGroups.Add(decorationGroup);
+            }
+            groupPrefabsForm.Dispose();
+
+            GlobalHelper.Config.Save();
+            UpdateUI();
+        }
+
+        private void spawnPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var spawnPoints = GlobalHelper.Config.Map.MapObjects.SingleOrDefault(mo => string.Equals(mo.Name, "SpawnPoints", StringComparison.CurrentCultureIgnoreCase));
+            if (spawnPoints == null)
+            {
+                spawnPointsToolStripMenuItem.Visible = false;
+                return;
+            }
+
+            spawnPoints.IsEnabled = !spawnPoints.IsEnabled;
+            spawnPointsToolStripMenuItem.Checked = spawnPoints.IsEnabled;
+            GlobalHelper.Config.Save();
+            Invalidate();
+        }
+
+        private void showBiomesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GlobalHelper.Config.Map.IsBiomesShown = !GlobalHelper.Config.Map.IsBiomesShown;
+            showBiomesToolStripMenuItem.Checked = GlobalHelper.Config.Map.IsBiomesShown;
+            Invalidate();
         }
     }
 }

@@ -5,7 +5,20 @@ namespace _7dtd_HELP
 {
     public class DecorationGroup
     {
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+                name = value;
+            }
+        }
+
         public List<Prefab> Prefabs { get; set; }
         public Icon Icon { get; set; }
         public bool IsEnabled { get; set; }
@@ -28,18 +41,24 @@ namespace _7dtd_HELP
 
     public class Icon
     {
-        public string Name { get; set; }
-        public Bitmap Image { get; set; }
+        public string FullName { get; set; }
         public bool IsShow { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
         public Icon()
         {
-            Image = null;
             IsShow = false;
             Width = -1;
             Height = -1;
+        }
+    }
+
+    public static class IconExtension
+    {
+        public static Bitmap GetBitmapByFile(this Icon icon)
+        {
+            return (Bitmap)Image.FromFile(icon.FullName);
         }
     }
 }
