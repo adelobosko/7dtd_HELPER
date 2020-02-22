@@ -67,18 +67,18 @@
     <Compile Include="Config.cs" />
     <Compile Include="DecorationGroup.cs" />
     <Compile Include="GlobalHelper.cs" />
-    <Compile Include="GraphicsMapDrawer.cs" />
-    <Compile Include="GroupPrefabs.cs">
+    <Compile Include="GroupPrefabsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GroupPrefabs.Designer.cs">
-      <DependentUpon>GroupPrefabs.cs</DependentUpon>
+    <Compile Include="GroupPrefabsForm.Designer.cs">
+      <DependentUpon>GroupPrefabsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageExtension.cs" />
     <Compile Include="IMapDrawer.cs" />
     <Compile Include="IMapLoader.cs" />
     <Compile Include="InputSet.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapObjectNearBy.cs" />
     <Compile Include="MapPoint.cs" />
     <Compile Include="HelperForm.cs">
       <SubType>Form</SubType>
@@ -93,25 +93,34 @@
     <Compile Include="PrefabsConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetIconForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetIconForm.Designer.cs">
+      <DependentUpon>SetIconForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WebHelper.cs" />
     <Compile Include="Win32.cs" />
     <Compile Include="XmlPrefabsMapLoader.cs" />
-    <EmbeddedResource Include="GroupPrefabs.resx">
-      <DependentUpon>GroupPrefabs.cs</DependentUpon>
+    <EmbeddedResource Include="GroupPrefabsForm.resx">
+      <DependentUpon>GroupPrefabsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelperForm.resx">
       <DependentUpon>HelperForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SetIconForm.resx">
+      <DependentUpon>SetIconForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -127,6 +136,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

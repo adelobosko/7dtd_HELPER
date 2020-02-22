@@ -10,19 +10,21 @@ using System.Windows.Forms;
 
 namespace _7dtd_HELP
 {
-    public partial class GroupPrefabs : Form
+    public partial class GroupPrefabsForm : Form
     {
         public DecorationGroup Result = new DecorationGroup()
         {
             Name = DateTime.Now.Ticks + "gName",
             Prefabs = new List<Prefab>(),
             Icon = null,
-            IsEnabled = true
+            IsEnabled = true,
+            BrushColor = DecorationGroup.DefaultBrush,
+            BrushSize = DecorationGroup.DefaultBrushSize
         };
         private List<string> items = new List<string>();
         private List<Prefab> prefabs = new List<Prefab>();
 
-        public GroupPrefabs()
+        public GroupPrefabsForm()
         {
             InitializeComponent();
             var tempItemsList = new List<string>();
@@ -86,10 +88,10 @@ namespace _7dtd_HELP
         {
             nameTextBox.Text = Result.Name;
             UpdateSelectedPrefabs(Result.Prefabs);
-            if (Result.Icon == null)
-                return;
-            widthTextBox.Text = Result.Icon.Width.ToString();
-            heightTextBox.Text = Result.Icon.Height.ToString();
+            setIconButton.Image = Result.Icon == null
+                ? new Bitmap(16, 16)
+                : Image.FromFile(Result.Icon.FullName).ResizeImage(16, 16);
+            brushSizeTextBox.Text = Result.BrushSize.ToString();
         }
 
         private void searchTextBox_TextChanged(object sender, EventArgs e)
@@ -124,6 +126,7 @@ namespace _7dtd_HELP
 
                 if (Result.Prefabs.Count(sp => sp.Name == prefabName) == 0)
                 {
+                    prefab.Description = item.ToString().Split(':')[1];
                     Result.Prefabs.Add(prefab);
                 }
             }
@@ -141,6 +144,7 @@ namespace _7dtd_HELP
 
                 if (Result.Prefabs.Count(sp => sp.Name == prefabName) == 0)
                 {
+                    prefab.Description = item.ToString().Split(':')[1];
                     Result.Prefabs.Add(prefab);
                 }
             }
@@ -231,54 +235,45 @@ namespace _7dtd_HELP
 
         private void setIconButton_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
+            var setIconForm = new SetIconForm();
+            setIconForm.Icon = Result.Icon;
+            setIconForm.PreviewIcon();
+            if (setIconForm.ShowDialog(this) == DialogResult.OK)
             {
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+                var resultIcon = setIconForm.Icon;
+                Result.Icon = resultIcon;
+            }
+            setIconForm.Dispose();
+            setIconButton.Image = Result.Icon == null 
+                ? new Bitmap(16, 16) 
+                : Image.FromFile(Result.Icon.FullName).ResizeImage(16, 16);
+        }
 
-                try
-                {
-                    Result.Icon = new Icon()
-                    {
-                        FullName = openFileDialog.FileName,
-                        Width = -1,
-                        Height = -1,
-                        IsShow = true
-                    };
-                    widthTextBox.Text = Result.Icon.Width.ToString();
-                    heightTextBox.Text = Result.Icon.Height.ToString();
-                }
-                catch
-                {
-                }
+        private void brushColorButton_Click(object sender, EventArgs e)
+        {
+            var colorDialog1 = new ColorDialog();
+            SolidBrush color;
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                color = new SolidBrush(colorDialog1.Color);
+                Result.BrushColor = color;
             }
         }
 
-        private void widthTextBox_TextChanged(object sender, EventArgs e)
+        private void brushSizeTextBox_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (Result.Icon == null)
-                {
-                    return;
-                }
-
-                Result.Icon.Width = int.Parse(widthTextBox.Text);
+                var brushSize = Convert.ToInt32(brushSizeTextBox.Text);
+                Result.BrushSize = brushSize > 0 ? brushSize : 1;
             }
             catch { }
         }
 
-        private void heightTextBox_TextChanged(object sender, EventArgs e)
+        private void blockSearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                if (Result.Icon == null)
-                {
-                    return;
-                }
 
-                Result.Icon.Height = int.Parse(heightTextBox.Text);
-            }
-            catch { }
         }
     }
 }

@@ -5,6 +5,9 @@ namespace _7dtd_HELP
 {
     public class DecorationGroup
     {
+        public static Brush DefaultBrush = Brushes.Blue;
+        public static int DefaultBrushSize = 8;
+
         private string name;
         public string Name
         {
@@ -22,12 +25,16 @@ namespace _7dtd_HELP
         public List<Prefab> Prefabs { get; set; }
         public Icon Icon { get; set; }
         public bool IsEnabled { get; set; }
+        public Brush BrushColor { get; set; }
+        public int BrushSize { get; set; }
 
         public DecorationGroup()
         {
             Prefabs = new List<Prefab>();
             Icon = new Icon();
             IsEnabled = true;
+            BrushColor = DefaultBrush;
+            BrushSize = DefaultBrushSize;
         }
     }
 

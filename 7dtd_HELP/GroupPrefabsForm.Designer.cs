@@ -1,6 +1,6 @@
 ﻿namespace _7dtd_HELP
 {
-    partial class GroupPrefabs
+    partial class GroupPrefabsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,10 +29,9 @@
         private void InitializeComponent()
         {
             this.bottomPanel = new System.Windows.Forms.Panel();
-            this.heightTextBox = new System.Windows.Forms.TextBox();
-            this.heightLabel = new System.Windows.Forms.Label();
-            this.widthTextBox = new System.Windows.Forms.TextBox();
-            this.widthLabel = new System.Windows.Forms.Label();
+            this.brushSizeTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.brushColorButton = new System.Windows.Forms.Button();
             this.setIconButton = new System.Windows.Forms.Button();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.nameLabel = new System.Windows.Forms.Label();
@@ -79,10 +78,9 @@
             // 
             // bottomPanel
             // 
-            this.bottomPanel.Controls.Add(this.heightTextBox);
-            this.bottomPanel.Controls.Add(this.heightLabel);
-            this.bottomPanel.Controls.Add(this.widthTextBox);
-            this.bottomPanel.Controls.Add(this.widthLabel);
+            this.bottomPanel.Controls.Add(this.brushSizeTextBox);
+            this.bottomPanel.Controls.Add(this.label1);
+            this.bottomPanel.Controls.Add(this.brushColorButton);
             this.bottomPanel.Controls.Add(this.setIconButton);
             this.bottomPanel.Controls.Add(this.nameTextBox);
             this.bottomPanel.Controls.Add(this.nameLabel);
@@ -95,59 +93,51 @@
             this.bottomPanel.Size = new System.Drawing.Size(964, 37);
             this.bottomPanel.TabIndex = 0;
             // 
-            // heightTextBox
+            // brushSizeTextBox
             // 
-            this.heightTextBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.heightTextBox.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.heightTextBox.Location = new System.Drawing.Point(621, 0);
-            this.heightTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.heightTextBox.Name = "heightTextBox";
-            this.heightTextBox.Size = new System.Drawing.Size(79, 41);
-            this.heightTextBox.TabIndex = 11;
-            this.heightTextBox.TextChanged += new System.EventHandler(this.heightTextBox_TextChanged);
+            this.brushSizeTextBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.brushSizeTextBox.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.brushSizeTextBox.Location = new System.Drawing.Point(592, 0);
+            this.brushSizeTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.brushSizeTextBox.Name = "brushSizeTextBox";
+            this.brushSizeTextBox.Size = new System.Drawing.Size(116, 41);
+            this.brushSizeTextBox.TabIndex = 10;
+            this.brushSizeTextBox.TextChanged += new System.EventHandler(this.brushSizeTextBox_TextChanged);
             // 
-            // heightLabel
+            // label1
             // 
-            this.heightLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.heightLabel.Location = new System.Drawing.Point(542, 0);
-            this.heightLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.heightLabel.Name = "heightLabel";
-            this.heightLabel.Size = new System.Drawing.Size(79, 37);
-            this.heightLabel.TabIndex = 8;
-            this.heightLabel.Text = "Height:";
-            this.heightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label1.Location = new System.Drawing.Point(478, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 37);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Brush size:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // widthTextBox
+            // brushColorButton
             // 
-            this.widthTextBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.widthTextBox.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.widthTextBox.Location = new System.Drawing.Point(463, 0);
-            this.widthTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.widthTextBox.Name = "widthTextBox";
-            this.widthTextBox.Size = new System.Drawing.Size(79, 41);
-            this.widthTextBox.TabIndex = 9;
-            this.widthTextBox.TextChanged += new System.EventHandler(this.widthTextBox_TextChanged);
-            // 
-            // widthLabel
-            // 
-            this.widthLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.widthLabel.Location = new System.Drawing.Point(384, 0);
-            this.widthLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.widthLabel.Name = "widthLabel";
-            this.widthLabel.Size = new System.Drawing.Size(79, 37);
-            this.widthLabel.TabIndex = 10;
-            this.widthLabel.Text = "Width:";
-            this.widthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.brushColorButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.brushColorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.brushColorButton.Location = new System.Drawing.Point(348, 0);
+            this.brushColorButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.brushColorButton.Name = "brushColorButton";
+            this.brushColorButton.Size = new System.Drawing.Size(130, 37);
+            this.brushColorButton.TabIndex = 8;
+            this.brushColorButton.Text = "BrushColor";
+            this.brushColorButton.UseVisualStyleBackColor = true;
+            this.brushColorButton.Click += new System.EventHandler(this.brushColorButton_Click);
             // 
             // setIconButton
             // 
             this.setIconButton.Dock = System.Windows.Forms.DockStyle.Left;
-            this.setIconButton.Location = new System.Drawing.Point(299, 0);
+            this.setIconButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.setIconButton.Location = new System.Drawing.Point(263, 0);
             this.setIconButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.setIconButton.Name = "setIconButton";
             this.setIconButton.Size = new System.Drawing.Size(85, 37);
             this.setIconButton.TabIndex = 7;
-            this.setIconButton.Text = "SetIcon";
+            this.setIconButton.Text = "Icon";
             this.setIconButton.UseVisualStyleBackColor = true;
             this.setIconButton.Click += new System.EventHandler(this.setIconButton_Click);
             // 
@@ -158,7 +148,7 @@
             this.nameTextBox.Location = new System.Drawing.Point(114, 0);
             this.nameTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(185, 41);
+            this.nameTextBox.Size = new System.Drawing.Size(149, 41);
             this.nameTextBox.TabIndex = 6;
             this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
             // 
@@ -450,7 +440,7 @@
             this.selectedPrefabsSearchLabel.Name = "selectedPrefabsSearchLabel";
             this.selectedPrefabsSearchLabel.Size = new System.Drawing.Size(222, 18);
             this.selectedPrefabsSearchLabel.TabIndex = 3;
-            this.selectedPrefabsSearchLabel.Text = "Prefabs search:";
+            this.selectedPrefabsSearchLabel.Text = "Selected search:";
             this.selectedPrefabsSearchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // blocksListBox
@@ -483,6 +473,7 @@
             this.blockSearchTextBox.Name = "blockSearchTextBox";
             this.blockSearchTextBox.Size = new System.Drawing.Size(248, 24);
             this.blockSearchTextBox.TabIndex = 0;
+            this.blockSearchTextBox.TextChanged += new System.EventHandler(this.blockSearchTextBox_TextChanged);
             // 
             // blockSearchLabel
             // 
@@ -495,7 +486,7 @@
             this.blockSearchLabel.Text = "Block search:";
             this.blockSearchLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // GroupPrefabs
+            // GroupPrefabsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -505,7 +496,7 @@
             this.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "GroupPrefabs";
+            this.Name = "GroupPrefabsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GroupPrefabs";
             this.Load += new System.EventHandler(this.GroupPrefabs_Load);
@@ -562,9 +553,8 @@
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.Button setIconButton;
-        private System.Windows.Forms.TextBox heightTextBox;
-        private System.Windows.Forms.Label heightLabel;
-        private System.Windows.Forms.TextBox widthTextBox;
-        private System.Windows.Forms.Label widthLabel;
+        private System.Windows.Forms.Button brushColorButton;
+        private System.Windows.Forms.TextBox brushSizeTextBox;
+        private System.Windows.Forms.Label label1;
     }
 }

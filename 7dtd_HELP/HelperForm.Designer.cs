@@ -41,29 +41,38 @@
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prefabsXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.scaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scaleToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.sizeCellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeCellToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.updatePerfarbsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.coordinatesToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.groupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.spawnPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBiomesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showAllPrefabIconsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spawnPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setIconSpawnPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setSpawnPointsBrushColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spawnPointsBrushSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spawnPointsBrushSizeToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.delimiterToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
-            this.mapSacleTrackBar = new System.Windows.Forms.TrackBar();
+            this.coordinatesToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.coordinates7dtdToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.coordsToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.subStatusToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.subStatusToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.coordinates7dtdToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.mapPictureBox = new System.Windows.Forms.PictureBox();
+            this.bodyPanel = new System.Windows.Forms.Panel();
+            this.mapSacleTrackBar = new System.Windows.Forms.TrackBar();
+            this.toolTipPanel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mapSacleTrackBar)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
+            this.bodyPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mapSacleTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // gimmeTimer
@@ -85,7 +94,8 @@
             this.mapToolStripMenuItem,
             this.groupsToolStripMenuItem,
             this.coordinatesToolStripTextBox,
-            this.coordinates7dtdToolStripTextBox});
+            this.coordinates7dtdToolStripTextBox,
+            this.coordsToolStripTextBox});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
@@ -135,7 +145,6 @@
             // 
             this.mapToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
-            this.scaleToolStripMenuItem,
             this.sizeToolStripMenuItem,
             this.sizeCellToolStripMenuItem,
             this.updatePerfarbsToolStripMenuItem});
@@ -163,22 +172,6 @@
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(153, 6);
-            // 
-            // scaleToolStripMenuItem
-            // 
-            this.scaleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.scaleToolStripTextBox});
-            this.scaleToolStripMenuItem.Name = "scaleToolStripMenuItem";
-            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
-            this.scaleToolStripMenuItem.Text = "Scale";
-            // 
-            // scaleToolStripTextBox
-            // 
-            this.scaleToolStripTextBox.Name = "scaleToolStripTextBox";
-            this.scaleToolStripTextBox.Size = new System.Drawing.Size(100, 27);
-            this.scaleToolStripTextBox.Text = "10";
-            this.scaleToolStripTextBox.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.scaleToolStripTextBox.TextChanged += new System.EventHandler(this.scaleToolStripTextBox_TextChanged);
             // 
             // sizeToolStripMenuItem
             // 
@@ -219,22 +212,17 @@
             this.updatePerfarbsToolStripMenuItem.Text = "UpdatePrefabs";
             this.updatePerfarbsToolStripMenuItem.Click += new System.EventHandler(this.updatePrefabsToolStripMenuItem_Click);
             // 
-            // coordinatesToolStripTextBox
-            // 
-            this.coordinatesToolStripTextBox.Name = "coordinatesToolStripTextBox";
-            this.coordinatesToolStripTextBox.ReadOnly = true;
-            this.coordinatesToolStripTextBox.Size = new System.Drawing.Size(100, 27);
-            // 
             // groupsToolStripMenuItem
             // 
             this.groupsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addGroupToolStripMenuItem,
-            this.spawnPointsToolStripMenuItem,
             this.showBiomesToolStripMenuItem,
+            this.showAllPrefabIconsToolStripMenuItem,
+            this.spawnPointsToolStripMenuItem,
             this.delimiterToolStripMenuItem});
             this.groupsToolStripMenuItem.Name = "groupsToolStripMenuItem";
-            this.groupsToolStripMenuItem.Size = new System.Drawing.Size(68, 27);
-            this.groupsToolStripMenuItem.Text = "Groups";
+            this.groupsToolStripMenuItem.Size = new System.Drawing.Size(95, 27);
+            this.groupsToolStripMenuItem.Text = "Map shows";
             // 
             // addGroupToolStripMenuItem
             // 
@@ -243,13 +231,6 @@
             this.addGroupToolStripMenuItem.Text = "Add Group";
             this.addGroupToolStripMenuItem.Click += new System.EventHandler(this.addGroupToolStripMenuItem_Click);
             // 
-            // spawnPointsToolStripMenuItem
-            // 
-            this.spawnPointsToolStripMenuItem.Name = "spawnPointsToolStripMenuItem";
-            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.spawnPointsToolStripMenuItem.Text = "Spawn Points";
-            this.spawnPointsToolStripMenuItem.Click += new System.EventHandler(this.spawnPointsToolStripMenuItem_Click);
-            // 
             // showBiomesToolStripMenuItem
             // 
             this.showBiomesToolStripMenuItem.Name = "showBiomesToolStripMenuItem";
@@ -257,25 +238,76 @@
             this.showBiomesToolStripMenuItem.Text = "ShowBiomes";
             this.showBiomesToolStripMenuItem.Click += new System.EventHandler(this.showBiomesToolStripMenuItem_Click);
             // 
+            // showAllPrefabIconsToolStripMenuItem
+            // 
+            this.showAllPrefabIconsToolStripMenuItem.Name = "showAllPrefabIconsToolStripMenuItem";
+            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.showAllPrefabIconsToolStripMenuItem.Text = "ShowAllPrefabIcons";
+            this.showAllPrefabIconsToolStripMenuItem.Click += new System.EventHandler(this.showAllPrefabIconsToolStripMenuItem_Click);
+            // 
+            // spawnPointsToolStripMenuItem
+            // 
+            this.spawnPointsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setIconSpawnPointsToolStripMenuItem,
+            this.setSpawnPointsBrushColorToolStripMenuItem,
+            this.spawnPointsBrushSizeToolStripMenuItem});
+            this.spawnPointsToolStripMenuItem.Name = "spawnPointsToolStripMenuItem";
+            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.spawnPointsToolStripMenuItem.Text = "Spawn Points";
+            this.spawnPointsToolStripMenuItem.Click += new System.EventHandler(this.spawnPointsToolStripMenuItem_Click);
+            // 
+            // setIconSpawnPointsToolStripMenuItem
+            // 
+            this.setIconSpawnPointsToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.setIconSpawnPointsToolStripMenuItem.Name = "setIconSpawnPointsToolStripMenuItem";
+            this.setIconSpawnPointsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.setIconSpawnPointsToolStripMenuItem.Text = "SetIcon";
+            this.setIconSpawnPointsToolStripMenuItem.Click += new System.EventHandler(this.setIconSpawnPointsToolStripMenuItem_Click);
+            // 
+            // setSpawnPointsBrushColorToolStripMenuItem
+            // 
+            this.setSpawnPointsBrushColorToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.setSpawnPointsBrushColorToolStripMenuItem.Name = "setSpawnPointsBrushColorToolStripMenuItem";
+            this.setSpawnPointsBrushColorToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.setSpawnPointsBrushColorToolStripMenuItem.Text = "SetBrushColor";
+            this.setSpawnPointsBrushColorToolStripMenuItem.Click += new System.EventHandler(this.setSpawnPointsBrushColorToolStripMenuItem_Click);
+            // 
+            // spawnPointsBrushSizeToolStripMenuItem
+            // 
+            this.spawnPointsBrushSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.spawnPointsBrushSizeToolStripTextBox});
+            this.spawnPointsBrushSizeToolStripMenuItem.Name = "spawnPointsBrushSizeToolStripMenuItem";
+            this.spawnPointsBrushSizeToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.spawnPointsBrushSizeToolStripMenuItem.Text = "BrushSize";
+            // 
+            // spawnPointsBrushSizeToolStripTextBox
+            // 
+            this.spawnPointsBrushSizeToolStripTextBox.Name = "spawnPointsBrushSizeToolStripTextBox";
+            this.spawnPointsBrushSizeToolStripTextBox.Size = new System.Drawing.Size(100, 27);
+            this.spawnPointsBrushSizeToolStripTextBox.TextChanged += new System.EventHandler(this.spawnPointsBrushSizeToolStripTextBox_TextChanged);
+            // 
             // delimiterToolStripMenuItem
             // 
             this.delimiterToolStripMenuItem.Name = "delimiterToolStripMenuItem";
             this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(213, 6);
             // 
-            // mapSacleTrackBar
+            // coordinatesToolStripTextBox
             // 
-            this.mapSacleTrackBar.Dock = System.Windows.Forms.DockStyle.Left;
-            this.mapSacleTrackBar.Location = new System.Drawing.Point(0, 31);
-            this.mapSacleTrackBar.Margin = new System.Windows.Forms.Padding(4);
-            this.mapSacleTrackBar.Maximum = 20;
-            this.mapSacleTrackBar.Minimum = 1;
-            this.mapSacleTrackBar.Name = "mapSacleTrackBar";
-            this.mapSacleTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.mapSacleTrackBar.Size = new System.Drawing.Size(56, 536);
-            this.mapSacleTrackBar.TabIndex = 33;
-            this.mapSacleTrackBar.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.mapSacleTrackBar.Value = 10;
-            this.mapSacleTrackBar.ValueChanged += new System.EventHandler(this.mapSacleTrackBar_ValueChanged);
+            this.coordinatesToolStripTextBox.Name = "coordinatesToolStripTextBox";
+            this.coordinatesToolStripTextBox.ReadOnly = true;
+            this.coordinatesToolStripTextBox.Size = new System.Drawing.Size(100, 27);
+            // 
+            // coordinates7dtdToolStripTextBox
+            // 
+            this.coordinates7dtdToolStripTextBox.Name = "coordinates7dtdToolStripTextBox";
+            this.coordinates7dtdToolStripTextBox.ReadOnly = true;
+            this.coordinates7dtdToolStripTextBox.Size = new System.Drawing.Size(100, 27);
+            // 
+            // coordsToolStripTextBox
+            // 
+            this.coordsToolStripTextBox.Name = "coordsToolStripTextBox";
+            this.coordsToolStripTextBox.Size = new System.Drawing.Size(100, 27);
+            this.coordsToolStripTextBox.TextChanged += new System.EventHandler(this.coordsToolStripTextBox_TextChanged);
             // 
             // statusStrip1
             // 
@@ -311,22 +343,68 @@
             this.subStatusToolStripProgressBar.Name = "subStatusToolStripProgressBar";
             this.subStatusToolStripProgressBar.Size = new System.Drawing.Size(100, 18);
             // 
-            // coordinates7dtdToolStripTextBox
+            // mapPictureBox
             // 
-            this.coordinates7dtdToolStripTextBox.Name = "coordinates7dtdToolStripTextBox";
-            this.coordinates7dtdToolStripTextBox.ReadOnly = true;
-            this.coordinates7dtdToolStripTextBox.Size = new System.Drawing.Size(100, 27);
+            this.mapPictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.mapPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mapPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.mapPictureBox.Name = "mapPictureBox";
+            this.mapPictureBox.Size = new System.Drawing.Size(6144, 6144);
+            this.mapPictureBox.TabIndex = 35;
+            this.mapPictureBox.TabStop = false;
+            // 
+            // bodyPanel
+            // 
+            this.bodyPanel.AutoScroll = true;
+            this.bodyPanel.BackColor = System.Drawing.Color.DimGray;
+            this.bodyPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.bodyPanel.Controls.Add(this.mapPictureBox);
+            this.bodyPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bodyPanel.Location = new System.Drawing.Point(56, 31);
+            this.bodyPanel.Name = "bodyPanel";
+            this.bodyPanel.Size = new System.Drawing.Size(589, 512);
+            this.bodyPanel.TabIndex = 36;
+            // 
+            // mapSacleTrackBar
+            // 
+            this.mapSacleTrackBar.Cursor = System.Windows.Forms.Cursors.SizeNS;
+            this.mapSacleTrackBar.Dock = System.Windows.Forms.DockStyle.Left;
+            this.mapSacleTrackBar.Enabled = false;
+            this.mapSacleTrackBar.LargeChange = 1;
+            this.mapSacleTrackBar.Location = new System.Drawing.Point(0, 31);
+            this.mapSacleTrackBar.Margin = new System.Windows.Forms.Padding(4);
+            this.mapSacleTrackBar.Maximum = 4;
+            this.mapSacleTrackBar.Name = "mapSacleTrackBar";
+            this.mapSacleTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.mapSacleTrackBar.Size = new System.Drawing.Size(56, 536);
+            this.mapSacleTrackBar.TabIndex = 33;
+            this.mapSacleTrackBar.ValueChanged += new System.EventHandler(this.mapSacleTrackBar_ValueChanged);
+            // 
+            // toolTipPanel
+            // 
+            this.toolTipPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolTipPanel.AutoScroll = true;
+            this.toolTipPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.toolTipPanel.Location = new System.Drawing.Point(424, 30);
+            this.toolTipPanel.Name = "toolTipPanel";
+            this.toolTipPanel.Size = new System.Drawing.Size(200, 142);
+            this.toolTipPanel.TabIndex = 37;
+            this.toolTipPanel.Visible = false;
             // 
             // HelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(645, 567);
+            this.Controls.Add(this.toolTipPanel);
+            this.Controls.Add(this.bodyPanel);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mapSacleTrackBar);
             this.Controls.Add(this.menuStrip1);
-            this.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "HelperForm";
@@ -336,13 +414,14 @@
             this.Text = "3600";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HelperForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.SizeChanged += new System.EventHandler(this.HelperForm_SizeChanged);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HelperForm_MouseDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mapSacleTrackBar)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).EndInit();
+            this.bodyPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mapSacleTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,11 +433,8 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scaleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox scaleToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox sizeToolStripTextBox;
-        private System.Windows.Forms.TrackBar mapSacleTrackBar;
         private System.Windows.Forms.ToolStripMenuItem sizeCellToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox sizeCellToolStripTextBox;
         private System.Windows.Forms.ToolStripTextBox coordinatesToolStripTextBox;
@@ -381,6 +457,16 @@
         private System.Windows.Forms.ToolStripStatusLabel subStatusToolStripStatusLabel;
         private System.Windows.Forms.ToolStripProgressBar subStatusToolStripProgressBar;
         private System.Windows.Forms.ToolStripTextBox coordinates7dtdToolStripTextBox;
+        private System.Windows.Forms.ToolStripTextBox coordsToolStripTextBox;
+        private System.Windows.Forms.PictureBox mapPictureBox;
+        private System.Windows.Forms.Panel bodyPanel;
+        private System.Windows.Forms.TrackBar mapSacleTrackBar;
+        private System.Windows.Forms.ToolStripMenuItem setIconSpawnPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setSpawnPointsBrushColorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem spawnPointsBrushSizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox spawnPointsBrushSizeToolStripTextBox;
+        private System.Windows.Forms.ToolStripMenuItem showAllPrefabIconsToolStripMenuItem;
+        private System.Windows.Forms.Panel toolTipPanel;
     }
 }
 

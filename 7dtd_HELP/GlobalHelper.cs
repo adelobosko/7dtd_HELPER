@@ -36,6 +36,11 @@ namespace _7dtd_HELP
         public static OnStatusChanged UpdateStatus { get; set; }
         public static OnStatusChanged UpdateSubStatus { get; set; }
 
+        public static MapPoint MyCoordinates = new MapPoint()
+        {
+            
+        };
+
         public static class ProgramParams
         {
             public enum Argument

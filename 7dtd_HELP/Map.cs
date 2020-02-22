@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,13 +10,16 @@ using Newtonsoft.Json;
 
 namespace _7dtd_HELP
 {
+
+
     public class Map
     {
         public static readonly string DefaultName = "DefaultEmptyMap";
         public static readonly int DefaultCellSize = 50;
-        public static readonly int DefaultSize = 3072;
-        public static readonly int DefaultScale = 10;
-        public static readonly Point DefaultOffset = new Point(0, 0);
+        public static readonly int DefaultSize = 6144;
+        public static readonly int DefaultScale = 1;
+        public static readonly int DefaultToolTipRadius = 100;
+
         public static Bitmap Biomes = null;
 
         public string Name { get; set; }
@@ -29,12 +33,12 @@ namespace _7dtd_HELP
         public int CellSize { get; set; }
 
         public int Size { get; set; }
-
+        public int ToolTipRadius { get; set; }
         public int Scale { get; set; }
         public bool IsBiomesShown { get; set; }
-
-        public Point Offset { get; set; }
-        public List<MapObjectCollection> MapObjects { get; set; }
+        public bool IsShowAllPrefabIcons { get; set; }
+        //public List<MapObjectCollection> MapObjects { get; set; }
+        public MapObjectCollection SpawnPoints { get; set; }
         public List<MapPoint> Prefabs { get; }
         public Map()
         {
@@ -42,10 +46,20 @@ namespace _7dtd_HELP
             Size = DefaultSize;
             Scale = DefaultScale;
             CellSize = DefaultCellSize;
-            MapObjects = new List<MapObjectCollection>();
+            //MapObjects = new List<MapObjectCollection>();
             Prefabs = new List<MapPoint>();
-            Offset = DefaultOffset;
             DirectoryPath = "";
+            SpawnPoints = new MapObjectCollection()
+            {
+                Name = "Spawn points",
+                Icon = null,
+                IsEnabled = true,
+                MapPoints = new List<MapPoint>(),
+                BrushColor = Brushes.Red,
+                BrushSize = MapObjectCollection.DefaultBrushSize
+            };
+            IsShowAllPrefabIcons = true;
+            ToolTipRadius = DefaultToolTipRadius;
         }
 
         public void Draw(IMapDrawer mapDrawer)
@@ -68,13 +82,22 @@ namespace _7dtd_HELP
 
     public class MapObjectCollection
     {
+        public static int DefaultBrushSize = 8;
+        public static Brush DefaultBrush = Brushes.Blue;
+
         public string Name { get; set; }
         public bool IsEnabled { get; set; }
+        public Icon Icon { get; set; }
         public List<MapPoint> MapPoints { get; set; }
+        public Brush BrushColor { get; set; }
+        public int BrushSize { get; set; }
 
         public MapObjectCollection()
         {
             MapPoints = new List<MapPoint>();
+            Icon = null;
+            BrushColor = DefaultBrush;
+            BrushSize = DefaultBrushSize;
         }
     }
 
@@ -155,17 +178,11 @@ namespace _7dtd_HELP
             var sizeString = textAll.Substring(startIndex + startText.Length,
                 endIndex - startIndex - startText.Length);
 
-            map.Size = Convert.ToInt32(sizeString) / 2;
+            map.Size = Convert.ToInt32(sizeString);
         }
 
         public static void LoadSpawnPoints(this Map map, string filename)
         {
-            var spawnPoints = new MapObjectCollection()
-            {
-                Name = "SpawnPoints",
-                IsEnabled = true,
-                MapPoints = new List<MapPoint>()
-            };
             var textAll = File.ReadAllText(filename);
 
             textAll = textAll.Replace(
@@ -191,20 +208,13 @@ namespace _7dtd_HELP
                 if(coordinates.Length != 3)
                     continue;
 
-                spawnPoints.MapPoints.Add(new MapPoint()
+                map.SpawnPoints.MapPoints.Add(new MapPoint()
                 {
-                    Name = "",
+                    Name = "SpawnPoint",
                     X = Convert.ToInt32(coordinates[0]),
                     Y = Convert.ToInt32(coordinates[2])
                 });
             }
-
-            var existSpawnPoints = map.MapObjects.SingleOrDefault(mc => mc.Name == spawnPoints.Name);
-            if (existSpawnPoints != null)
-            {
-                map.MapObjects.Remove(existSpawnPoints);
-            }
-            map.MapObjects.Add(spawnPoints);
         }
     }
 }
