@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace _7dtd_HELP
         public List<string> Maps { get; set; }
         public List<DecorationGroup> DecorationGroups { get; set; }
         public PrefabsConfig PrefabsConfig { get; set; }
+        public Rectangle CoordinatesRectangle { get; set; }
 
         public Config()
         {

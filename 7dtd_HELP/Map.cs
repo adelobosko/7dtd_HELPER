@@ -40,6 +40,8 @@ namespace _7dtd_HELP
         //public List<MapObjectCollection> MapObjects { get; set; }
         public MapObjectCollection SpawnPoints { get; set; }
         public List<MapPoint> Prefabs { get; }
+        public static Bitmap Cities { get; set; }
+
         public Map()
         {
             Name = DefaultName;
@@ -107,7 +109,7 @@ namespace _7dtd_HELP
         {
             if (Map.Biomes != null)
             {
-                if (width == 0 && height == 0)
+                if (width == 0 && height == 0 || width == Map.Biomes.Width && height == Map.Biomes.Height)
                 {
                     return Map.Biomes;
                 }
@@ -128,6 +130,41 @@ namespace _7dtd_HELP
             }
 
             return Map.Biomes.ResizeImage(width, height);
+        }
+
+        public static Bitmap GetCities(this Map map, int width = 0, int height = 0)
+        {
+            /*if (Map.Cities != null)
+            {
+                if (width == 0 && height == 0 || width == Map.Cities.Width && height == Map.Cities.Height)
+                {
+                    return Map.Cities;
+                }
+
+                return Map.Cities.ResizeImage(width, height);
+            }*/
+
+            var citiesFile = Path.Combine(map.DirectoryPath, "World", "splat3_processed.png");
+
+            using (var bmp = new Bitmap(citiesFile))
+            {
+                var pixel0_0 = bmp.GetPixel(0, 0);
+                MessageBox.Show(pixel0_0.ToString());
+            }
+
+
+            if (!File.Exists(citiesFile))
+            {
+                return null;
+            }
+            Map.Cities = (Bitmap)Image.FromFile(citiesFile);
+
+            if (width == 0 && height == 0 || width == Map.Cities.Width && height == Map.Cities.Height)
+            {
+                return Map.Cities;
+            }
+
+            return Map.Cities.ResizeImage(width, height);
         }
 
         public static void Save(this Map map)

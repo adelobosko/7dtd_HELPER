@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
@@ -6,6 +7,55 @@ namespace _7dtd_HELP
 {
     public static class BitmapExtension
     {
+
+        public static Bitmap CropAtRect(this Bitmap b, Rectangle r)
+        {
+            Bitmap nb = new Bitmap(r.Width, r.Height);
+            Graphics g = Graphics.FromImage(nb);
+            g.DrawImage(b, -r.X, -r.Y);
+            return nb;
+        }
+
+        public static Bitmap ToGrayScale(this Bitmap b)
+        {
+            var bmp = new Bitmap(b.Width, b.Height);
+            var g = Graphics.FromImage(bmp);
+            g.DrawImage(b, 0, 0);
+            for (var y = 0; y < bmp.Height; y++)
+                for (var x = 0; x < bmp.Width; x++)
+                {
+                    var c = bmp.GetPixel(x, y);
+                    var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
+                    bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+                }
+
+            return bmp;
+        }
+
+        public static Image ToGrayScale(this Image b)
+        {
+            var bmp = new Bitmap(b.Width, b.Height);
+            var g = Graphics.FromImage(bmp);
+            g.DrawImage(b, 0, 0);
+            for (var y = 0; y < bmp.Height; y++)
+            for (var x = 0; x < bmp.Width; x++)
+            {
+                var c = bmp.GetPixel(x, y);
+                var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
+                bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+            }
+
+            return bmp;
+
+        }
+
+        public static Image CropAtRect(this Image b, Rectangle r)
+        {
+            Bitmap nb = new Bitmap(r.Width, r.Height);
+            Graphics g = Graphics.FromImage(nb);
+            g.DrawImage(b, -r.X, -r.Y);
+            return nb;
+        }
         public static Bitmap ResizeImage(this Bitmap image, int width, int height)
         {
             var destRect = new Rectangle(0, 0, width, height);

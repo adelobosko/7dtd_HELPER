@@ -1,34 +1,35 @@
 ﻿using System.Collections.Generic;
+using static _7dtd_HELP.WinApi.User32;
 
 namespace _7dtd_HELP
 {
     public static class InputSet
     {
-        public static Win32.INPUT[] LeftMouseButton = new List<Win32.INPUT>()
+        public static Input[] LeftMouseButton = new List<Input>()
         {
-            InputHelper.GetMouseInput(Win32.MOUSEEVENTF.LEFTDOWN),
-            InputHelper.GetMouseInput(Win32.MOUSEEVENTF.LEFTUP)
+            InputHelper.GetMouseInput(MouseEventF.LEFTDOWN),
+            InputHelper.GetMouseInput(MouseEventF.LEFTUP)
         }.ToArray();
 
-        public static Win32.INPUT[] RightMouseButton = new List<Win32.INPUT>()
+        public static Input[] RightMouseButton = new List<Input>()
         {
-            InputHelper.GetMouseInput(Win32.MOUSEEVENTF.RIGHTDOWN),
-            InputHelper.GetMouseInput(Win32.MOUSEEVENTF.RIGHTUP)
+            InputHelper.GetMouseInput(MouseEventF.RIGHTDOWN),
+            InputHelper.GetMouseInput(MouseEventF.RIGHTUP)
         }.ToArray();
 
-        public static Win32.INPUT[] Paste = new List<Win32.INPUT>()
+        public static Input[] Paste = new List<Input>()
         {
-            InputHelper.GetKeyboardInput(Win32.ScanCodeShort.CONTROL, Win32.VirtualKeyShort.CONTROL, Win32.KEYEVENTF.KEYDOWN),
-            InputHelper.GetKeyboardInput(Win32.ScanCodeShort.KEY_V, Win32.VirtualKeyShort.KEY_V, Win32.KEYEVENTF.KEYDOWN),
-            InputHelper.GetKeyboardInput(Win32.ScanCodeShort.KEY_V, Win32.VirtualKeyShort.KEY_V, Win32.KEYEVENTF.KEYUP),
-            InputHelper.GetKeyboardInput(Win32.ScanCodeShort.CONTROL, Win32.VirtualKeyShort.CONTROL, Win32.KEYEVENTF.KEYUP)
+            InputHelper.GetKeyboardInput(ScanCodeShort.CONTROL, VirtualKeyShort.CONTROL, KeyEventF.KEYDOWN),
+            InputHelper.GetKeyboardInput(ScanCodeShort.KEY_V, VirtualKeyShort.KEY_V, KeyEventF.KEYDOWN),
+            InputHelper.GetKeyboardInput(ScanCodeShort.KEY_V, VirtualKeyShort.KEY_V, KeyEventF.KEYUP),
+            InputHelper.GetKeyboardInput(ScanCodeShort.CONTROL, VirtualKeyShort.CONTROL, KeyEventF.KEYUP)
         }.ToArray();
 
 
-        public static Win32.INPUT[] Enter = new List<Win32.INPUT>()
+        public static Input[] Enter = new List<Input>()
         {
-            InputHelper.GetKeyboardInput(Win32.ScanCodeShort.RETURN, Win32.VirtualKeyShort.RETURN, Win32.KEYEVENTF.KEYDOWN),
-            InputHelper.GetKeyboardInput(Win32.ScanCodeShort.RETURN, Win32.VirtualKeyShort.RETURN, Win32.KEYEVENTF.KEYUP)
+            InputHelper.GetKeyboardInput(ScanCodeShort.RETURN, VirtualKeyShort.RETURN, KeyEventF.KEYDOWN),
+            InputHelper.GetKeyboardInput(ScanCodeShort.RETURN, VirtualKeyShort.RETURN, KeyEventF.KEYUP)
         }.ToArray();
     }
 }

@@ -126,7 +126,6 @@ namespace _7dtd_HELP
 
                 if (Result.Prefabs.Count(sp => sp.Name == prefabName) == 0)
                 {
-                    prefab.Description = item.ToString().Split(':')[1];
                     Result.Prefabs.Add(prefab);
                 }
             }
@@ -144,7 +143,6 @@ namespace _7dtd_HELP
 
                 if (Result.Prefabs.Count(sp => sp.Name == prefabName) == 0)
                 {
-                    prefab.Description = item.ToString().Split(':')[1];
                     Result.Prefabs.Add(prefab);
                 }
             }

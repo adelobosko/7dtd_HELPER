@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using static _7dtd_HELP.Win32;
+using static _7dtd_HELP.WinApi.User32;
 
 namespace _7dtd_HELP
 {
@@ -141,20 +142,14 @@ namespace _7dtd_HELP
                     coordinates7dtdLabel.ForeColor = Color.Black;
 
                     var allowedGroups = config.DecorationGroups.Where(g => g.IsEnabled).ToList();
-                    var groups = allowedGroups.Where(g => g.Prefabs.Count(p => p.Name == mapPoint.Name) > 0).ToList().Select(g => new
-                    {
-                        Name = g.Name,
-                        BrushColor = g.BrushColor,
-                        Icon = g.Icon,
-                        Description = g.Prefabs.FirstOrDefault(p => p.Name == mapPoint.Name)?.Description
-                    });
+                    var groups = allowedGroups.Where(g => g.Prefabs.Count(p => p.Name == mapPoint.Name) > 0);
 
                     foreach (var group in groups)
                     {
                         var groupLabel = new Label();
                         groupLabel.ImageAlign = ContentAlignment.MiddleLeft;
                         groupLabel.TextAlign = ContentAlignment.MiddleCenter;
-                        groupLabel.Text = group.Name+" "+ group.Description;
+                        groupLabel.Text = group.Name;
                         groupLabel.Parent = toolTipPanel;
                         groupLabel.ForeColor = Color.Black;
 
@@ -216,7 +211,6 @@ namespace _7dtd_HELP
             var yCoord = y * GlobalHelper.Config.Map.Scale;
             var xCoord7dtd = xCoord < 0 ? $"{Math.Abs(xCoord)}W" : $"{Math.Abs(xCoord)}E";
             var yCoord7dtd = yCoord < 0 ? $"{Math.Abs(yCoord)}S" : $"{Math.Abs(yCoord)}N";
-            coordinatesToolStripTextBox.Text = $"{xCoord};{yCoord}";
             coordinates7dtdToolStripTextBox.Text = $"{xCoord7dtd};{yCoord7dtd}";
 
 
@@ -276,6 +270,7 @@ namespace _7dtd_HELP
             gHook.HookedKeys.Add(Keys.NumPad1);
             gHook.HookedKeys.Add(Keys.NumPad2);
             gHook.HookedKeys.Add(Keys.NumPad3);
+            gHook.HookedKeys.Add(Keys.NumPad4);
             //MouseHook.Start();
         }
 
@@ -287,7 +282,7 @@ namespace _7dtd_HELP
 
         public void gHook_KeyDown(object sender, KeyEventArgs e)
         {
-            if (GetAsyncKeyState((int)Win32.VirtualKeyShort.MENU) == 0)
+            if (GetAsyncKeyState((int)VirtualKeyShort.MENU) == 0)
                 return;
 
 
@@ -320,10 +315,10 @@ namespace _7dtd_HELP
                 case Keys.NumPad0:
                 {
                     Clipboard.SetText("/gimme");
-                    var tKey = new List<INPUT>()
+                    var tKey = new List<Input>()
                     {
-                        InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KEYEVENTF.KEYDOWN),
-                        InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KEYEVENTF.KEYUP),
+                        InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KeyEventF.KEYDOWN),
+                        InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KeyEventF.KEYUP),
                     }.ToArray();
 
                     InputHelper.Send(tKey);
@@ -333,10 +328,16 @@ namespace _7dtd_HELP
                     e.Handled = true;
                     break;
                 }
+                case Keys.NumPad4:
+                {
+                    DrawMeOnMap();
+                    e.Handled = true;
+                    break;
+                }
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void HelperForm_Load(object sender, EventArgs e)
         {
             SystemSounds.Beep.Play();
             gHook.hook();
@@ -378,6 +379,17 @@ namespace _7dtd_HELP
                 if (GlobalHelper.Config.Map.IsBiomesShown)
                 {
                     var bitmap = GlobalHelper.Config.Map.GetBiomes(scaledSize, scaledSize);
+                    if (bitmap != null)
+                    {
+                        bitmap.SetResolution(96, 96);
+                        gr.DrawImage(bitmap, new Point(0, 0));
+                    }
+                }
+
+                //DrawBiomes(map);
+                if (GlobalHelper.Config.Map.IsBiomesShown)
+                {
+                    var bitmap = GlobalHelper.Config.Map.GetCities(scaledSize, scaledSize);
                     if (bitmap != null)
                     {
                         gr.DrawImage(bitmap, new Point(0, 0));
@@ -450,28 +462,7 @@ namespace _7dtd_HELP
                 }
 
 
-                //DrawPrefabs(map);
-
-                //TODO: Draw myself
-                try
-                {
-                    var font = new Font("Courier New", 14);
-                    var size = 2;
-
-                    var x = x0 + GlobalHelper.MyCoordinates.X / GlobalHelper.Config.Map.Scale;
-                    var y = y0 - GlobalHelper.MyCoordinates.Y / GlobalHelper.Config.Map.Scale;
-                    gr.FillRectangle(
-                        Brushes.BlueViolet,
-                        x - size,
-                        y - size,
-                        size * 2,
-                        size * 2
-                    );
-                    gr.DrawString(GlobalHelper.MyCoordinates.Name, font, Brushes.BlueViolet, x - size, y - size);
-                }
-                catch
-                {
-                }
+                //DrawPrefabs
 
                 var allowedGroups = GlobalHelper.Config.DecorationGroups.Where(g => g.IsEnabled).ToList();
 
@@ -630,6 +621,30 @@ namespace _7dtd_HELP
                 //{
                 //    gr.DrawEllipse(thick_pen, rect);
                 //}
+
+
+
+
+                //TODO: Draw myself
+                try
+                {
+                    var font = new Font("Courier New", 14);
+                    var size = 2;
+
+                    var x = x0 + GlobalHelper.MyCoordinates.X / GlobalHelper.Config.Map.Scale;
+                    var y = y0 - GlobalHelper.MyCoordinates.Y / GlobalHelper.Config.Map.Scale;
+                    gr.FillRectangle(
+                        Brushes.BlueViolet,
+                        x - size,
+                        y - size,
+                        size * 2,
+                        size * 2
+                    );
+                    gr.DrawString(GlobalHelper.MyCoordinates.Name, font, Brushes.BlueViolet, x - size, y - size);
+                }
+                catch
+                {
+                }
             }
             mapPictureBox.Image = bm;
         }
@@ -672,7 +687,10 @@ namespace _7dtd_HELP
                 spawnPointsToolStripMenuItem.Checked = spawnPointsObjectCollection.IsEnabled;
             }
 
-            this.Text = $@"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
+            showBiomesToolStripMenuItem.Checked = GlobalHelper.Config.Map.IsBiomesShown;
+
+            this.Text =
+                $@"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
 
             sizeCellToolStripTextBox.Text = GlobalHelper.Config.Map.CellSize.ToString();
             sizeToolStripTextBox.Text = GlobalHelper.Config.Map.Size.ToString();
@@ -932,7 +950,8 @@ namespace _7dtd_HELP
             mapPictureBox.Height = GlobalHelper.Config.Map.Size / GlobalHelper.Config.Map.Scale;
             mapPictureBox.Width = GlobalHelper.Config.Map.Size / GlobalHelper.Config.Map.Scale;
 
-            RedrawMap();
+            timerScaleChanged.Stop();
+            timerScaleChanged.Start();
         }
 
         private void updatePrefabsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -993,27 +1012,27 @@ namespace _7dtd_HELP
             {
                 GlobalHelper.MyCoordinates.Name = "I AM HERE";
                 var text = coordsToolStripTextBox.Text.Split(';');
-                var xW = text[0][text[0].Length - 1];
-                var xText = Convert.ToInt32(text[0].Substring(0, text[0].Length - 1));
+                var ySN = text[0][text[0].Length - 1];
+                var yText = Convert.ToInt32(text[0].Substring(0, text[0].Length - 1));
 
-                var yW = text[1][text[1].Length - 1];
-                var yText = Convert.ToInt32(text[1].Substring(0, text[1].Length - 1));
-                if (xW == 'W')
+                var xWE = text[1][text[1].Length - 1];
+                var xText = Convert.ToInt32(text[1].Substring(0, text[1].Length - 1));
+                if (ySN == 'S')
+                {
+                    GlobalHelper.MyCoordinates.Y = -1 * yText;
+                }
+                else if (ySN == 'N')
+                {
+                    GlobalHelper.MyCoordinates.Y = yText;
+                }
+
+                if (xWE == 'W')
                 {
                     GlobalHelper.MyCoordinates.X = -1 * xText;
                 }
-                else if (xW == 'E')
+                else if (xWE == 'E')
                 {
                     GlobalHelper.MyCoordinates.X = xText;
-                }
-
-                if (xW == 'S')
-                {
-                    GlobalHelper.MyCoordinates.Y = -1 * xText;
-                }
-                else if (xW == 'N')
-                {
-                    GlobalHelper.MyCoordinates.Y = xText;
                 }
             }
             catch
@@ -1077,6 +1096,129 @@ namespace _7dtd_HELP
             GlobalHelper.Config.Map.IsShowAllPrefabIcons = !GlobalHelper.Config.Map.IsShowAllPrefabIcons;
             showAllPrefabIconsToolStripMenuItem.Checked = GlobalHelper.Config.Map.IsShowAllPrefabIcons;
             RedrawMap();
+        }
+
+        private void positionReaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectCoordinatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var info = new ProcessStartInfo
+            {
+                FileName = "regedit.exe",
+                Arguments = $"/s ABBYY_FineReader/license.reg",
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                Verb = "runas"
+            };
+            using (var ps = Process.Start(info))
+            {
+                ps.StartInfo.Verb = "runas";
+                ps.WaitForExit();
+                var exitCode = ps.ExitCode;
+                if (exitCode == 0)
+                {
+                    var positionReaderForm = new PositionReaderForm();
+                    var dlgRes = positionReaderForm.ShowDialog(this);
+                    if (dlgRes == DialogResult.OK)
+                    {
+                        GlobalHelper.Config.CoordinatesRectangle = positionReaderForm.Result;
+                    }
+                }
+                else
+                {
+                    var stderr = ps.StandardError.ReadToEnd();
+                    throw new InvalidOperationException(stderr);
+                }
+            }
+        }
+
+
+        public string GetTextByScreen()
+        {
+            var filename = $"crop.png";
+            var snapshot = SnapShotService.TakeWindowScreen(0,"7DaysToDie");
+
+            var image = snapshot.CropAtRect(GlobalHelper.Config.CoordinatesRectangle);
+            image.Save(filename);
+            var service = new FineReaderService(@"ABBYY_FineReader", "english", @"Clipboard");
+
+            var res = service.GetText(filename);
+            return res;
+        }
+
+
+        public string GetCoordinatesByText(string text)
+        {
+            var numberCollection = "0123456789";
+            var charsCollection = "snewSNEW";
+            var res = "" + new string(text.Where(c => numberCollection.Contains(c) || charsCollection.Contains(c)).ToArray());
+
+            res = res.Replace("s", "S")
+                .Replace("n", "N")
+                .Replace("e", "E")
+                .Replace("w", "W")
+                .Replace("E", "E;")
+                .Replace("W", "W;");
+
+            var split = res.Split(';');
+            if (split.Length < 2 || split[0].Contains("N") || split[0].Contains("D") || split[1].Contains("E") || split[1].Contains("W") || split[0].Length < 2 || split[1].Length < 2)
+            {
+                return "";
+            }
+
+            return $"{split[1]};{split[0]}";
+        }
+
+        public void DrawMeOnMap()
+        {
+            if (GlobalHelper.Config.CoordinatesRectangle.X <= 0 || GlobalHelper.Config.CoordinatesRectangle.Y <= 0)
+            {
+                return;
+            }
+
+            this.WindowState = FormWindowState.Minimized;
+            this.TopMost = false;
+            var text = GetTextByScreen();
+            text = GetCoordinatesByText(text);
+            if (text == "")
+            {
+                return;
+            }
+
+            coordsToolStripTextBox.Text = text;
+            RedrawMap();
+
+
+            this.TopMost = true;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void drawOnMapALTMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DrawMeOnMap();
+        }
+
+        private void HelperForm_Deactivate(object sender, EventArgs e)
+        {
+            this.Opacity = 0.30;
+        }
+
+        private void HelperForm_Activated(object sender, EventArgs e)
+        {
+            this.Opacity = 0.80;
+
+        }
+
+        private void timerScaleChanged_Tick(object sender, EventArgs e)
+        {
+            RedrawMap();
+            timerScaleChanged.Stop();
         }
     }
 }

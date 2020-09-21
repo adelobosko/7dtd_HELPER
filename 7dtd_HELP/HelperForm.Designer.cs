@@ -37,6 +37,8 @@
             this.hotkeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.atouseGimmeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gimmeDelayToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.pressLeftKeyALTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.keepRMBALTNUMPAD1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prefabsXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +48,9 @@
             this.sizeCellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeCellToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.updatePerfarbsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.positionReaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectCoordinatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.drawOnMapALTMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBiomesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +61,6 @@
             this.spawnPointsBrushSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spawnPointsBrushSizeToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.delimiterToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
-            this.coordinatesToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.coordinates7dtdToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.coordsToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -68,6 +72,8 @@
             this.bodyPanel = new System.Windows.Forms.Panel();
             this.mapSacleTrackBar = new System.Windows.Forms.TrackBar();
             this.toolTipPanel = new System.Windows.Forms.Panel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timerScaleChanged = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
@@ -93,7 +99,6 @@
             this.automationToolStripMenuItem,
             this.mapToolStripMenuItem,
             this.groupsToolStripMenuItem,
-            this.coordinatesToolStripTextBox,
             this.coordinates7dtdToolStripTextBox,
             this.coordsToolStripTextBox});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -106,7 +111,9 @@
             // automationToolStripMenuItem
             // 
             this.automationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gimmeToolStripMenuItem});
+            this.gimmeToolStripMenuItem,
+            this.pressLeftKeyALTToolStripMenuItem,
+            this.keepRMBALTNUMPAD1ToolStripMenuItem});
             this.automationToolStripMenuItem.Name = "automationToolStripMenuItem";
             this.automationToolStripMenuItem.Size = new System.Drawing.Size(100, 27);
             this.automationToolStripMenuItem.Text = "Automation";
@@ -117,22 +124,22 @@
             this.hotkeyToolStripMenuItem,
             this.atouseGimmeToolStripMenuItem});
             this.gimmeToolStripMenuItem.Name = "gimmeToolStripMenuItem";
-            this.gimmeToolStripMenuItem.Size = new System.Drawing.Size(132, 26);
+            this.gimmeToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
             this.gimmeToolStripMenuItem.Text = "Gimme";
             // 
             // hotkeyToolStripMenuItem
             // 
             this.hotkeyToolStripMenuItem.Name = "hotkeyToolStripMenuItem";
-            this.hotkeyToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
-            this.hotkeyToolStripMenuItem.Text = "Hotkey NumPad0";
+            this.hotkeyToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.hotkeyToolStripMenuItem.Text = "Hotkey ALT+NumPad0";
             // 
             // atouseGimmeToolStripMenuItem
             // 
             this.atouseGimmeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gimmeDelayToolStripTextBox});
             this.atouseGimmeToolStripMenuItem.Name = "atouseGimmeToolStripMenuItem";
-            this.atouseGimmeToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
-            this.atouseGimmeToolStripMenuItem.Text = "Delay NumPad3";
+            this.atouseGimmeToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.atouseGimmeToolStripMenuItem.Text = "Delay  ALT+NumPad3";
             // 
             // gimmeDelayToolStripTextBox
             // 
@@ -141,13 +148,26 @@
             this.gimmeDelayToolStripTextBox.Text = "60";
             this.gimmeDelayToolStripTextBox.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // pressLeftKeyALTToolStripMenuItem
+            // 
+            this.pressLeftKeyALTToolStripMenuItem.Name = "pressLeftKeyALTToolStripMenuItem";
+            this.pressLeftKeyALTToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.pressLeftKeyALTToolStripMenuItem.Text = "Keep LMB ALT+NUMPAD1";
+            // 
+            // keepRMBALTNUMPAD1ToolStripMenuItem
+            // 
+            this.keepRMBALTNUMPAD1ToolStripMenuItem.Name = "keepRMBALTNUMPAD1ToolStripMenuItem";
+            this.keepRMBALTNUMPAD1ToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.keepRMBALTNUMPAD1ToolStripMenuItem.Text = "Keep RMB ALT+NUMPAD1";
+            // 
             // mapToolStripMenuItem
             // 
             this.mapToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
             this.sizeToolStripMenuItem,
             this.sizeCellToolStripMenuItem,
-            this.updatePerfarbsToolStripMenuItem});
+            this.updatePerfarbsToolStripMenuItem,
+            this.positionReaderToolStripMenuItem});
             this.mapToolStripMenuItem.Name = "mapToolStripMenuItem";
             this.mapToolStripMenuItem.Size = new System.Drawing.Size(51, 27);
             this.mapToolStripMenuItem.Text = "Map";
@@ -158,7 +178,7 @@
             this.prefabsXMLToolStripMenuItem,
             this.toolStripMenuItem1});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(183, 26);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // prefabsXMLToolStripMenuItem
@@ -178,7 +198,7 @@
             this.sizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeToolStripTextBox});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(183, 26);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // sizeToolStripTextBox
@@ -194,7 +214,7 @@
             this.sizeCellToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeCellToolStripTextBox});
             this.sizeCellToolStripMenuItem.Name = "sizeCellToolStripMenuItem";
-            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(183, 26);
             this.sizeCellToolStripMenuItem.Text = "SizeCell";
             // 
             // sizeCellToolStripTextBox
@@ -208,9 +228,33 @@
             // updatePerfarbsToolStripMenuItem
             // 
             this.updatePerfarbsToolStripMenuItem.Name = "updatePerfarbsToolStripMenuItem";
-            this.updatePerfarbsToolStripMenuItem.Size = new System.Drawing.Size(182, 26);
+            this.updatePerfarbsToolStripMenuItem.Size = new System.Drawing.Size(183, 26);
             this.updatePerfarbsToolStripMenuItem.Text = "UpdatePrefabs";
             this.updatePerfarbsToolStripMenuItem.Click += new System.EventHandler(this.updatePrefabsToolStripMenuItem_Click);
+            // 
+            // positionReaderToolStripMenuItem
+            // 
+            this.positionReaderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectCoordinatesToolStripMenuItem,
+            this.drawOnMapALTMToolStripMenuItem});
+            this.positionReaderToolStripMenuItem.Name = "positionReaderToolStripMenuItem";
+            this.positionReaderToolStripMenuItem.Size = new System.Drawing.Size(183, 26);
+            this.positionReaderToolStripMenuItem.Text = "PositionReader";
+            this.positionReaderToolStripMenuItem.Click += new System.EventHandler(this.positionReaderToolStripMenuItem_Click);
+            // 
+            // selectCoordinatesToolStripMenuItem
+            // 
+            this.selectCoordinatesToolStripMenuItem.Name = "selectCoordinatesToolStripMenuItem";
+            this.selectCoordinatesToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
+            this.selectCoordinatesToolStripMenuItem.Text = "SelectCoordinates";
+            this.selectCoordinatesToolStripMenuItem.Click += new System.EventHandler(this.selectCoordinatesToolStripMenuItem_Click);
+            // 
+            // drawOnMapALTMToolStripMenuItem
+            // 
+            this.drawOnMapALTMToolStripMenuItem.Name = "drawOnMapALTMToolStripMenuItem";
+            this.drawOnMapALTMToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
+            this.drawOnMapALTMToolStripMenuItem.Text = "DrawOnMap ALT+NUMPAD4";
+            this.drawOnMapALTMToolStripMenuItem.Click += new System.EventHandler(this.drawOnMapALTMToolStripMenuItem_Click);
             // 
             // groupsToolStripMenuItem
             // 
@@ -227,21 +271,21 @@
             // addGroupToolStripMenuItem
             // 
             this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
-            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.addGroupToolStripMenuItem.Text = "Add Group";
             this.addGroupToolStripMenuItem.Click += new System.EventHandler(this.addGroupToolStripMenuItem_Click);
             // 
             // showBiomesToolStripMenuItem
             // 
             this.showBiomesToolStripMenuItem.Name = "showBiomesToolStripMenuItem";
-            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.showBiomesToolStripMenuItem.Text = "ShowBiomes";
             this.showBiomesToolStripMenuItem.Click += new System.EventHandler(this.showBiomesToolStripMenuItem_Click);
             // 
             // showAllPrefabIconsToolStripMenuItem
             // 
             this.showAllPrefabIconsToolStripMenuItem.Name = "showAllPrefabIconsToolStripMenuItem";
-            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.showAllPrefabIconsToolStripMenuItem.Text = "ShowAllPrefabIcons";
             this.showAllPrefabIconsToolStripMenuItem.Click += new System.EventHandler(this.showAllPrefabIconsToolStripMenuItem_Click);
             // 
@@ -252,7 +296,7 @@
             this.setSpawnPointsBrushColorToolStripMenuItem,
             this.spawnPointsBrushSizeToolStripMenuItem});
             this.spawnPointsToolStripMenuItem.Name = "spawnPointsToolStripMenuItem";
-            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.spawnPointsToolStripMenuItem.Text = "Spawn Points";
             this.spawnPointsToolStripMenuItem.Click += new System.EventHandler(this.spawnPointsToolStripMenuItem_Click);
             // 
@@ -289,13 +333,7 @@
             // delimiterToolStripMenuItem
             // 
             this.delimiterToolStripMenuItem.Name = "delimiterToolStripMenuItem";
-            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(213, 6);
-            // 
-            // coordinatesToolStripTextBox
-            // 
-            this.coordinatesToolStripTextBox.Name = "coordinatesToolStripTextBox";
-            this.coordinatesToolStripTextBox.ReadOnly = true;
-            this.coordinatesToolStripTextBox.Size = new System.Drawing.Size(100, 27);
+            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(212, 6);
             // 
             // coordinates7dtdToolStripTextBox
             // 
@@ -391,6 +429,11 @@
             this.toolTipPanel.TabIndex = 37;
             this.toolTipPanel.Visible = false;
             // 
+            // timerScaleChanged
+            // 
+            this.timerScaleChanged.Interval = 1000;
+            this.timerScaleChanged.Tick += new System.EventHandler(this.timerScaleChanged_Tick);
+            // 
             // HelperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -408,12 +451,14 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "HelperForm";
-            this.Opacity = 0.95D;
+            this.Opacity = 0.8D;
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "3600";
+            this.Activated += new System.EventHandler(this.HelperForm_Activated);
+            this.Deactivate += new System.EventHandler(this.HelperForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HelperForm_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.HelperForm_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HelperForm_MouseDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -437,7 +482,6 @@
         private System.Windows.Forms.ToolStripTextBox sizeToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem sizeCellToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox sizeCellToolStripTextBox;
-        private System.Windows.Forms.ToolStripTextBox coordinatesToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem prefabsXMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem groupsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updatePerfarbsToolStripMenuItem;
@@ -467,6 +511,13 @@
         private System.Windows.Forms.ToolStripTextBox spawnPointsBrushSizeToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem showAllPrefabIconsToolStripMenuItem;
         private System.Windows.Forms.Panel toolTipPanel;
+        private System.Windows.Forms.ToolStripMenuItem positionReaderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectCoordinatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pressLeftKeyALTToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem keepRMBALTNUMPAD1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem drawOnMapALTMToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timerScaleChanged;
     }
 }
 
