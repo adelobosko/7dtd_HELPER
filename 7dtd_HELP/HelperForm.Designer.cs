@@ -74,6 +74,11 @@
             this.toolTipPanel = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timerScaleChanged = new System.Windows.Forms.Timer(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.showCitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
@@ -260,6 +265,7 @@
             // 
             this.groupsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addGroupToolStripMenuItem,
+            this.showCitiesToolStripMenuItem,
             this.showBiomesToolStripMenuItem,
             this.showAllPrefabIconsToolStripMenuItem,
             this.spawnPointsToolStripMenuItem,
@@ -271,21 +277,23 @@
             // addGroupToolStripMenuItem
             // 
             this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
-            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.addGroupToolStripMenuItem.Text = "Add Group";
             this.addGroupToolStripMenuItem.Click += new System.EventHandler(this.addGroupToolStripMenuItem_Click);
             // 
             // showBiomesToolStripMenuItem
             // 
+            this.showBiomesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
             this.showBiomesToolStripMenuItem.Name = "showBiomesToolStripMenuItem";
-            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.showBiomesToolStripMenuItem.Text = "ShowBiomes";
             this.showBiomesToolStripMenuItem.Click += new System.EventHandler(this.showBiomesToolStripMenuItem_Click);
             // 
             // showAllPrefabIconsToolStripMenuItem
             // 
             this.showAllPrefabIconsToolStripMenuItem.Name = "showAllPrefabIconsToolStripMenuItem";
-            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.showAllPrefabIconsToolStripMenuItem.Text = "ShowAllPrefabIcons";
             this.showAllPrefabIconsToolStripMenuItem.Click += new System.EventHandler(this.showAllPrefabIconsToolStripMenuItem_Click);
             // 
@@ -296,7 +304,7 @@
             this.setSpawnPointsBrushColorToolStripMenuItem,
             this.spawnPointsBrushSizeToolStripMenuItem});
             this.spawnPointsToolStripMenuItem.Name = "spawnPointsToolStripMenuItem";
-            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.spawnPointsToolStripMenuItem.Text = "Spawn Points";
             this.spawnPointsToolStripMenuItem.Click += new System.EventHandler(this.spawnPointsToolStripMenuItem_Click);
             // 
@@ -304,7 +312,7 @@
             // 
             this.setIconSpawnPointsToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.setIconSpawnPointsToolStripMenuItem.Name = "setIconSpawnPointsToolStripMenuItem";
-            this.setIconSpawnPointsToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.setIconSpawnPointsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.setIconSpawnPointsToolStripMenuItem.Text = "SetIcon";
             this.setIconSpawnPointsToolStripMenuItem.Click += new System.EventHandler(this.setIconSpawnPointsToolStripMenuItem_Click);
             // 
@@ -312,7 +320,7 @@
             // 
             this.setSpawnPointsBrushColorToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.setSpawnPointsBrushColorToolStripMenuItem.Name = "setSpawnPointsBrushColorToolStripMenuItem";
-            this.setSpawnPointsBrushColorToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.setSpawnPointsBrushColorToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.setSpawnPointsBrushColorToolStripMenuItem.Text = "SetBrushColor";
             this.setSpawnPointsBrushColorToolStripMenuItem.Click += new System.EventHandler(this.setSpawnPointsBrushColorToolStripMenuItem_Click);
             // 
@@ -321,7 +329,7 @@
             this.spawnPointsBrushSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.spawnPointsBrushSizeToolStripTextBox});
             this.spawnPointsBrushSizeToolStripMenuItem.Name = "spawnPointsBrushSizeToolStripMenuItem";
-            this.spawnPointsBrushSizeToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.spawnPointsBrushSizeToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.spawnPointsBrushSizeToolStripMenuItem.Text = "BrushSize";
             // 
             // spawnPointsBrushSizeToolStripTextBox
@@ -333,7 +341,7 @@
             // delimiterToolStripMenuItem
             // 
             this.delimiterToolStripMenuItem.Name = "delimiterToolStripMenuItem";
-            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(212, 6);
+            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(213, 6);
             // 
             // coordinates7dtdToolStripTextBox
             // 
@@ -431,8 +439,45 @@
             // 
             // timerScaleChanged
             // 
-            this.timerScaleChanged.Interval = 1000;
+            this.timerScaleChanged.Interval = 500;
             this.timerScaleChanged.Tick += new System.EventHandler(this.timerScaleChanged_Tick);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox1});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItem2.Text = "Opacity";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 27);
+            this.toolStripTextBox1.Text = "100";
+            // 
+            // showCitiesToolStripMenuItem
+            // 
+            this.showCitiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem4});
+            this.showCitiesToolStripMenuItem.Name = "showCitiesToolStripMenuItem";
+            this.showCitiesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.showCitiesToolStripMenuItem.Text = "ShowCities";
+            this.showCitiesToolStripMenuItem.Click += new System.EventHandler(this.showCitiesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox2});
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(216, 26);
+            this.toolStripMenuItem4.Text = "Opacity";
+            // 
+            // toolStripTextBox2
+            // 
+            this.toolStripTextBox2.Name = "toolStripTextBox2";
+            this.toolStripTextBox2.Size = new System.Drawing.Size(100, 27);
+            this.toolStripTextBox2.Text = "100";
             // 
             // HelperForm
             // 
@@ -518,6 +563,11 @@
         private System.Windows.Forms.ToolStripMenuItem drawOnMapALTMToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timerScaleChanged;
+        private System.Windows.Forms.ToolStripMenuItem showCitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
 

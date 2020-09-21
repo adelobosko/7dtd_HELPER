@@ -387,11 +387,12 @@ namespace _7dtd_HELP
                 }
 
                 //DrawBiomes(map);
-                if (GlobalHelper.Config.Map.IsBiomesShown)
+                if (GlobalHelper.Config.Map.IsCitiesShown)
                 {
                     var bitmap = GlobalHelper.Config.Map.GetCities(scaledSize, scaledSize);
                     if (bitmap != null)
                     {
+                        bitmap = bitmap.ChangeOpacity(GlobalHelper.Config.Map.CitiesOpacity);
                         gr.DrawImage(bitmap, new Point(0, 0));
                     }
                 }
@@ -1219,6 +1220,13 @@ namespace _7dtd_HELP
         {
             RedrawMap();
             timerScaleChanged.Stop();
+        }
+
+        private void showCitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GlobalHelper.Config.Map.IsCitiesShown = !GlobalHelper.Config.Map.IsCitiesShown;
+            showCitiesToolStripMenuItem.Checked = GlobalHelper.Config.Map.IsCitiesShown;
+            RedrawMap();
         }
     }
 }

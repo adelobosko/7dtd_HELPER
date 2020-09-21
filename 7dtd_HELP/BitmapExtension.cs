@@ -80,5 +80,19 @@ namespace _7dtd_HELP
 
             return destImage;
         }
+
+
+        public static Bitmap ChangeOpacity(this Bitmap img, float opacityValue)
+        {
+            var bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
+            Graphics graphics = Graphics.FromImage(bmp);
+            var colorMatrix = new ColorMatrix();
+            colorMatrix.Matrix33 = opacityValue;
+            var imgAttribute = new ImageAttributes();
+            imgAttribute.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+            graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
+            graphics.Dispose();   // Releasing all resource used by graphics 
+            return bmp;
+        }
     }
 }
