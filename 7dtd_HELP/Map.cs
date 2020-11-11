@@ -20,9 +20,8 @@ namespace _7dtd_HELP
         public static readonly int DefaultSize = 6144;
         public static readonly int DefaultScale = 1;
         public static readonly int DefaultToolTipRadius = 100;
-
-        public Bitmap Biomes;
-
+        
+       
         public string Name { get; set; }
         public string DirectoryPath { get; set; }
         public string Description { get; set; }
@@ -36,15 +35,12 @@ namespace _7dtd_HELP
         public int Size { get; set; }
         public int ToolTipRadius { get; set; }
         public int Scale { get; set; }
-        public bool IsBiomesShown { get; set; }
         public bool IsShowAllPrefabIcons { get; set; }
         //public List<MapObjectCollection> MapObjects { get; set; }
         public MapObjectCollection SpawnPoints { get; set; }
         public List<MapPoint> Prefabs { get; }
-        public Bitmap Cities { get; set; }
-        public bool IsCitiesShown { get; set; }
-        public int CitiesOpacity { get; set; }
-        public int BiomesOpacity { get; set; }
+        public DrawableImage Cities { get; set; }
+        public DrawableImage Biomes;
 
         public Map()
         {
@@ -66,8 +62,10 @@ namespace _7dtd_HELP
             };
             IsShowAllPrefabIcons = true;
             ToolTipRadius = DefaultToolTipRadius;
-            CitiesOpacity = 100;
-            BiomesOpacity = 100;
+            Biomes = new DrawableImage(this, Path.Combine("World", "biomes.png"));
+            Cities = new DrawableImage(this, Path.Combine("World", "splat3_processed.png"));
+            Cities.Options.Add("ReplaceAlpha", "255");
+            Cities.Options.Add("ReplaceBlackAsAlpha", "0");
         }
 
         public void Draw(IMapDrawer mapDrawer)
@@ -111,79 +109,6 @@ namespace _7dtd_HELP
 
     public static class MapExtension
     {
-        public static Bitmap GetBiomes(this Map map, int width = 0, int height = 0)
-        {
-            if (map.Biomes != null)
-            {
-                if (width == 0 && height == 0 || width == map.Biomes.Width && height == map.Biomes.Height)
-                {
-                    return map.Biomes;
-                }
-
-                return map.Biomes.ResizeImage(width, height);
-            }
-
-            var biomesFile = Path.Combine(map.DirectoryPath, "World", "biomes.png");
-            if (!File.Exists(biomesFile))
-            {
-                return null;
-            }
-            map.Biomes = (Bitmap)Image.FromFile(biomesFile);
-
-            if (width == 0 && height == 0)
-            {
-                return map.Biomes;
-            }
-
-            return map.Biomes.ResizeImage(width, height);
-        }
-
-        public static Bitmap GetCities(this Map map, int width = 0, int height = 0)
-        {
-            if (map.Cities != null)
-            {
-                if (width == 0 && height == 0 || width == map.Cities.Width && height == map.Cities.Height)
-                {
-                    return map.Cities;
-                }
-
-                return map.Cities.ResizeImage(width, height);
-            }
-
-            var citiesFile = Path.Combine(map.DirectoryPath, "World", "splat3_processed.png");
-            if (!File.Exists(citiesFile))
-            {
-                return null;
-            }
-
-            using (var bmp = new Bitmap(citiesFile))
-            {
-                var newBMP = new Bitmap(bmp.Width, bmp.Height);
-                for (var i = 0; i < bmp.Width; i++)
-                {
-                    for (var j = 0; j < bmp.Height; j++)
-                    {
-                        var pixel = bmp.GetPixel(i, j);
-                        if (pixel.A == 0 && pixel.R == 0 && pixel.G == 0 & pixel.B == 0)
-                        {
-                            newBMP.SetPixel(i,j, Color.Transparent);
-                            continue;
-                        }
-
-                        newBMP.SetPixel(i, j, Color.FromArgb(255 , pixel.R, pixel.G, pixel.B));
-                    }
-                }
-
-                map.Cities = newBMP;
-
-                if (width == 0 && height == 0 || width == map.Cities.Width && height == map.Cities.Height)
-                {
-                    return map.Cities;
-                }
-
-                return map.Cities.ResizeImage(width, height);
-            }
-        }
 
         public static void Save(this Map map)
         {

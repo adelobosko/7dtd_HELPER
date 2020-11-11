@@ -67,7 +67,7 @@
             this.heightTextBox.Name = "heightTextBox";
             this.heightTextBox.Size = new System.Drawing.Size(257, 34);
             this.heightTextBox.TabIndex = 6;
-            this.heightTextBox.Text = "-1";
+            this.heightTextBox.Text = "20";
             this.heightTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.heightTextBox.TextChanged += new System.EventHandler(this.heightTextBox_TextChanged);
             // 
@@ -88,7 +88,7 @@
             this.widthTextBox.Name = "widthTextBox";
             this.widthTextBox.Size = new System.Drawing.Size(257, 34);
             this.widthTextBox.TabIndex = 4;
-            this.widthTextBox.Text = "-1";
+            this.widthTextBox.Text = "20";
             this.widthTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.widthTextBox.TextChanged += new System.EventHandler(this.widthTextBox_TextChanged);
             // 
@@ -184,6 +184,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "SetIconForm";
             this.Text = "SetIcon";
+            this.Load += new System.EventHandler(this.SetIconForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

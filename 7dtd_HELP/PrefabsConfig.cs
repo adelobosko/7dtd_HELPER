@@ -43,7 +43,14 @@ namespace _7dtd_HELP
 
             if (File.Exists(GlobalHelper.Paths.PrefabsZipFile))
             {
-                File.Delete(GlobalHelper.Paths.PrefabsZipFile);
+                try
+                {
+                    File.Delete(GlobalHelper.Paths.PrefabsZipFile);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
             GlobalHelper.UpdateStatus?.Invoke("Clearing prefabs cache", "Clearing prefabs cache...", 50);
 

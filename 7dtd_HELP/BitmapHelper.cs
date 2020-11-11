@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace _7dtd_HELP
 {
-    public static class BitmapExtension
+    public static class BitmapHelper
     {
 
         public static Bitmap CropAtRect(this Bitmap b, Rectangle r)
@@ -38,12 +39,12 @@ namespace _7dtd_HELP
             var g = Graphics.FromImage(bmp);
             g.DrawImage(b, 0, 0);
             for (var y = 0; y < bmp.Height; y++)
-            for (var x = 0; x < bmp.Width; x++)
-            {
-                var c = bmp.GetPixel(x, y);
-                var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
-                bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
-            }
+                for (var x = 0; x < bmp.Width; x++)
+                {
+                    var c = bmp.GetPixel(x, y);
+                    var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
+                    bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+                }
 
             return bmp;
 
@@ -93,6 +94,20 @@ namespace _7dtd_HELP
             graphics.DrawImage(img, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAttribute);
             graphics.Dispose();   // Releasing all resource used by graphics 
             return bmp;
+        }
+
+        public static byte[] ToBytes(this Bitmap img)
+        {
+            var converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(img, typeof(byte[]));
+        }
+
+        public static Bitmap BytesToBitmap(byte[] bytes)
+        {
+            using (var ms = new MemoryStream(bytes))
+            {
+                return (Bitmap)System.Drawing.Image.FromStream(ms);
+            }
         }
     }
 }

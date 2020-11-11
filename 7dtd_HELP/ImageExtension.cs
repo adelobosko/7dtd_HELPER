@@ -30,5 +30,11 @@ namespace _7dtd_HELP
 
             return destImage;
         }
+
+        public static byte[] ToBytes(this Image img)
+        {
+            var converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(img, typeof(byte[]));
+        }
     }
 }

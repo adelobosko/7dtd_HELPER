@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace _7dtd_HELP
 {
@@ -39,13 +38,13 @@ namespace _7dtd_HELP
                     foreach (var row in rows)
                     {
                         var cols = row.Split(new[] { "</td>" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (cols.Length == 2)
+                        if (cols.Length == 3)
                         {
 
                             var block = new PrefabBlock()
                             {
                                 Name = cols[0],
-                                Count = Convert.ToInt32(cols[1])
+                                Count = Convert.ToInt32(cols[2])
                             };
                             blocks.Add(block);
                         }

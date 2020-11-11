@@ -83,8 +83,8 @@ namespace _7dtd_HELP
                     Icon = new Icon()
                     {
                         FullName = openFileDialog.FileName,
-                        Width = -1,
-                        Height = -1,
+                        Width = 20,
+                        Height = 20,
                         IsShow = true
                     };
                     PreviewIcon();
@@ -109,6 +109,11 @@ namespace _7dtd_HELP
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void SetIconForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

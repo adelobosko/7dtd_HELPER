@@ -82,7 +82,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapExtension.cs" />
+    <Compile Include="Automation\AutomationConfig.cs" />
+    <Compile Include="Automation\IDelayable.cs" />
+    <Compile Include="Automation\IPressable.cs" />
+    <Compile Include="Automation\DelayableMouseButtonClick.cs" />
+    <Compile Include="BitmapHelper.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DecorationGroup.cs" />
     <Compile Include="GlobalHelper.cs" />
@@ -93,9 +97,11 @@
       <DependentUpon>GroupPrefabsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageExtension.cs" />
+    <Compile Include="ImagePacket.cs" />
     <Compile Include="IMapDrawer.cs" />
     <Compile Include="IMapLoader.cs" />
     <Compile Include="InputSet.cs" />
+    <Compile Include="Logger\Logger.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapObjectNearBy.cs" />
     <Compile Include="MapPoint.cs" />
@@ -125,6 +131,9 @@
       <DependentUpon>SetIconForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FineReaderService.cs" />
+    <Compile Include="TimerExtension.cs" />
+    <Compile Include="ValveMonitoring\A2S_INFO.cs" />
+    <Compile Include="ValveMonitoring\ValveMonitoring.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WinAPI.cs" />
     <Compile Include="SnapShotService.cs" />
@@ -176,6 +185,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

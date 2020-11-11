@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -16,6 +15,7 @@ namespace _7dtd_HELP
         public List<DecorationGroup> DecorationGroups { get; set; }
         public PrefabsConfig PrefabsConfig { get; set; }
         public Rectangle CoordinatesRectangle { get; set; }
+        public Point CurrentMapCenterGameCoordinates { get; set; }
 
         public Config()
         {
