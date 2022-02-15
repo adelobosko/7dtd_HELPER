@@ -16,7 +16,7 @@ namespace _7dtd_HELP
         [JsonIgnore]
         public readonly Map Map;
 
-
+        [JsonIgnore]
         public ImagePacket Image { get; set; }
         public bool IsShown { get; set; }
         public int Opacity
@@ -39,6 +39,12 @@ namespace _7dtd_HELP
             }
         }
         public Dictionary<string, string> Options { get; set; }
+
+        public static class DrawableImageOptions
+        {
+            public static readonly string ReplaceAlpha = "ReplaceAlpha";
+            public static readonly string ReplaceBlackAsAlpha = "ReplaceBlackAsAlpha";
+        }
 
         public string FilePath
         {
@@ -76,122 +82,67 @@ namespace _7dtd_HELP
                 return null;
             }
 
+            bmp = new Bitmap(FilePath);
+            var replaceAlpha = -1;
+            var replaceBlackAsAlpha = -1;
 
-            using (bmp = new Bitmap(FilePath))
+            if (Options.ContainsKey(DrawableImageOptions.ReplaceAlpha))
             {
-                var replaceAlpha = -1;
-                var replaceBlackAsAlpha = -1;
-                if (Options.ContainsKey("ReplaceAlpha"))
-                {
-                    var value = Options["ReplaceAlpha"];
-                    int.TryParse(value, out replaceAlpha);
-                }
-                if (Options.ContainsKey("ReplaceBlackAsAlpha"))
-                {
-                    var value = Options["ReplaceBlackAsAlpha"];
-                    int.TryParse(value, out replaceBlackAsAlpha);
-                }
-
-                if (replaceAlpha != -1)
-                {
-                    var newBMP = new Bitmap(bmp.Width, bmp.Height);
-                    for (var i = 0; i < bmp.Width; i++)
-                    {
-                        for (var j = 0; j < bmp.Height; j++)
-                        {
-                            var pixel = bmp.GetPixel(i, j);
-                            if (replaceBlackAsAlpha != -1 && pixel.A == 0 && pixel.R == 0 && pixel.G == 0 & pixel.B == 0)
-                            {
-                                newBMP.SetPixel(i, j, Color.Transparent);
-                                continue;
-                            }
-
-                            newBMP.SetPixel(i, j, Color.FromArgb(replaceAlpha, pixel.R, pixel.G, pixel.B));
-                        }
-                    }
-
-                    bmp = newBMP;
-
-                }
-                Image = new ImagePacket(bmp);
-
-                if (width == 0 && height == 0 || width == bmp.Width && height == bmp.Height)
-                {
-                    return bmp;
-                }
-
-                return bmp.ResizeImage(width, height);
+                var value = Options[DrawableImageOptions.ReplaceAlpha];
+                int.TryParse(value, out replaceAlpha);
             }
+
+            if (Options.ContainsKey(DrawableImageOptions.ReplaceBlackAsAlpha))
+            {
+                var value = Options[DrawableImageOptions.ReplaceBlackAsAlpha];
+                int.TryParse(value, out replaceBlackAsAlpha);
+            }
+
+            if (replaceAlpha != -1 || replaceBlackAsAlpha != -1)
+            {
+                var newBmp = new Bitmap(bmp.Width, bmp.Height);
+                var lockedNewBitmap = new LockBitmap(newBmp);
+                lockedNewBitmap.LockBits();
+
+                var lockedBitmap = new LockBitmap(bmp);
+                lockedBitmap.LockBits();
+
+
+                Parallel.For(0, lockedNewBitmap.Width, i =>
+                {
+                    for (var j = 0; j < lockedNewBitmap.Height; j++)
+                    {
+                        var pixel = lockedBitmap.GetPixel(i, j);
+                        if (replaceBlackAsAlpha != -1 && pixel.A == 0 && pixel.R == 0 && pixel.G == 0 & pixel.B == 0)
+                        {
+                            lockedNewBitmap.SetPixel(i, j, Color.Transparent);
+                            continue;
+                        }
+
+                        lockedNewBitmap.SetPixel(i, j, Color.FromArgb(replaceAlpha, pixel.R, pixel.G, pixel.B));
+                    }
+                });
+
+                lockedBitmap.UnlockBits();
+                lockedNewBitmap.UnlockBits();
+
+                bmp = newBmp;
+                Image = new ImagePacket(newBmp);
+            }
+
+            if (width == 0 && height == 0 || width == bmp.Width && height == bmp.Height)
+            {
+                return bmp;
+            }
+
+            return bmp.ResizeImage(width, height);
         }
 
         public async Task<Bitmap> GetBitmapAsync(int width = 0, int height = 0)
         {
             return await new Task<Bitmap>(() =>
             {
-                var bmp = Image?.GetBitmap();
-                if (bmp != null)
-                {
-                    if (width == 0 && height == 0 || width == bmp.Width && height == bmp.Height)
-                    {
-                        return bmp;
-                    }
-
-                    return bmp.ResizeImage(width, height);
-                }
-
-
-                if (!File.Exists(FilePath))
-                {
-                    return null;
-                }
-
-
-                using (bmp = new Bitmap(FilePath))
-                {
-                    var replaceAlpha = -1;
-                    var replaceBlackAsAlpha = -1;
-                    if (Options.ContainsKey("ReplaceAlpha"))
-                    {
-                        var value = Options["ReplaceAlpha"];
-                        int.TryParse(value, out replaceAlpha);
-                    }
-                    if (Options.ContainsKey("ReplaceBlackAsAlpha"))
-                    {
-                        var value = Options["ReplaceBlackAsAlpha"];
-                        int.TryParse(value, out replaceBlackAsAlpha);
-                    }
-
-                    if (replaceAlpha != -1)
-                    {
-                        var newBMP = new Bitmap(bmp.Width, bmp.Height);
-                        for (var i = 0; i < bmp.Width; i++)
-                        {
-                            for (var j = 0; j < bmp.Height; j++)
-                            {
-                                var pixel = bmp.GetPixel(i, j);
-                                if (replaceBlackAsAlpha != -1 && pixel.A == 0 && pixel.R == 0 && pixel.G == 0 & pixel.B == 0)
-                                {
-                                    newBMP.SetPixel(i, j, Color.Transparent);
-                                    continue;
-                                }
-
-                                newBMP.SetPixel(i, j, Color.FromArgb(replaceAlpha, pixel.R, pixel.G, pixel.B));
-                            }
-                        }
-
-                        bmp = newBMP;
-
-                    }
-                    Image = new ImagePacket(bmp);
-
-                    if (width == 0 && height == 0 || width == bmp.Width && height == bmp.Height)
-                    {
-                        return bmp;
-                    }
-
-                    return bmp.ResizeImage(width, height);
-                }
-
+                return GetBitmap(width, height);
             });
         }
     }

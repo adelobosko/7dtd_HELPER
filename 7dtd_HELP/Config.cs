@@ -5,17 +5,26 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using System;
 
 namespace _7dtd_HELP
 {
     public class Config
     {
+        [JsonIgnore]
         public Map Map { get; set; }
+
         public List<string> Maps { get; set; }
+
+        [JsonIgnore]
         public List<DecorationGroup> DecorationGroups { get; set; }
+
+        [JsonIgnore]
         public PrefabsConfig PrefabsConfig { get; set; }
+
         public Rectangle CoordinatesRectangle { get; set; }
         public Point CurrentMapCenterGameCoordinates { get; set; }
+
 
         public Config()
         {
@@ -31,8 +40,35 @@ namespace _7dtd_HELP
             {
                 config.Save();
             }
+
             var jsonString = File.ReadAllText(GlobalHelper.Paths.ConfigFile);
-            return JsonConvert.DeserializeObject<Config>(jsonString);
+            config = JsonConvert.DeserializeObject<Config>(jsonString);
+
+            try
+            {
+                config.Map = Map.Load(config.Maps.First());
+            }
+            catch (ArgumentException ex)
+            {
+                config.Map = new Map();
+            }
+
+            config.PrefabsConfig = LoadPrefabsConfig();
+            config.DecorationGroups = LoadDecorationGroups();
+
+            return config;
+        }
+
+        private static PrefabsConfig LoadPrefabsConfig()
+        {
+            var jsonString = File.ReadAllText(GlobalHelper.Paths.PrefabsConfig);
+            return JsonConvert.DeserializeObject<PrefabsConfig>(jsonString);
+        }
+
+        private static List<DecorationGroup> LoadDecorationGroups()
+        {
+            var jsonString = File.ReadAllText(GlobalHelper.Paths.DecorationGroups);
+            return JsonConvert.DeserializeObject<List<DecorationGroup>>(jsonString);
         }
     }
 
@@ -56,8 +92,28 @@ namespace _7dtd_HELP
             }
             config.Map.Save();
 
-            var jsonString = JsonConvert.SerializeObject(config);
-            File.WriteAllText(GlobalHelper.Paths.ConfigFile, jsonString);
+            config.Maps.Remove(config.Map.Name);
+            config.Maps.Insert(0, config.Map.Name);
+
+            var json = JsonConvert.SerializeObject(config);
+            File.WriteAllText(GlobalHelper.Paths.ConfigFile, json);
+
+            SavePrefabsConfig(config);
+            SaveDecorationGroups(config);
+        }
+
+
+        public static void SavePrefabsConfig(Config config)
+        {
+            var json = JsonConvert.SerializeObject(config.PrefabsConfig);
+            File.WriteAllText(GlobalHelper.Paths.PrefabsConfig, json);
+        }
+
+
+        public static void SaveDecorationGroups(Config config)
+        {
+            var json = JsonConvert.SerializeObject(config.DecorationGroups);
+            File.WriteAllText(GlobalHelper.Paths.DecorationGroups, json);
         }
     }
 }

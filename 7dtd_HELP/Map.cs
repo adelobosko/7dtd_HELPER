@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace _7dtd_HELP
 {
@@ -41,6 +37,7 @@ namespace _7dtd_HELP
         public List<MapPoint> Prefabs { get; }
         public DrawableImage Cities { get; set; }
         public DrawableImage Biomes;
+        public DrawableImage Radiation;
 
         public Map()
         {
@@ -63,9 +60,15 @@ namespace _7dtd_HELP
             IsShowAllPrefabIcons = true;
             ToolTipRadius = DefaultToolTipRadius;
             Biomes = new DrawableImage(this, Path.Combine("World", "biomes.png"));
+
+            Radiation = new DrawableImage(this, Path.Combine("World", "radiation.png"));
+
             Cities = new DrawableImage(this, Path.Combine("World", "splat3_processed.png"));
-            Cities.Options.Add("ReplaceAlpha", "255");
-            Cities.Options.Add("ReplaceBlackAsAlpha", "0");
+            Cities.Options = new Dictionary<string, string>()
+            {
+                { DrawableImage.DrawableImageOptions.ReplaceAlpha, "255" },
+                { DrawableImage.DrawableImageOptions.ReplaceBlackAsAlpha, "0" }
+            };
         }
 
         public void Draw(IMapDrawer mapDrawer)
@@ -80,7 +83,9 @@ namespace _7dtd_HELP
             if (!File.Exists(path))
             {
                 MessageBox.Show($"Path {path} is not exist!");
+                throw new ArgumentException($"{path} not found");
             }
+
             var jsonString = File.ReadAllText(path);
             return JsonConvert.DeserializeObject<Map>(jsonString);
         }
@@ -121,14 +126,11 @@ namespace _7dtd_HELP
                 Directory.CreateDirectory(GlobalHelper.Paths.MapsDirectory);
             }
 
-            if (map.Name == Map.DefaultName)
-            {
-                return;
-            }
             var path = Path.Combine(GlobalHelper.Paths.MapsDirectory, $"{map.Name}.json");
             var jsonString = JsonConvert.SerializeObject(map);
             File.WriteAllText(path, jsonString);
         }
+
 
         public static void LoadPrefabs(this Map map, string filename, IMapLoader mapLoader)
         {
@@ -142,6 +144,7 @@ namespace _7dtd_HELP
             map.Prefabs.Clear();
             map.Prefabs.AddRange(mapPoints);
         }
+
 
         public static void LoadMapInfo(this Map map, string filename)
         {
@@ -160,6 +163,7 @@ namespace _7dtd_HELP
 
             map.Size = Convert.ToInt32(sizeString);
         }
+
 
         public static void LoadSpawnPoints(this Map map, string filename)
         {

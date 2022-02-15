@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace _7dtd_HELP
 {
@@ -11,52 +12,94 @@ namespace _7dtd_HELP
 
         public static Bitmap CropAtRect(this Bitmap b, Rectangle r)
         {
-            Bitmap nb = new Bitmap(r.Width, r.Height);
-            Graphics g = Graphics.FromImage(nb);
+            Bitmap newBitmap = new Bitmap(r.Width, r.Height);
+            Graphics g = Graphics.FromImage(newBitmap);
             g.DrawImage(b, -r.X, -r.Y);
-            return nb;
+            return newBitmap;
         }
 
-        public static Bitmap ToGrayScale(this Bitmap b)
-        {
-            var bmp = new Bitmap(b.Width, b.Height);
-            var g = Graphics.FromImage(bmp);
-            g.DrawImage(b, 0, 0);
-            for (var y = 0; y < bmp.Height; y++)
-                for (var x = 0; x < bmp.Width; x++)
-                {
-                    var c = bmp.GetPixel(x, y);
-                    var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
-                    bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
-                }
-
-            return bmp;
-        }
-
-        public static Image ToGrayScale(this Image b)
-        {
-            var bmp = new Bitmap(b.Width, b.Height);
-            var g = Graphics.FromImage(bmp);
-            g.DrawImage(b, 0, 0);
-            for (var y = 0; y < bmp.Height; y++)
-                for (var x = 0; x < bmp.Width; x++)
-                {
-                    var c = bmp.GetPixel(x, y);
-                    var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
-                    bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
-                }
-
-            return bmp;
-
-        }
 
         public static Image CropAtRect(this Image b, Rectangle r)
         {
-            Bitmap nb = new Bitmap(r.Width, r.Height);
-            Graphics g = Graphics.FromImage(nb);
-            g.DrawImage(b, -r.X, -r.Y);
-            return nb;
+            return CropAtRect((Bitmap)b, r);
         }
+
+
+        public static Bitmap ToGrayScale(this Bitmap b)
+        {
+            var newBmp = new Bitmap(b.Width, b.Height);
+            var g = Graphics.FromImage(newBmp);
+            g.DrawImage(b, 0, 0);
+
+            var lockedBitmap = new LockBitmap(newBmp);
+            lockedBitmap.LockBits();
+
+            Parallel.For(0, lockedBitmap.Height, y =>
+            {
+                for (int x = 0; x < lockedBitmap.Width; x++)
+                {
+                    var c = lockedBitmap.GetPixel(x, y);
+                    var rgb = (int)Math.Round(.299 * c.R + .587 * c.G + .114 * c.B);
+                    lockedBitmap.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
+                }
+            });
+
+            lockedBitmap.UnlockBits();
+
+            return newBmp;
+        }
+
+
+        public static Image ToGrayScale(this Image b)
+        {
+            return ToGrayScale((Bitmap)b);
+        }
+
+
+        public static void ReplaceColor(Bitmap bmp, Color oldColor, Color newColor)
+        {
+            var lockedBitmap = new LockBitmap(bmp);
+            lockedBitmap.LockBits();
+
+            Parallel.For(0, lockedBitmap.Height, y =>
+            {
+                for (int x = 0; x < lockedBitmap.Width; x++)
+                {
+                    if (lockedBitmap.GetPixel(x, y) == oldColor)
+                    {
+                        lockedBitmap.SetPixel(x, y, newColor);
+                    }
+                }
+            });
+
+            lockedBitmap.UnlockBits();
+        }
+
+
+        public static void ReplaceAlpha(Bitmap bmp, int newAlpha, int alphaToReplace = -1)
+        {
+            var lockedBitmap = new LockBitmap(bmp);
+            lockedBitmap.LockBits();
+
+            Parallel.For(0, lockedBitmap.Height, y =>
+            {
+                for (int x = 0; x < lockedBitmap.Width; x++)
+                {
+                    var pixel = lockedBitmap.GetPixel(x, y);
+
+                    if (alphaToReplace != -1 && pixel.A != alphaToReplace)
+                    {
+                        continue;
+                    }
+
+                    lockedBitmap.SetPixel(x, y, Color.FromArgb(newAlpha, pixel.R, pixel.G, pixel.B));
+                }
+            });
+
+            lockedBitmap.UnlockBits();
+        }
+
+
         public static Bitmap ResizeImage(this Bitmap image, int width, int height)
         {
             var destRect = new Rectangle(0, 0, width, height);
@@ -96,11 +139,13 @@ namespace _7dtd_HELP
             return bmp;
         }
 
+
         public static byte[] ToBytes(this Bitmap img)
         {
             var converter = new ImageConverter();
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
+
 
         public static Bitmap BytesToBitmap(byte[] bytes)
         {

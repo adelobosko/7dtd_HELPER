@@ -101,6 +101,7 @@
     <Compile Include="IMapDrawer.cs" />
     <Compile Include="IMapLoader.cs" />
     <Compile Include="InputSet.cs" />
+    <Compile Include="LockBitmap.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapObjectNearBy.cs" />

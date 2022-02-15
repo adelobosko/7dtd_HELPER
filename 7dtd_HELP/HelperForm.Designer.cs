@@ -60,8 +60,9 @@
             this.groupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.citiesOpacityToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.showRadiationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.radiationOpacityToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.showBiomesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.biomesOpacityToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
@@ -79,10 +80,37 @@
             this.portToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.serverAboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkPlayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delayToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkPlayersDelayToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.typeCheckToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.checkNToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.serverStatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getDayTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delayToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.getDayTimeDelayToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.beepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.frequencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepFreqyencyToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.durationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepDurationToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepIfDayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepIfDayToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.nToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepIfDayNToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.kToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepIfDayKToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.beepIfTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nTimeKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepIfTimeNToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.kToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.beepIfTimeKToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.coordinates7dtdToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.coordsToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.isClearEveryNewRequestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -96,35 +124,10 @@
             this.redrawExecuteTimer = new System.Windows.Forms.Timer(this.components);
             this.logPanel = new System.Windows.Forms.Panel();
             this.logTextBox = new System.Windows.Forms.TextBox();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.isClearEveryNewRequestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.delayToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkPlayersDelayToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.typeCheckToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.checkServerPlayersTimer = new System.Windows.Forms.Timer(this.components);
-            this.checkNToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.getDayTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serverStatsTimer = new System.Windows.Forms.Timer(this.components);
-            this.delayToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.getDayTimeDelayToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.beepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.frequencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.durationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beepFreqyencyToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.beepDurationToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beepIfDayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beepIfDayToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.nToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beepIfDayNToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.kToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.beepIfDayKToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.beepIfTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nTimeKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.kToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.beepIfTimeNToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
-            this.beepIfTimeKToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.citiesOpacityToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
@@ -364,6 +367,7 @@
             this.groupsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addGroupToolStripMenuItem,
             this.showCitiesToolStripMenuItem,
+            this.showRadiationToolStripMenuItem,
             this.showBiomesToolStripMenuItem,
             this.showAllPrefabIconsToolStripMenuItem,
             this.spawnPointsToolStripMenuItem,
@@ -375,40 +379,49 @@
             // addGroupToolStripMenuItem
             // 
             this.addGroupToolStripMenuItem.Name = "addGroupToolStripMenuItem";
-            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.addGroupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addGroupToolStripMenuItem.Text = "Add Group";
             this.addGroupToolStripMenuItem.Click += new System.EventHandler(this.addGroupToolStripMenuItem_Click);
             // 
             // showCitiesToolStripMenuItem
             // 
             this.showCitiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4});
+            this.toolStripMenuItem5});
             this.showCitiesToolStripMenuItem.Name = "showCitiesToolStripMenuItem";
-            this.showCitiesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.showCitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showCitiesToolStripMenuItem.Text = "ShowCities";
             this.showCitiesToolStripMenuItem.Click += new System.EventHandler(this.showCitiesToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem4
+            // showRadiationToolStripMenuItem
             // 
-            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.citiesOpacityToolStripTextBox});
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(115, 22);
-            this.toolStripMenuItem4.Text = "Opacity";
+            this.showRadiationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem6});
+            this.showRadiationToolStripMenuItem.Name = "showRadiationToolStripMenuItem";
+            this.showRadiationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showRadiationToolStripMenuItem.Text = "ShowRadiation";
+            this.showRadiationToolStripMenuItem.Click += new System.EventHandler(this.showRadiationToolStripMenuItem_Click);
             // 
-            // citiesOpacityToolStripTextBox
+            // toolStripMenuItem6
             // 
-            this.citiesOpacityToolStripTextBox.Name = "citiesOpacityToolStripTextBox";
-            this.citiesOpacityToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.citiesOpacityToolStripTextBox.Text = "100";
-            this.citiesOpacityToolStripTextBox.TextChanged += new System.EventHandler(this.citiesOpacityToolStripTextBox_TextChanged);
+            this.toolStripMenuItem6.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.radiationOpacityToolStripTextBox});
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(115, 22);
+            this.toolStripMenuItem6.Text = "Opacity";
+            // 
+            // radiationOpacityToolStripTextBox
+            // 
+            this.radiationOpacityToolStripTextBox.Name = "radiationOpacityToolStripTextBox";
+            this.radiationOpacityToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.radiationOpacityToolStripTextBox.Text = "100";
+            this.radiationOpacityToolStripTextBox.TextChanged += new System.EventHandler(this.radiationOpacityToolStripTextBox_TextChanged);
             // 
             // showBiomesToolStripMenuItem
             // 
             this.showBiomesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2});
             this.showBiomesToolStripMenuItem.Name = "showBiomesToolStripMenuItem";
-            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.showBiomesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showBiomesToolStripMenuItem.Text = "ShowBiomes";
             this.showBiomesToolStripMenuItem.Click += new System.EventHandler(this.showBiomesToolStripMenuItem_Click);
             // 
@@ -430,7 +443,7 @@
             // showAllPrefabIconsToolStripMenuItem
             // 
             this.showAllPrefabIconsToolStripMenuItem.Name = "showAllPrefabIconsToolStripMenuItem";
-            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.showAllPrefabIconsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showAllPrefabIconsToolStripMenuItem.Text = "ShowAllPrefabIcons";
             this.showAllPrefabIconsToolStripMenuItem.Click += new System.EventHandler(this.showAllPrefabIconsToolStripMenuItem_Click);
             // 
@@ -441,7 +454,7 @@
             this.setSpawnPointsBrushColorToolStripMenuItem,
             this.spawnPointsBrushSizeToolStripMenuItem});
             this.spawnPointsToolStripMenuItem.Name = "spawnPointsToolStripMenuItem";
-            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.spawnPointsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.spawnPointsToolStripMenuItem.Text = "Spawn Points";
             this.spawnPointsToolStripMenuItem.Click += new System.EventHandler(this.spawnPointsToolStripMenuItem_Click);
             // 
@@ -478,7 +491,7 @@
             // delimiterToolStripMenuItem
             // 
             this.delimiterToolStripMenuItem.Name = "delimiterToolStripMenuItem";
-            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(176, 6);
+            this.delimiterToolStripMenuItem.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItem3
             // 
@@ -496,7 +509,7 @@
             this.ipToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ipToolStripTextBox});
             this.ipToolStripMenuItem.Name = "ipToolStripMenuItem";
-            this.ipToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ipToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.ipToolStripMenuItem.Text = "IP";
             // 
             // ipToolStripTextBox
@@ -509,7 +522,7 @@
             this.portToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.portToolStripTextBox});
             this.portToolStripMenuItem.Name = "portToolStripMenuItem";
-            this.portToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.portToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.portToolStripMenuItem.Text = "Port";
             // 
             // portToolStripTextBox
@@ -522,7 +535,7 @@
             this.serverAboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.checkPlayersToolStripMenuItem});
             this.serverAboutToolStripMenuItem.Name = "serverAboutToolStripMenuItem";
-            this.serverAboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.serverAboutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.serverAboutToolStripMenuItem.Text = "ServerAbout";
             this.serverAboutToolStripMenuItem.Click += new System.EventHandler(this.serverAboutToolStripMenuItem_Click);
             // 
@@ -533,18 +546,212 @@
             this.typeCheckToolStripComboBox,
             this.checkNToolStripTextBox});
             this.checkPlayersToolStripMenuItem.Name = "checkPlayersToolStripMenuItem";
-            this.checkPlayersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkPlayersToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.checkPlayersToolStripMenuItem.Text = "CheckPlayers";
             this.checkPlayersToolStripMenuItem.Click += new System.EventHandler(this.checkPlayersToolStripMenuItem_Click);
+            // 
+            // delayToolStripMenuItem2
+            // 
+            this.delayToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkPlayersDelayToolStripTextBox});
+            this.delayToolStripMenuItem2.Name = "delayToolStripMenuItem2";
+            this.delayToolStripMenuItem2.Size = new System.Drawing.Size(181, 22);
+            this.delayToolStripMenuItem2.Text = "Delay";
+            // 
+            // checkPlayersDelayToolStripTextBox
+            // 
+            this.checkPlayersDelayToolStripTextBox.Name = "checkPlayersDelayToolStripTextBox";
+            this.checkPlayersDelayToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.checkPlayersDelayToolStripTextBox.Text = "1000";
+            this.checkPlayersDelayToolStripTextBox.Click += new System.EventHandler(this.checkPlayersDelayToolStripTextBox_Click);
+            // 
+            // typeCheckToolStripComboBox
+            // 
+            this.typeCheckToolStripComboBox.Items.AddRange(new object[] {
+            "< max",
+            "< max - N",
+            "< N",
+            "> N"});
+            this.typeCheckToolStripComboBox.Name = "typeCheckToolStripComboBox";
+            this.typeCheckToolStripComboBox.Size = new System.Drawing.Size(121, 23);
+            // 
+            // checkNToolStripTextBox
+            // 
+            this.checkNToolStripTextBox.Name = "checkNToolStripTextBox";
+            this.checkNToolStripTextBox.Size = new System.Drawing.Size(100, 23);
             // 
             // serverStatsToolStripMenuItem
             // 
             this.serverStatsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.getDayTimeToolStripMenuItem});
             this.serverStatsToolStripMenuItem.Name = "serverStatsToolStripMenuItem";
-            this.serverStatsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.serverStatsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.serverStatsToolStripMenuItem.Text = "ServerStats";
             this.serverStatsToolStripMenuItem.Click += new System.EventHandler(this.serverStatsToolStripMenuItem_Click);
+            // 
+            // getDayTimeToolStripMenuItem
+            // 
+            this.getDayTimeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.delayToolStripMenuItem3,
+            this.beepToolStripMenuItem,
+            this.beepIfDayToolStripMenuItem,
+            this.beepIfTimeToolStripMenuItem});
+            this.getDayTimeToolStripMenuItem.Name = "getDayTimeToolStripMenuItem";
+            this.getDayTimeToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.getDayTimeToolStripMenuItem.Text = "GetDayTime";
+            this.getDayTimeToolStripMenuItem.Click += new System.EventHandler(this.getDayTimeToolStripMenuItem_Click);
+            // 
+            // delayToolStripMenuItem3
+            // 
+            this.delayToolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getDayTimeDelayToolStripTextBox});
+            this.delayToolStripMenuItem3.Name = "delayToolStripMenuItem3";
+            this.delayToolStripMenuItem3.Size = new System.Drawing.Size(134, 22);
+            this.delayToolStripMenuItem3.Text = "Delay";
+            // 
+            // getDayTimeDelayToolStripTextBox
+            // 
+            this.getDayTimeDelayToolStripTextBox.Name = "getDayTimeDelayToolStripTextBox";
+            this.getDayTimeDelayToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.getDayTimeDelayToolStripTextBox.Text = "1000";
+            this.getDayTimeDelayToolStripTextBox.TextChanged += new System.EventHandler(this.getDayTimeDelayToolStripTextBox_TextChanged);
+            // 
+            // beepToolStripMenuItem
+            // 
+            this.beepToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.frequencyToolStripMenuItem,
+            this.durationToolStripMenuItem,
+            this.testToolStripMenuItem});
+            this.beepToolStripMenuItem.Name = "beepToolStripMenuItem";
+            this.beepToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.beepToolStripMenuItem.Text = "Beep";
+            // 
+            // frequencyToolStripMenuItem
+            // 
+            this.frequencyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepFreqyencyToolStripTextBox});
+            this.frequencyToolStripMenuItem.Name = "frequencyToolStripMenuItem";
+            this.frequencyToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.frequencyToolStripMenuItem.Text = "Frequency";
+            // 
+            // beepFreqyencyToolStripTextBox
+            // 
+            this.beepFreqyencyToolStripTextBox.Name = "beepFreqyencyToolStripTextBox";
+            this.beepFreqyencyToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.beepFreqyencyToolStripTextBox.Text = "5000";
+            // 
+            // durationToolStripMenuItem
+            // 
+            this.durationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepDurationToolStripTextBox});
+            this.durationToolStripMenuItem.Name = "durationToolStripMenuItem";
+            this.durationToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.durationToolStripMenuItem.Text = "Duration";
+            // 
+            // beepDurationToolStripTextBox
+            // 
+            this.beepDurationToolStripTextBox.Name = "beepDurationToolStripTextBox";
+            this.beepDurationToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.beepDurationToolStripTextBox.Text = "300";
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
+            // beepIfDayToolStripMenuItem
+            // 
+            this.beepIfDayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepIfDayToolStripComboBox,
+            this.nToolStripMenuItem,
+            this.kToolStripMenuItem});
+            this.beepIfDayToolStripMenuItem.Name = "beepIfDayToolStripMenuItem";
+            this.beepIfDayToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.beepIfDayToolStripMenuItem.Text = "BeepIfDay";
+            this.beepIfDayToolStripMenuItem.Click += new System.EventHandler(this.beepIfDayToolStripMenuItem_Click);
+            // 
+            // beepIfDayToolStripComboBox
+            // 
+            this.beepIfDayToolStripComboBox.Items.AddRange(new object[] {
+            "day == N",
+            "(day + K) % N == 0"});
+            this.beepIfDayToolStripComboBox.Name = "beepIfDayToolStripComboBox";
+            this.beepIfDayToolStripComboBox.Size = new System.Drawing.Size(121, 23);
+            // 
+            // nToolStripMenuItem
+            // 
+            this.nToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepIfDayNToolStripTextBox});
+            this.nToolStripMenuItem.Name = "nToolStripMenuItem";
+            this.nToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.nToolStripMenuItem.Text = "N";
+            // 
+            // beepIfDayNToolStripTextBox
+            // 
+            this.beepIfDayNToolStripTextBox.Name = "beepIfDayNToolStripTextBox";
+            this.beepIfDayNToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.beepIfDayNToolStripTextBox.Text = "7";
+            // 
+            // kToolStripMenuItem
+            // 
+            this.kToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepIfDayKToolStripTextBox});
+            this.kToolStripMenuItem.Name = "kToolStripMenuItem";
+            this.kToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.kToolStripMenuItem.Text = "K";
+            // 
+            // beepIfDayKToolStripTextBox
+            // 
+            this.beepIfDayKToolStripTextBox.Name = "beepIfDayKToolStripTextBox";
+            this.beepIfDayKToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.beepIfDayKToolStripTextBox.Text = "0";
+            // 
+            // beepIfTimeToolStripMenuItem
+            // 
+            this.beepIfTimeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nTimeKToolStripMenuItem,
+            this.nToolStripMenuItem1,
+            this.kToolStripMenuItem1});
+            this.beepIfTimeToolStripMenuItem.Name = "beepIfTimeToolStripMenuItem";
+            this.beepIfTimeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.beepIfTimeToolStripMenuItem.Text = "BeepIfTime";
+            this.beepIfTimeToolStripMenuItem.Click += new System.EventHandler(this.beepIfTimeToolStripMenuItem_Click);
+            // 
+            // nTimeKToolStripMenuItem
+            // 
+            this.nTimeKToolStripMenuItem.Name = "nTimeKToolStripMenuItem";
+            this.nTimeKToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.nTimeKToolStripMenuItem.Text = "N  <= Time < K";
+            // 
+            // nToolStripMenuItem1
+            // 
+            this.nToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepIfTimeNToolStripTextBox});
+            this.nToolStripMenuItem1.Name = "nToolStripMenuItem1";
+            this.nToolStripMenuItem1.Size = new System.Drawing.Size(156, 22);
+            this.nToolStripMenuItem1.Text = "N";
+            // 
+            // beepIfTimeNToolStripTextBox
+            // 
+            this.beepIfTimeNToolStripTextBox.Name = "beepIfTimeNToolStripTextBox";
+            this.beepIfTimeNToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.beepIfTimeNToolStripTextBox.Text = "3";
+            // 
+            // kToolStripMenuItem1
+            // 
+            this.kToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.beepIfTimeKToolStripTextBox});
+            this.kToolStripMenuItem1.Name = "kToolStripMenuItem1";
+            this.kToolStripMenuItem1.Size = new System.Drawing.Size(156, 22);
+            this.kToolStripMenuItem1.Text = "K";
+            // 
+            // beepIfTimeKToolStripTextBox
+            // 
+            this.beepIfTimeKToolStripTextBox.Name = "beepIfTimeKToolStripTextBox";
+            this.beepIfTimeKToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.beepIfTimeKToolStripTextBox.Text = "4";
             // 
             // coordinates7dtdToolStripTextBox
             // 
@@ -566,6 +773,22 @@
             this.logToolStripMenuItem.Size = new System.Drawing.Size(39, 23);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.logToolStripMenuItem_Click);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.isClearEveryNewRequestToolStripMenuItem});
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
+            // isClearEveryNewRequestToolStripMenuItem
+            // 
+            this.isClearEveryNewRequestToolStripMenuItem.Name = "isClearEveryNewRequestToolStripMenuItem";
+            this.isClearEveryNewRequestToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.isClearEveryNewRequestToolStripMenuItem.Text = "IsClearEveryNewRequest";
+            this.isClearEveryNewRequestToolStripMenuItem.Click += new System.EventHandler(this.isClearEveryNewRequestToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -693,225 +916,30 @@
             this.logTextBox.Size = new System.Drawing.Size(680, 412);
             this.logTextBox.TabIndex = 0;
             // 
-            // clearToolStripMenuItem
-            // 
-            this.clearToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.isClearEveryNewRequestToolStripMenuItem});
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
-            // 
-            // isClearEveryNewRequestToolStripMenuItem
-            // 
-            this.isClearEveryNewRequestToolStripMenuItem.Name = "isClearEveryNewRequestToolStripMenuItem";
-            this.isClearEveryNewRequestToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.isClearEveryNewRequestToolStripMenuItem.Text = "IsClearEveryNewRequest";
-            this.isClearEveryNewRequestToolStripMenuItem.Click += new System.EventHandler(this.isClearEveryNewRequestToolStripMenuItem_Click);
-            // 
-            // delayToolStripMenuItem2
-            // 
-            this.delayToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.checkPlayersDelayToolStripTextBox});
-            this.delayToolStripMenuItem2.Name = "delayToolStripMenuItem2";
-            this.delayToolStripMenuItem2.Size = new System.Drawing.Size(181, 22);
-            this.delayToolStripMenuItem2.Text = "Delay";
-            // 
-            // checkPlayersDelayToolStripTextBox
-            // 
-            this.checkPlayersDelayToolStripTextBox.Name = "checkPlayersDelayToolStripTextBox";
-            this.checkPlayersDelayToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.checkPlayersDelayToolStripTextBox.Text = "1000";
-            this.checkPlayersDelayToolStripTextBox.Click += new System.EventHandler(this.checkPlayersDelayToolStripTextBox_Click);
-            // 
-            // typeCheckToolStripComboBox
-            // 
-            this.typeCheckToolStripComboBox.Items.AddRange(new object[] {
-            "< max",
-            "< max - N",
-            "< N",
-            "> N"});
-            this.typeCheckToolStripComboBox.Name = "typeCheckToolStripComboBox";
-            this.typeCheckToolStripComboBox.Size = new System.Drawing.Size(121, 23);
-            // 
             // checkServerPlayersTimer
             // 
             this.checkServerPlayersTimer.Interval = 1000;
             this.checkServerPlayersTimer.Tick += new System.EventHandler(this.checkServerPlayersTimer_Tick);
-            // 
-            // checkNToolStripTextBox
-            // 
-            this.checkNToolStripTextBox.Name = "checkNToolStripTextBox";
-            this.checkNToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            // 
-            // getDayTimeToolStripMenuItem
-            // 
-            this.getDayTimeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.delayToolStripMenuItem3,
-            this.beepToolStripMenuItem,
-            this.beepIfDayToolStripMenuItem,
-            this.beepIfTimeToolStripMenuItem});
-            this.getDayTimeToolStripMenuItem.Name = "getDayTimeToolStripMenuItem";
-            this.getDayTimeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getDayTimeToolStripMenuItem.Text = "GetDayTime";
-            this.getDayTimeToolStripMenuItem.Click += new System.EventHandler(this.getDayTimeToolStripMenuItem_Click);
             // 
             // serverStatsTimer
             // 
             this.serverStatsTimer.Interval = 1000;
             this.serverStatsTimer.Tick += new System.EventHandler(this.serverStatsTimer_Tick);
             // 
-            // delayToolStripMenuItem3
+            // toolStripMenuItem5
             // 
-            this.delayToolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getDayTimeDelayToolStripTextBox});
-            this.delayToolStripMenuItem3.Name = "delayToolStripMenuItem3";
-            this.delayToolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
-            this.delayToolStripMenuItem3.Text = "Delay";
+            this.toolStripMenuItem5.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.citiesOpacityToolStripTextBox});
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(187, 22);
+            this.toolStripMenuItem5.Text = "Opacity";
             // 
-            // getDayTimeDelayToolStripTextBox
+            // citiesOpacityToolStripTextBox
             // 
-            this.getDayTimeDelayToolStripTextBox.Name = "getDayTimeDelayToolStripTextBox";
-            this.getDayTimeDelayToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.getDayTimeDelayToolStripTextBox.Text = "1000";
-            this.getDayTimeDelayToolStripTextBox.TextChanged += new System.EventHandler(this.getDayTimeDelayToolStripTextBox_TextChanged);
-            // 
-            // beepToolStripMenuItem
-            // 
-            this.beepToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.frequencyToolStripMenuItem,
-            this.durationToolStripMenuItem,
-            this.testToolStripMenuItem});
-            this.beepToolStripMenuItem.Name = "beepToolStripMenuItem";
-            this.beepToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.beepToolStripMenuItem.Text = "Beep";
-            // 
-            // frequencyToolStripMenuItem
-            // 
-            this.frequencyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepFreqyencyToolStripTextBox});
-            this.frequencyToolStripMenuItem.Name = "frequencyToolStripMenuItem";
-            this.frequencyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.frequencyToolStripMenuItem.Text = "Frequency";
-            // 
-            // durationToolStripMenuItem
-            // 
-            this.durationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepDurationToolStripTextBox});
-            this.durationToolStripMenuItem.Name = "durationToolStripMenuItem";
-            this.durationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.durationToolStripMenuItem.Text = "Duration";
-            // 
-            // beepFreqyencyToolStripTextBox
-            // 
-            this.beepFreqyencyToolStripTextBox.Name = "beepFreqyencyToolStripTextBox";
-            this.beepFreqyencyToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.beepFreqyencyToolStripTextBox.Text = "5000";
-            // 
-            // beepDurationToolStripTextBox
-            // 
-            this.beepDurationToolStripTextBox.Name = "beepDurationToolStripTextBox";
-            this.beepDurationToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.beepDurationToolStripTextBox.Text = "300";
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.testToolStripMenuItem.Text = "Test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-            // 
-            // beepIfDayToolStripMenuItem
-            // 
-            this.beepIfDayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepIfDayToolStripComboBox,
-            this.nToolStripMenuItem,
-            this.kToolStripMenuItem});
-            this.beepIfDayToolStripMenuItem.Name = "beepIfDayToolStripMenuItem";
-            this.beepIfDayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.beepIfDayToolStripMenuItem.Text = "BeepIfDay";
-            this.beepIfDayToolStripMenuItem.Click += new System.EventHandler(this.beepIfDayToolStripMenuItem_Click);
-            // 
-            // beepIfDayToolStripComboBox
-            // 
-            this.beepIfDayToolStripComboBox.Items.AddRange(new object[] {
-            "day == N",
-            "(day + K) % N == 0"});
-            this.beepIfDayToolStripComboBox.Name = "beepIfDayToolStripComboBox";
-            this.beepIfDayToolStripComboBox.Size = new System.Drawing.Size(121, 23);
-            // 
-            // nToolStripMenuItem
-            // 
-            this.nToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepIfDayNToolStripTextBox});
-            this.nToolStripMenuItem.Name = "nToolStripMenuItem";
-            this.nToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.nToolStripMenuItem.Text = "N";
-            // 
-            // beepIfDayNToolStripTextBox
-            // 
-            this.beepIfDayNToolStripTextBox.Name = "beepIfDayNToolStripTextBox";
-            this.beepIfDayNToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.beepIfDayNToolStripTextBox.Text = "7";
-            // 
-            // kToolStripMenuItem
-            // 
-            this.kToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepIfDayKToolStripTextBox});
-            this.kToolStripMenuItem.Name = "kToolStripMenuItem";
-            this.kToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.kToolStripMenuItem.Text = "K";
-            // 
-            // beepIfDayKToolStripTextBox
-            // 
-            this.beepIfDayKToolStripTextBox.Name = "beepIfDayKToolStripTextBox";
-            this.beepIfDayKToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.beepIfDayKToolStripTextBox.Text = "0";
-            // 
-            // beepIfTimeToolStripMenuItem
-            // 
-            this.beepIfTimeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nTimeKToolStripMenuItem,
-            this.nToolStripMenuItem1,
-            this.kToolStripMenuItem1});
-            this.beepIfTimeToolStripMenuItem.Name = "beepIfTimeToolStripMenuItem";
-            this.beepIfTimeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.beepIfTimeToolStripMenuItem.Text = "BeepIfTime";
-            this.beepIfTimeToolStripMenuItem.Click += new System.EventHandler(this.beepIfTimeToolStripMenuItem_Click);
-            // 
-            // nTimeKToolStripMenuItem
-            // 
-            this.nTimeKToolStripMenuItem.Name = "nTimeKToolStripMenuItem";
-            this.nTimeKToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.nTimeKToolStripMenuItem.Text = "N  <= Time < K";
-            // 
-            // nToolStripMenuItem1
-            // 
-            this.nToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepIfTimeNToolStripTextBox});
-            this.nToolStripMenuItem1.Name = "nToolStripMenuItem1";
-            this.nToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.nToolStripMenuItem1.Text = "N";
-            // 
-            // kToolStripMenuItem1
-            // 
-            this.kToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.beepIfTimeKToolStripTextBox});
-            this.kToolStripMenuItem1.Name = "kToolStripMenuItem1";
-            this.kToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.kToolStripMenuItem1.Text = "K";
-            // 
-            // beepIfTimeNToolStripTextBox
-            // 
-            this.beepIfTimeNToolStripTextBox.Name = "beepIfTimeNToolStripTextBox";
-            this.beepIfTimeNToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.beepIfTimeNToolStripTextBox.Text = "3";
-            // 
-            // beepIfTimeKToolStripTextBox
-            // 
-            this.beepIfTimeKToolStripTextBox.Name = "beepIfTimeKToolStripTextBox";
-            this.beepIfTimeKToolStripTextBox.Size = new System.Drawing.Size(100, 23);
-            this.beepIfTimeKToolStripTextBox.Text = "4";
+            this.citiesOpacityToolStripTextBox.Name = "citiesOpacityToolStripTextBox";
+            this.citiesOpacityToolStripTextBox.Size = new System.Drawing.Size(100, 23);
+            this.citiesOpacityToolStripTextBox.Text = "100";
+            this.citiesOpacityToolStripTextBox.TextChanged += new System.EventHandler(this.citiesOpacityToolStripTextBox_TextChanged);
             // 
             // HelperForm
             // 
@@ -997,8 +1025,6 @@
         private System.Windows.Forms.ToolStripMenuItem drawOnMapALTMToolStripMenuItem;
         private System.Windows.Forms.Timer redrawExecuteTimer;
         private System.Windows.Forms.ToolStripMenuItem showCitiesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripTextBox citiesOpacityToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripTextBox biomesOpacityToolStripTextBox;
         private System.Windows.Forms.Label loadingLabel;
@@ -1051,6 +1077,11 @@
         private System.Windows.Forms.ToolStripTextBox beepIfTimeNToolStripTextBox;
         private System.Windows.Forms.ToolStripMenuItem kToolStripMenuItem1;
         private System.Windows.Forms.ToolStripTextBox beepIfTimeKToolStripTextBox;
+        private System.Windows.Forms.ToolStripMenuItem showRadiationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripTextBox radiationOpacityToolStripTextBox;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripTextBox citiesOpacityToolStripTextBox;
     }
 }
 

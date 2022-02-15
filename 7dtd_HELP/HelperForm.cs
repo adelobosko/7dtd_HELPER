@@ -27,8 +27,8 @@ namespace _7dtd_HELP
         private Point _prevRmbPosition;
         private bool _isRmbPressed;
         private bool _isLmbPressed;
-        
-        
+
+
         private int _gimmeCounter = 0;
 
 
@@ -113,6 +113,8 @@ namespace _7dtd_HELP
                 mapSacleTrackBar.Value--;
             }
         }
+
+
         private void HelperForm_MouseDown(object sender, MouseEventArgs e)
         {
             toolTipPanel.Visible = false;
@@ -270,17 +272,17 @@ namespace _7dtd_HELP
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                {
-                    _isLmbPressed = false;
-                    break;
-                }
+                    {
+                        _isLmbPressed = false;
+                        break;
+                    }
                 case MouseButtons.Right:
-                {
+                    {
 
-                    mapPictureBox.Cursor = Cursors.Hand;
-                    _isRmbPressed = false;
-                    break;
-                }
+                        mapPictureBox.Cursor = Cursors.Hand;
+                        _isRmbPressed = false;
+                        break;
+                    }
             }
         }
 
@@ -339,6 +341,7 @@ namespace _7dtd_HELP
             return result.ToString();
         }
 
+
         private void MapPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (GlobalHelper.Config?.Map == null)
@@ -366,6 +369,7 @@ namespace _7dtd_HELP
             }
         }
 
+
         public void OnStatusChanged(object sender, string message, int percentage)
         {
             try
@@ -382,6 +386,7 @@ namespace _7dtd_HELP
                 Console.WriteLine(ex);
             }
         }
+
 
         public void OnSubStatusChanged(object sender, string message, int percentage)
         {
@@ -400,6 +405,7 @@ namespace _7dtd_HELP
             }
         }
 
+
         private void KeyBoardHookInitialize()
         {
             gHook = new GlobalKeyboardHook();
@@ -413,6 +419,7 @@ namespace _7dtd_HELP
             gHook.HookedKeys.Add(Keys.NumPad4);
             //MouseHook.Start();
         }
+
 
         public void gHook_KeyDown(object sender, KeyEventArgs e)
         {
@@ -431,45 +438,46 @@ namespace _7dtd_HELP
                     e.Handled = true;
                     break;
                 case Keys.NumPad3:
-                {
-                    gimmeTimer.Enabled = !gimmeTimer.Enabled;
-                    _gimmeCounter = 0;
-                    if (gimmeTimer.Enabled)
                     {
-                        SystemSounds.Exclamation.Play();
+                        gimmeTimer.Enabled = !gimmeTimer.Enabled;
+                        _gimmeCounter = 0;
+                        if (gimmeTimer.Enabled)
+                        {
+                            SystemSounds.Exclamation.Play();
+                        }
+                        else
+                        {
+                            SystemSounds.Hand.Play();
+                        }
+                        atouseGimmeToolStripMenuItem.Checked = gimmeTimer.Enabled;
+                        e.Handled = true;
+                        break;
                     }
-                    else
-                    {
-                        SystemSounds.Hand.Play();
-                    }
-                    atouseGimmeToolStripMenuItem.Checked = gimmeTimer.Enabled;
-                    e.Handled = true;
-                    break;
-                }
                 case Keys.NumPad0:
-                {
-                    Clipboard.SetText("/gimme");
-                    var tKey = new List<Input>()
+                    {
+                        Clipboard.SetText("/gimme");
+                        var tKey = new List<Input>()
                     {
                         InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KeyEventF.KEYDOWN),
                         InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KeyEventF.KEYUP),
                     }.ToArray();
 
-                    InputHelper.Send(tKey);
-                    Thread.Sleep(100);
-                    InputHelper.Send(InputSet.Paste);
-                    InputHelper.Send(InputSet.Enter);
-                    e.Handled = true;
-                    break;
-                }
+                        InputHelper.Send(tKey);
+                        Thread.Sleep(100);
+                        InputHelper.Send(InputSet.Paste);
+                        InputHelper.Send(InputSet.Enter);
+                        e.Handled = true;
+                        break;
+                    }
                 case Keys.NumPad4:
-                {
-                    DrawMeOnMap();
-                    e.Handled = true;
-                    break;
-                }
+                    {
+                        DrawMeOnMap();
+                        e.Handled = true;
+                        break;
+                    }
             }
         }
+
 
         private void HelperForm_Load(object sender, EventArgs e)
         {
@@ -492,8 +500,18 @@ namespace _7dtd_HELP
                 };
                 item.Click += (o, args) =>
                 {
-                    Map.Load(name);
-                    UpdateUI();
+                    try
+                    {
+                        GlobalHelper.Config.Map = Map.Load(name);
+                        LoadMapFolder(GlobalHelper.Config.Map.DirectoryPath);
+                        UpdateUI();
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        GlobalHelper.Config.Maps.Remove(name);
+                        loadToolStripMenuItem.DropDownItems.Remove(item);
+                        item.Dispose();
+                    }
                 };
                 loadToolStripMenuItem.DropDownItems.Add(item);
             }
@@ -510,6 +528,8 @@ namespace _7dtd_HELP
             var bmp = new Bitmap(scaledSize, scaledSize);
 
             bmp = await DrawBiomesAsync(bmp, scaledSize);
+
+            bmp = await DrawRadiationAsync(bmp, scaledSize);
 
             bmp = await DrawCitiesAsync(bmp, scaledSize);
 
@@ -562,8 +582,46 @@ namespace _7dtd_HELP
         }
 
 
+        private Task<Bitmap> DrawRadiationAsync(Bitmap mapBitmap, int scaledSize)
+        {
+            var oldColor = Color.FromArgb(255, 0, 0, 0);
+            var newColor = Color.FromArgb(0, 0, 0, 0);
+
+            var task = new Task<Bitmap>(() =>
+            {
+                if (GlobalHelper.Config.Map.Radiation.IsShown)
+                {
+                    var bitmap = GlobalHelper.Config.Map.Radiation.GetBitmap(scaledSize, scaledSize);
+
+                    if (bitmap != null)
+                    {
+                        bitmap.SetResolution(96, 96);
+                        BitmapHelper.ReplaceColor(bitmap, oldColor, newColor);
+                        bitmap = bitmap.ChangeOpacity(GlobalHelper.Config.Map.Radiation.Opacity / 100f);
+
+
+                        //bitmap.Save("rad.png");
+                        using (var gr = Graphics.FromImage(mapBitmap))
+                        {
+                            gr.DrawImage(bitmap, new Point(0, 0));
+                        }
+                    }
+                }
+
+                return mapBitmap;
+            });
+
+            task.Start();
+
+            return task;
+        }
+
+
         private Task<Bitmap> DrawCitiesAsync(Bitmap bmp, int scaledSize)
         {
+            var oldColor = Color.FromArgb(255, 0, 0, 0);
+            var newColor = Color.FromArgb(0, 0, 0, 0);
+
             var task = new Task<Bitmap>(() =>
             {
                 if (GlobalHelper.Config.Map.Cities.IsShown)
@@ -572,6 +630,8 @@ namespace _7dtd_HELP
                     if (bitmap != null)
                     {
                         bitmap.SetResolution(96, 96);
+                        //BitmapHelper.ReplaceColor(bitmap, oldColor, newColor);
+                        //BitmapHelper.ReplaceAlpha(bitmap, 254);
                         bitmap = bitmap.ChangeOpacity(GlobalHelper.Config.Map.Cities.Opacity / 100f);
                         //bitmap.Save("city.png");
 
@@ -611,13 +671,17 @@ namespace _7dtd_HELP
                         sizeRectangle * 2
                     );
 
+
+
                     for (var i = 0; i < rowsAndColumns; i++)
                     {
+
                         gr.DrawLine(gridColor,
                             x0,
                             y0 + GlobalHelper.Config.Map.CellSize * i,
                             x0 + scaledSize,
                             y0 + GlobalHelper.Config.Map.CellSize * i);
+
                         gr.DrawLine(gridColor,
                             x0,
                             y0 - GlobalHelper.Config.Map.CellSize * i,
@@ -629,6 +693,7 @@ namespace _7dtd_HELP
                             y0,
                             x0 + GlobalHelper.Config.Map.CellSize * i,
                             y0 + scaledSize);
+
                         gr.DrawLine(gridColor,
                             x0 + GlobalHelper.Config.Map.CellSize * i,
                             y0,
@@ -642,6 +707,7 @@ namespace _7dtd_HELP
                             y0 - GlobalHelper.Config.Map.CellSize * i,
                             x0 - scaledSize,
                             y0 - GlobalHelper.Config.Map.CellSize * i);
+
                         gr.DrawLine(gridColor,
                             x0,
                             y0 + GlobalHelper.Config.Map.CellSize * i,
@@ -653,12 +719,14 @@ namespace _7dtd_HELP
                             y0,
                             x0 - GlobalHelper.Config.Map.CellSize * i,
                             y0 - scaledSize);
+
                         gr.DrawLine(gridColor,
                             x0 - GlobalHelper.Config.Map.CellSize * i,
                             y0,
                             x0 - GlobalHelper.Config.Map.CellSize * i,
                             y0 + scaledSize);
                     }
+
                     gr.DrawImage(bmp, new Point(0, 0));
                 }
 
@@ -955,14 +1023,24 @@ namespace _7dtd_HELP
             }
 
             showBiomesToolStripMenuItem.Checked = GlobalHelper.Config.Map.Biomes.IsShown;
+            biomesOpacityToolStripTextBox.Text = $"{GlobalHelper.Config.Map.Biomes.Opacity}";
+
+
             showCitiesToolStripMenuItem.Checked = GlobalHelper.Config.Map.Cities.IsShown;
             citiesOpacityToolStripTextBox.Text = $"{GlobalHelper.Config.Map.Cities.Opacity}";
-            citiesOpacityToolStripTextBox.Text = $"{GlobalHelper.Config.Map.Cities.Opacity}";
+
+            showRadiationToolStripMenuItem.Checked = GlobalHelper.Config.Map.Radiation.IsShown;
+            radiationOpacityToolStripTextBox.Text = $"{GlobalHelper.Config.Map.Radiation.Opacity}";
 
             this.Text = $@"{GlobalHelper.Config.Map.Name} - {GlobalHelper.Config.Map.Ip}:{GlobalHelper.Config.Map.Port}";
 
             sizeCellToolStripTextBox.Text = GlobalHelper.Config.Map.CellSize.ToString();
             sizeToolStripTextBox.Text = GlobalHelper.Config.Map.Size.ToString();
+
+            ipToolStripTextBox.Text = GlobalHelper.Config.Map.Ip;
+            portToolStripTextBox.Text = GlobalHelper.Config.Map.Port;
+
+            isClearEveryNewRequestToolStripMenuItem.Checked = _logger.IsClearLogForEveryLog;
 
             foreach (var groupStripMenuItem in _groupStripMenuItems)
             {
@@ -1062,11 +1140,6 @@ namespace _7dtd_HELP
 
                 _groupStripMenuItems.Add(item);
                 groupsToolStripMenuItem.DropDownItems.Add(item);
-
-                ipToolStripTextBox.Text = GlobalHelper.Config.Map.Ip;
-                portToolStripTextBox.Text = GlobalHelper.Config.Map.Port;
-
-                isClearEveryNewRequestToolStripMenuItem.Checked = _logger.IsClearLogForEveryLog;
             }
         }
 
@@ -1109,74 +1182,75 @@ namespace _7dtd_HELP
 
                 if (result != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath)) return;
 
-                var mapName = Path.GetFileName(fbd.SelectedPath);
-                var hostsFile = Path.Combine(fbd.SelectedPath, "hosts.txt");
-                var worldDirectory = Path.Combine(fbd.SelectedPath, "World");
-                var mapInfoFile = Path.Combine(worldDirectory, "map_info.xml");
-                var prefabsFile = Path.Combine(worldDirectory, "prefabs.xml");
-                var spawnPointsFile = Path.Combine(worldDirectory, "spawnpoints.xml");
-                if (!File.Exists(hostsFile) || !Directory.Exists(worldDirectory)
-                                            || !File.Exists(mapInfoFile)
-                                            || !File.Exists(prefabsFile)
-                                            || !File.Exists(spawnPointsFile))
-                {
-                    MessageBox.Show("It, seems, is not 7dtd map directory...");
-                    return;
-                }
-
-                var hosts = File.ReadAllText(hostsFile)
-                    .Replace("\r", "")
-                    .Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-                var ip = "";
-                var port = "";
-                if (hosts.Length > 0)
-                {
-                    var host = hosts[0].Split(':');
-                    if (host.Length > 1)
-                    {
-                        ip = host[0];
-                        port = host[1];
-                    }
-                }
-
-                if (GlobalHelper.Config.Maps.Contains(mapName))
-                {
-                    var mapTwin = Map.Load(mapName);
-                    GlobalHelper.Config.Map.CellSize = mapTwin.CellSize;
-                    GlobalHelper.Config.Map.Description = mapTwin.Description;
-                    GlobalHelper.Config.Map.Scale = mapTwin.Scale;
-                }
-                else
-                {
-                    GlobalHelper.Config.Map = new Map()
-                    {
-                        Name = mapName
-                    };
-                    var item = new ToolStripMenuItem()
-                    {
-                        Name = $"{mapName}ToolStripMenuItem",
-                        Checked = false,
-                        Text = mapName
-                    };
-                    item.Click += (o, args) =>
-                    {
-                        Map.Load(mapName);
-                    };
-                    loadToolStripMenuItem.DropDownItems.Add(item);
-                }
-
-                GlobalHelper.Config.Map.LoadPrefabs(prefabsFile, new XmlPrefabsMapLoader());
-                GlobalHelper.Config.Map.LoadMapInfo(mapInfoFile);
-                GlobalHelper.Config.Map.Ip = ip;
-                GlobalHelper.Config.Map.Port = port;
-                GlobalHelper.Config.Map.LoadSpawnPoints(spawnPointsFile);
-                GlobalHelper.Config.Map.DirectoryPath = fbd.SelectedPath;
-
-                GlobalHelper.Config.Save();
-                UpdateUI();
+                LoadMapFolder(fbd.SelectedPath);
             }
         }
+
+
+        private void LoadMapFolder(string path)
+        {
+            var mapName = Path.GetFileName(path);
+            var hostsFile = Path.Combine(path, "hosts.txt");
+            var worldDirectory = Path.Combine(path, "World");
+            var mapInfoFile = Path.Combine(worldDirectory, "map_info.xml");
+            var prefabsFile = Path.Combine(worldDirectory, "prefabs.xml");
+            var spawnPointsFile = Path.Combine(worldDirectory, "spawnpoints.xml");
+            if (!File.Exists(hostsFile) || !Directory.Exists(worldDirectory)
+                                        || !File.Exists(mapInfoFile)
+                                        || !File.Exists(prefabsFile)
+                                        || !File.Exists(spawnPointsFile))
+            {
+                MessageBox.Show("It, seems, is not 7dtd map directory...");
+                return;
+            }
+
+            var hosts = File.ReadAllText(hostsFile)
+                .Replace("\r", "")
+                .Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            var ip = "";
+            var port = "";
+            if (hosts.Length > 0)
+            {
+                var host = hosts[0].Split(':');
+                if (host.Length > 1)
+                {
+                    ip = host[0];
+                    port = host[1];
+                }
+            }
+
+            GlobalHelper.Config.Map = new Map()
+            {
+                Name = mapName
+            };
+
+            if (!GlobalHelper.Config.Maps.Contains(mapName))
+            {                
+                var item = new ToolStripMenuItem()
+                {
+                    Name = $"{mapName}ToolStripMenuItem",
+                    Checked = false,
+                    Text = mapName
+                };
+                item.Click += (o, args) =>
+                {
+                    LoadMapFolder(path);
+                };
+                loadToolStripMenuItem.DropDownItems.Add(item);
+            }
+
+            GlobalHelper.Config.Map.LoadPrefabs(prefabsFile, new XmlPrefabsMapLoader());
+            GlobalHelper.Config.Map.LoadMapInfo(mapInfoFile);
+            GlobalHelper.Config.Map.Ip = ip;
+            GlobalHelper.Config.Map.Port = port;
+            GlobalHelper.Config.Map.LoadSpawnPoints(spawnPointsFile);
+            GlobalHelper.Config.Map.DirectoryPath = path;
+
+            GlobalHelper.Config.Save();
+            UpdateUI();
+        }
+
 
         private void sizeToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -1255,6 +1329,13 @@ namespace _7dtd_HELP
         {
             GlobalHelper.Config.Map.Biomes.IsShown = !GlobalHelper.Config.Map.Biomes.IsShown;
             showBiomesToolStripMenuItem.Checked = GlobalHelper.Config.Map.Biomes.IsShown;
+            redrawExecuteTimer.Restart();
+        }
+
+        private void showRadiationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GlobalHelper.Config.Map.Radiation.IsShown = !GlobalHelper.Config.Map.Radiation.IsShown;
+            showRadiationToolStripMenuItem.Checked = GlobalHelper.Config.Map.Radiation.IsShown;
             redrawExecuteTimer.Restart();
         }
 
@@ -1549,6 +1630,20 @@ namespace _7dtd_HELP
             }
         }
 
+        private void radiationOpacityToolStripTextBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var opacity = Convert.ToInt32(radiationOpacityToolStripTextBox.Text);
+                GlobalHelper.Config.Map.Radiation.Opacity = opacity;
+                redrawExecuteTimer.Restart();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
 
         private void lmbDelayToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -1640,29 +1735,29 @@ namespace _7dtd_HELP
                     switch (typeCheckToolStripComboBox.SelectedIndex)
                     {
                         case 0:
-                        {
-                            if (a2sInfo.Players < a2sInfo.MaxPlayers)
-                                Console.Beep(5000, 300);
-                            break;
-                        }
+                            {
+                                if (a2sInfo.Players < a2sInfo.MaxPlayers)
+                                    Console.Beep(5000, 300);
+                                break;
+                            }
                         case 1:
-                        {
-                            if (a2sInfo.Players < a2sInfo.MaxPlayers - n)
-                                Console.Beep(5000, 300);
-                            break;
-                        }
+                            {
+                                if (a2sInfo.Players < a2sInfo.MaxPlayers - n)
+                                    Console.Beep(5000, 300);
+                                break;
+                            }
                         case 2:
-                        {
-                            if (a2sInfo.Players < n)
-                                Console.Beep(5000, 300);
-                            break;
-                        }
+                            {
+                                if (a2sInfo.Players < n)
+                                    Console.Beep(5000, 300);
+                                break;
+                            }
                         case 3:
-                        {
-                            if (a2sInfo.Players > n)
-                                Console.Beep(5000, 300);
-                            break;
-                        }
+                            {
+                                if (a2sInfo.Players > n)
+                                    Console.Beep(5000, 300);
+                                break;
+                            }
                     }
                 }));
             }).Start();
@@ -1714,7 +1809,7 @@ namespace _7dtd_HELP
                 var hour = (time % 24000) / 1000;
                 var mins = ((time % 1000) * 60) / 1000;
 
-                
+
 
                 Invoke(new Action(() =>
                 {
@@ -1750,7 +1845,7 @@ namespace _7dtd_HELP
 
                     try
                     {
-                        
+
                         if (beepIfDayToolStripMenuItem.Checked)
                         {
                             var n = Convert.ToInt32(beepIfDayNToolStripTextBox.Text);
@@ -1758,26 +1853,26 @@ namespace _7dtd_HELP
                             {
                                 // day == N
                                 case 0:
-                                {
-                                    if (day == n)
                                     {
-                                        Console.Beep(frequency, duration);
-                                    }
+                                        if (day == n)
+                                        {
+                                            Console.Beep(frequency, duration);
+                                        }
 
-                                    break;
-                                }
+                                        break;
+                                    }
                                 // day + K % N == 0
                                 default:
-                                {
-                                    var k = Convert.ToInt32(beepIfDayKToolStripTextBox.Text);
-
-                                    if ((day + k) % n == 0)
                                     {
-                                        Console.Beep(frequency, duration);
-                                    }
+                                        var k = Convert.ToInt32(beepIfDayKToolStripTextBox.Text);
 
-                                    break;
-                                }
+                                        if ((day + k) % n == 0)
+                                        {
+                                            Console.Beep(frequency, duration);
+                                        }
+
+                                        break;
+                                    }
                             }
                         }
 

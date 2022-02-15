@@ -29,6 +29,8 @@ namespace _7dtd_HELP
 
             public static string PrefabsZipFile = Path.Combine(ConfigDirectory, "master.zip");
             public static string ConfigFile = Path.Combine(ConfigDirectory, "config.cfg");
+            public static string PrefabsConfig = Path.Combine(ConfigDirectory, "prefabsConfig.cfg");
+            public static string DecorationGroups = Path.Combine(ConfigDirectory, "decorationGroupsConfig.cfg");
         }
 
         public static WebHelper WebHelper { get; set; }
