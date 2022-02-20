@@ -1,0 +1,25 @@
+%!Adobe-FontList 1.09
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:CMap
+CMapName:Identity-H
+Registry:Adobe
+Ordering:Identity
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Cmap\Identity-H
+FileLength:6716
+FileModTime:1098942470
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:CMap
+CMapName:Identity-V
+Registry:Adobe
+Ordering:Identity
+UseCMap:Identity-H
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Cmap\Identity-V
+FileLength:1249
+FileModTime:1098942470
+%EndFont
+

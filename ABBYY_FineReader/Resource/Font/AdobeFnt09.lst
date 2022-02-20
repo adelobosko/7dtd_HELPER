@@ -1,0 +1,208 @@
+%!Adobe-FontList 1.09
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AdobePiStd
+FamilyName:Adobe Pi Std
+StyleName:Regular
+FullName:Adobe Pi Std
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\AdobePiStd.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:89660
+FileModTime:1098942474
+WeightClass:400
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:CourierStd-Bold
+FamilyName:Courier Std
+StyleName:Bold
+FullName:Courier Std Bold
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\CourierStd-Bold.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:35188
+FileModTime:1098942476
+WeightClass:700
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:CourierStd-BoldOblique
+FamilyName:Courier Std
+StyleName:Bold Oblique
+FullName:Courier Std Bold Oblique
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\CourierStd-BoldOblique.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:36496
+FileModTime:1098942476
+WeightClass:700
+WidthClass:5
+AngleClass:1
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:CourierStd-Oblique
+FamilyName:Courier Std
+StyleName:Medium Oblique
+FullName:Courier Std Medium Oblique
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\CourierStd-Oblique.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:36824
+FileModTime:1098942476
+WeightClass:500
+WidthClass:5
+AngleClass:1
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:CourierStd
+FamilyName:Courier Std
+StyleName:Medium
+FullName:Courier Std Medium
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\CourierStd.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+FileLength:35448
+FileModTime:1098942476
+WeightClass:500
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:Symbol
+FamilyName:Symbol
+StyleName:Regular
+FullName:Symbol
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\sy______.pfb
+DataFormat:Plain
+UsesStandardEncoding:no
+isCFF:no
+FileLength:34705
+FileModTime:1098942478
+WeightClass:400
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:PFM
+FontName:Symbol
+NumMMAxes:0
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\sy______.pfm
+FileLength:672
+FileModTime:1098942478
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:PFM
+FontName:AdobeSansMM
+NumMMAxes:2
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\zx______.mmm
+FileLength:7248
+FileModTime:1098942478
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AdobeSansMM
+FamilyName:Adobe Sans MM
+StyleName:Regular
+FullName:Adobe Sans MM
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\zx______.pfb
+DataFormat:Plain
+MMAxisName:Weight
+MMAxisName:Width
+UsesStandardEncoding:yes
+isCFF:no
+FileLength:75573
+FileModTime:1098942478
+WeightClass:400
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:PFM
+FontName:AdobeSansMM
+NumMMAxes:0
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\zx______.pfm
+FileLength:683
+FileModTime:1098942478
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:PFM
+FontName:AdobeSerifMM
+NumMMAxes:2
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\zy______.mmm
+FileLength:7248
+FileModTime:1098942478
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:AdobeSerifMM
+FamilyName:Adobe Serif MM
+StyleName:Regular
+FullName:Adobe Serif MM
+WritingScript:Roman
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\zy______.pfb
+DataFormat:Plain
+MMAxisName:Weight
+MMAxisName:Width
+UsesStandardEncoding:yes
+isCFF:no
+FileLength:96418
+FileModTime:1098942478
+WeightClass:400
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:PFM
+FontName:AdobeSerifMM
+NumMMAxes:0
+OutlineFileName:c:\documents and settings\андрей\рабочий стол\portable abbyy finereader 8.0 professional edition\Resource\Font\zy______.pfm
+FileLength:684
+FileModTime:1098942478
+%EndFont
+
