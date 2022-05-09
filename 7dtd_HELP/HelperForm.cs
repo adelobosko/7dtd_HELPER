@@ -27,6 +27,7 @@ namespace _7dtd_HELP
         private Point _prevRmbPosition;
         private bool _isRmbPressed;
         private bool _isLmbPressed;
+        private bool _isCtrlPressed;
 
 
         private int _gimmeCounter = 0;
@@ -36,6 +37,9 @@ namespace _7dtd_HELP
         {
             InitializeComponent();
 
+            this.KeyDown += HelperForm_KeyDown;
+            this.KeyUp += HelperForm_KeyUp;
+            mapPictureBox.MouseWheel += MapScaleTrackBarOnMouseWheel;
             this.MouseWheel += MapScaleTrackBarOnMouseWheel;
             mapPictureBox.MouseMove += MapPictureBox_MouseMove;
             mapPictureBox.MouseDown += HelperForm_MouseDown;
@@ -98,19 +102,53 @@ namespace _7dtd_HELP
             KeyBoardHookInitialize();
         }
 
+        private void HelperForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                _isCtrlPressed = false;
+                this.bodyPanel.Enabled = true;
+            }
+        }
+
+        private void HelperForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                this.bodyPanel.Enabled = false;
+                _isCtrlPressed = true;
+            }
+        }
+
+
+        private void ShowCenteredText(string text)
+        {
+            loadingLabel.Text = text;
+            var bodyPanelCenterPoint = new Point(bodyPanel.Width / 2 - loadingLabel.Height / 2, bodyPanel.Height / 2 - loadingLabel.Width / 2);
+            loadingLabel.Location = bodyPanelCenterPoint;
+            loadingLabel.Show();
+        }
+
+
         private void MapScaleTrackBarOnMouseWheel(object sender, MouseEventArgs e)
         {
-            if (e.Delta > 0)
+            if (_isCtrlPressed && e.Delta > 0)
             {
                 if (mapSacleTrackBar.Value == mapSacleTrackBar.Maximum)
                     return;
                 mapSacleTrackBar.Value++;
+
+                var text = $"Scale: {Math.Pow(2, mapSacleTrackBar.Value)}";
+                ShowCenteredText(text);
             }
-            else if (e.Delta < 0)
+            else if (_isCtrlPressed && e.Delta < 0)
             {
                 if (mapSacleTrackBar.Value == mapSacleTrackBar.Minimum)
                     return;
                 mapSacleTrackBar.Value--;
+
+                var text = $"Scale: {Math.Pow(2, mapSacleTrackBar.Value)}";
+                ShowCenteredText(text);
             }
         }
 
@@ -272,17 +310,17 @@ namespace _7dtd_HELP
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    {
-                        _isLmbPressed = false;
-                        break;
-                    }
+                {
+                    _isLmbPressed = false;
+                    break;
+                }
                 case MouseButtons.Right:
-                    {
+                {
 
-                        mapPictureBox.Cursor = Cursors.Hand;
-                        _isRmbPressed = false;
-                        break;
-                    }
+                    mapPictureBox.Cursor = Cursors.Hand;
+                    _isRmbPressed = false;
+                    break;
+                }
             }
         }
 
@@ -438,43 +476,43 @@ namespace _7dtd_HELP
                     e.Handled = true;
                     break;
                 case Keys.NumPad3:
+                {
+                    gimmeTimer.Enabled = !gimmeTimer.Enabled;
+                    _gimmeCounter = 0;
+                    if (gimmeTimer.Enabled)
                     {
-                        gimmeTimer.Enabled = !gimmeTimer.Enabled;
-                        _gimmeCounter = 0;
-                        if (gimmeTimer.Enabled)
-                        {
-                            SystemSounds.Exclamation.Play();
-                        }
-                        else
-                        {
-                            SystemSounds.Hand.Play();
-                        }
-                        atouseGimmeToolStripMenuItem.Checked = gimmeTimer.Enabled;
-                        e.Handled = true;
-                        break;
+                        SystemSounds.Exclamation.Play();
                     }
-                case Keys.NumPad0:
+                    else
                     {
-                        Clipboard.SetText("/gimme");
-                        var tKey = new List<Input>()
+                        SystemSounds.Hand.Play();
+                    }
+                    atouseGimmeToolStripMenuItem.Checked = gimmeTimer.Enabled;
+                    e.Handled = true;
+                    break;
+                }
+                case Keys.NumPad0:
+                {
+                    Clipboard.SetText("/gimme");
+                    var tKey = new List<Input>()
                     {
                         InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KeyEventF.KEYDOWN),
                         InputHelper.GetKeyboardInput(ScanCodeShort.KEY_T, VirtualKeyShort.KEY_T, KeyEventF.KEYUP),
                     }.ToArray();
 
-                        InputHelper.Send(tKey);
-                        Thread.Sleep(100);
-                        InputHelper.Send(InputSet.Paste);
-                        InputHelper.Send(InputSet.Enter);
-                        e.Handled = true;
-                        break;
-                    }
+                    InputHelper.Send(tKey);
+                    Thread.Sleep(100);
+                    InputHelper.Send(InputSet.Paste);
+                    InputHelper.Send(InputSet.Enter);
+                    e.Handled = true;
+                    break;
+                }
                 case Keys.NumPad4:
-                    {
-                        DrawMeOnMap();
-                        e.Handled = true;
-                        break;
-                    }
+                {
+                    DrawMeOnMap();
+                    e.Handled = true;
+                    break;
+                }
             }
         }
 
@@ -961,10 +999,7 @@ namespace _7dtd_HELP
 
         public async void RedrawMap()
         {
-            var bodyPanelCenterPoint = new Point(bodyPanel.Width / 2 - loadingLabel.Height / 2, bodyPanel.Height / 2 - loadingLabel.Width / 2);
-
-            loadingLabel.Location = bodyPanelCenterPoint;
-            loadingLabel.Show();
+            ShowCenteredText("Loading...");
             var bmp = await RedrawMapAsync();
 
             mapPictureBox.Image = bmp;
@@ -1128,7 +1163,8 @@ namespace _7dtd_HELP
                     var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
                             string.Equals(dg.Name, group.Name, StringComparison.CurrentCultureIgnoreCase));
 
-                    if (twin == null) return;
+                    if (twin == null)
+                        return;
 
                     GlobalHelper.Config.DecorationGroups.Remove(twin);
                     GlobalHelper.Config.Save();
@@ -1180,7 +1216,8 @@ namespace _7dtd_HELP
             {
                 var result = fbd.ShowDialog();
 
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath)) return;
+                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    return;
 
                 LoadMapFolder(fbd.SelectedPath);
             }
@@ -1226,7 +1263,7 @@ namespace _7dtd_HELP
             };
 
             if (!GlobalHelper.Config.Maps.Contains(mapName))
-            {                
+            {
                 var item = new ToolStripMenuItem()
                 {
                     Name = $"{mapName}ToolStripMenuItem",
@@ -1541,7 +1578,7 @@ namespace _7dtd_HELP
 
         private void HelperForm_Deactivate(object sender, EventArgs e)
         {
-            this.Opacity = 0.30;
+            //this.Opacity = 0.30;
         }
 
         private void HelperForm_Activated(object sender, EventArgs e)
@@ -1735,29 +1772,29 @@ namespace _7dtd_HELP
                     switch (typeCheckToolStripComboBox.SelectedIndex)
                     {
                         case 0:
-                            {
-                                if (a2sInfo.Players < a2sInfo.MaxPlayers)
-                                    Console.Beep(5000, 300);
-                                break;
-                            }
+                        {
+                            if (a2sInfo.Players < a2sInfo.MaxPlayers)
+                                Console.Beep(5000, 300);
+                            break;
+                        }
                         case 1:
-                            {
-                                if (a2sInfo.Players < a2sInfo.MaxPlayers - n)
-                                    Console.Beep(5000, 300);
-                                break;
-                            }
+                        {
+                            if (a2sInfo.Players < a2sInfo.MaxPlayers - n)
+                                Console.Beep(5000, 300);
+                            break;
+                        }
                         case 2:
-                            {
-                                if (a2sInfo.Players < n)
-                                    Console.Beep(5000, 300);
-                                break;
-                            }
+                        {
+                            if (a2sInfo.Players < n)
+                                Console.Beep(5000, 300);
+                            break;
+                        }
                         case 3:
-                            {
-                                if (a2sInfo.Players > n)
-                                    Console.Beep(5000, 300);
-                                break;
-                            }
+                        {
+                            if (a2sInfo.Players > n)
+                                Console.Beep(5000, 300);
+                            break;
+                        }
                     }
                 }));
             }).Start();
@@ -1853,26 +1890,26 @@ namespace _7dtd_HELP
                             {
                                 // day == N
                                 case 0:
+                                {
+                                    if (day == n)
                                     {
-                                        if (day == n)
-                                        {
-                                            Console.Beep(frequency, duration);
-                                        }
-
-                                        break;
+                                        Console.Beep(frequency, duration);
                                     }
+
+                                    break;
+                                }
                                 // day + K % N == 0
                                 default:
+                                {
+                                    var k = Convert.ToInt32(beepIfDayKToolStripTextBox.Text);
+
+                                    if ((day + k) % n == 0)
                                     {
-                                        var k = Convert.ToInt32(beepIfDayKToolStripTextBox.Text);
-
-                                        if ((day + k) % n == 0)
-                                        {
-                                            Console.Beep(frequency, duration);
-                                        }
-
-                                        break;
+                                        Console.Beep(frequency, duration);
                                     }
+
+                                    break;
+                                }
                             }
                         }
 

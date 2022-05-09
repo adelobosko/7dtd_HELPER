@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _7dtd_HELP
@@ -28,8 +21,8 @@ namespace _7dtd_HELP
         private void PositionReader_Load(object sender, EventArgs e)
         {
             screenShot = SnapShotService.TakeWindowScreen();
-            screenPictureBox.Width = screenShot.Width;
-            screenPictureBox.Height = screenShot.Height;
+            this.Width = screenShot.Width;
+            this.Height = screenShot.Height;
             this.AllowTransparency = true;
             this.BackgroundImage = screenShot;
             openFormTimer.Enabled = false;
@@ -152,13 +145,27 @@ namespace _7dtd_HELP
             previewPictureBox.Width = previewImage.Width;
             previewPictureBox.Height = previewImage.Height;
             previewPictureBox.Top = 0;
+
+            ShowConfirmResult(Result);
+        }
+
+        private void ShowConfirmResult(Rectangle rectangle)
+        {
+            var confirmForm = new Form();
+            confirmForm.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            confirmForm.Text = $"Save positin: {rectangle}";
+            this.IsMdiContainer = true;
+            confirmForm.MdiParent = this;
+            confirmForm.Width = 400;
+            confirmForm.Height = 600;
+            confirmForm.TopLevel = true;
+            confirmForm.ShowDialog();
         }
 
         private void screenPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (isClipped)
             {
-
                 DrawScreen(previewMousePosition, e.Location);
             }
         }
@@ -173,11 +180,6 @@ namespace _7dtd_HELP
         private void ShowControl(Control control)
         {
             control.Show();
-        }
-
-        private void hintLabel_Click(object sender, EventArgs e)
-        {
-            HideControl(hintLabel);
         }
 
         private void confirmPanel_Click(object sender, EventArgs e)

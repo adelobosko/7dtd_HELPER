@@ -1,0 +1,1 @@
+FineOCR.exe %1 /lang russian /send Clipboard

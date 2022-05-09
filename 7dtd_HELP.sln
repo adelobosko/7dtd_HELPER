@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7dtd_HELP", "7dtd_HELP\7dtd_HELP.csproj", "{2398BFA2-CB47-4496-9472-314E74789862}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7DTD_Directx", "7DTD_Directx\7DTD_Directx.csproj", "{FA973A13-E627-4966-8BD6-7B43BA6F4569}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +17,15 @@ Global
 		{2398BFA2-CB47-4496-9472-314E74789862}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2398BFA2-CB47-4496-9472-314E74789862}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2398BFA2-CB47-4496-9472-314E74789862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA973A13-E627-4966-8BD6-7B43BA6F4569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA973A13-E627-4966-8BD6-7B43BA6F4569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA973A13-E627-4966-8BD6-7B43BA6F4569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA973A13-E627-4966-8BD6-7B43BA6F4569}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {299DA355-D717-4526-A45B-392CCB366703}
 	EndGlobalSection
 EndGlobal

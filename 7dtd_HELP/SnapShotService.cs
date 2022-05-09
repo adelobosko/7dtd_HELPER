@@ -38,13 +38,21 @@ namespace _7dtd_HELP
         /// </summary>
         /// <param name="sleepDuration">if value highest then 50 then create Thread.Sleep(sleepDuration)</param>
         /// <returns></returns>
-        public static Image TakeScreenShot(int sleepDuration = 100)
+        public static Image TakeScreenShot(int sleepDuration = 100, bool onlyCurrentWindow = true)
         {
-            var tSnapshot = new List<Input>()
+            var listInputs = new List<Input>()
             {
                 InputHelper.GetKeyboardInput(ScanCodeShort.SNAPSHOT, VirtualKeyShort.SNAPSHOT, KeyEventF.KEYDOWN),
                 InputHelper.GetKeyboardInput(ScanCodeShort.SNAPSHOT, VirtualKeyShort.SNAPSHOT, KeyEventF.KEYUP)
-            }.ToArray();
+            };
+
+            if (onlyCurrentWindow)
+            {
+                listInputs.Insert(0, InputHelper.GetKeyboardInput(ScanCodeShort.MENU, VirtualKeyShort.MENU, KeyEventF.KEYDOWN));
+                listInputs.Add(InputHelper.GetKeyboardInput(ScanCodeShort.MENU, VirtualKeyShort.MENU, KeyEventF.KEYUP));
+            }
+            
+            var tSnapshot = listInputs.ToArray();
 
             InputHelper.Send(tSnapshot);
             InputHelper.Send(tSnapshot);
