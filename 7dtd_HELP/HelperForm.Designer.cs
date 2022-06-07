@@ -906,7 +906,7 @@
             this.mapSacleTrackBar.Enabled = false;
             this.mapSacleTrackBar.LargeChange = 1;
             this.mapSacleTrackBar.Location = new System.Drawing.Point(0, 31);
-            this.mapSacleTrackBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mapSacleTrackBar.Margin = new System.Windows.Forms.Padding(4);
             this.mapSacleTrackBar.Maximum = 4;
             this.mapSacleTrackBar.Name = "mapSacleTrackBar";
             this.mapSacleTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -938,7 +938,7 @@
             this.logPanel.Controls.Add(this.logTextBox);
             this.logPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logPanel.Location = new System.Drawing.Point(21, 31);
-            this.logPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logPanel.Margin = new System.Windows.Forms.Padding(4);
             this.logPanel.Name = "logPanel";
             this.logPanel.Size = new System.Drawing.Size(907, 511);
             this.logPanel.TabIndex = 38;
@@ -948,7 +948,7 @@
             // 
             this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logTextBox.Location = new System.Drawing.Point(0, 0);
-            this.logTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -981,7 +981,7 @@
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "HelperForm";
             this.Opacity = 0.8D;
             this.ShowIcon = false;

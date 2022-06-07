@@ -74,7 +74,7 @@ namespace _7dtd_HELP
             typeCheckToolStripComboBox.SelectedIndex = 0;
             typeCheckToolStripComboBox.SelectedIndexChanged += (o, args) =>
             {
-                switch (typeCheckToolStripComboBox.SelectedIndex)
+                switch(typeCheckToolStripComboBox.SelectedIndex)
                 {
                     case 0:
                         checkNToolStripTextBox.Enabled = false;
@@ -88,7 +88,7 @@ namespace _7dtd_HELP
             beepIfDayToolStripComboBox.SelectedIndex = 0;
             beepIfDayToolStripComboBox.SelectedIndexChanged += (o, args) =>
             {
-                switch (beepIfDayToolStripComboBox.SelectedIndex)
+                switch(beepIfDayToolStripComboBox.SelectedIndex)
                 {
                     case 0:
                         beepIfDayKToolStripTextBox.Enabled = false;
@@ -104,7 +104,7 @@ namespace _7dtd_HELP
 
         private void HelperForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey)
+            if(e.KeyCode == Keys.ControlKey)
             {
                 _isCtrlPressed = false;
                 this.bodyPanel.Enabled = true;
@@ -113,7 +113,7 @@ namespace _7dtd_HELP
 
         private void HelperForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey)
+            if(e.KeyCode == Keys.ControlKey)
             {
                 this.bodyPanel.Enabled = false;
                 _isCtrlPressed = true;
@@ -132,18 +132,18 @@ namespace _7dtd_HELP
 
         private void MapScaleTrackBarOnMouseWheel(object sender, MouseEventArgs e)
         {
-            if (_isCtrlPressed && e.Delta > 0)
+            if(_isCtrlPressed && e.Delta > 0)
             {
-                if (mapSacleTrackBar.Value == mapSacleTrackBar.Maximum)
+                if(mapSacleTrackBar.Value == mapSacleTrackBar.Maximum)
                     return;
                 mapSacleTrackBar.Value++;
 
                 var text = $"Scale: {Math.Pow(2, mapSacleTrackBar.Value)}";
                 ShowCenteredText(text);
             }
-            else if (_isCtrlPressed && e.Delta < 0)
+            else if(_isCtrlPressed && e.Delta < 0)
             {
-                if (mapSacleTrackBar.Value == mapSacleTrackBar.Minimum)
+                if(mapSacleTrackBar.Value == mapSacleTrackBar.Minimum)
                     return;
                 mapSacleTrackBar.Value--;
 
@@ -157,9 +157,9 @@ namespace _7dtd_HELP
         {
             toolTipPanel.Visible = false;
 
-            if (e.Button == MouseButtons.Right)
+            if(e.Button == MouseButtons.Right)
             {
-                if (_isLmbPressed == false)
+                if(_isLmbPressed == false)
                 {
                     mapPictureBox.Cursor = Cursors.SizeAll;
                     _prevRmbPosition = e.Location;
@@ -168,9 +168,9 @@ namespace _7dtd_HELP
                 _isRmbPressed = true;
             }
 
-            else if (e.Button == MouseButtons.Left)
+            else if(e.Button == MouseButtons.Left)
             {
-                if (_isRmbPressed == false)
+                if(_isRmbPressed == false)
                 {
                     int x0 = mapPictureBox.Width / 2;
                     int y0 = mapPictureBox.Height / 2;
@@ -185,7 +185,7 @@ namespace _7dtd_HELP
                 _isLmbPressed = true;
             }
 
-            if (_isRmbPressed && _isLmbPressed)
+            if(_isRmbPressed && _isLmbPressed)
             {
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
@@ -194,7 +194,7 @@ namespace _7dtd_HELP
 
         private void GetPrefabsNearby(Config config, int xCenter, int yCenter)
         {
-            foreach (Control control in toolTipPanel.Controls)
+            foreach(Control control in toolTipPanel.Controls)
             {
                 control.Dispose();
             }
@@ -203,10 +203,51 @@ namespace _7dtd_HELP
             var radius = config.Map.ToolTipRadius;
             var objectsNearBy = new List<MapObjectNearBy>();
 
-            foreach (var mapPrefab in config.Map.Prefabs)
+            foreach(var mapPrefab in config.Map.Prefabs)
             {
-                var distance = Math.Sqrt(Math.Pow(xCenter - mapPrefab.X, 2) + Math.Pow(yCenter - mapPrefab.Y, 2));
-                if (distance <= radius)
+                var prefabX = mapPrefab.X;
+                var prefabY = mapPrefab.Y;
+                var prefabDetails = GlobalHelper.Config.PrefabsConfig.Prefabs.FirstOrDefault(p => p.Name == mapPrefab.Name);
+                if(prefabDetails != null)
+                {
+                    var width = prefabDetails.Size.Width / GlobalHelper.Config.Map.Scale;
+                    var height = prefabDetails.Size.Height / GlobalHelper.Config.Map.Scale;
+                    
+                    switch(mapPrefab.Rotation)
+                    {
+                        case 0:
+                        {
+                            prefabY = prefabY - height;
+                            prefabX = prefabX + width / 2;
+                            prefabY = prefabY + height / 2;
+                            break;
+                        }
+                        case 1:
+                        {
+                            prefabY = prefabY - width;
+                            prefabX = prefabX + height / 2;
+                            prefabY = prefabY + width / 2;
+                            break;
+                        }
+                        case 2:
+                        {
+                            prefabY = prefabY - height;
+                            prefabX = prefabX + width / 2;
+                            prefabY = prefabY + height / 2;
+                            break;
+                        }
+                        case 3:
+                        {
+                            prefabY = prefabY - width;
+                            prefabX = prefabX + height / 2;
+                            prefabY = prefabY + width / 2;
+                            break;
+                        }
+                    }
+                }
+
+                var distance = Math.Sqrt(Math.Pow(xCenter - prefabX, 2) + Math.Pow(yCenter - prefabY, 2));
+                if(distance <= radius)
                 {
                     objectsNearBy.Add(new MapObjectNearBy()
                     {
@@ -216,12 +257,12 @@ namespace _7dtd_HELP
                 }
             }
 
-            if (config.Map.SpawnPoints.IsEnabled)
+            if(config.Map.SpawnPoints.IsEnabled)
             {
-                foreach (var mapPoint in config.Map.SpawnPoints.MapPoints)
+                foreach(var mapPoint in config.Map.SpawnPoints.MapPoints)
                 {
                     var distance = Math.Sqrt(Math.Pow(xCenter - mapPoint.X, 2) + Math.Pow(yCenter - mapPoint.Y, 2));
-                    if (distance <= radius)
+                    if(distance <= radius)
                     {
                         objectsNearBy.Add(new MapObjectNearBy()
                         {
@@ -233,24 +274,29 @@ namespace _7dtd_HELP
             }
 
 
-            foreach (var mapObjectNearBy in objectsNearBy.OrderByDescending(o => o.Distance))
+            foreach(var mapObjectNearBy in objectsNearBy.OrderByDescending(o => o.Distance))
             {
-                if (mapObjectNearBy.Object is MapPoint mapPoint)
+                if(mapObjectNearBy.Object is MapPoint mapPoint)
                 {
                     var nameLabel = new Label();
                     nameLabel.Text = mapPoint.Name;
                     nameLabel.Dock = DockStyle.Top;
                     nameLabel.ForeColor = Color.Black;
 
+                    var decoration = GlobalHelper.Config.PrefabsConfig.Prefabs.FirstOrDefault(x => x.Name == mapPoint.Name);
+
+
+                    var rotationLabel = new Label();
+                    rotationLabel.Text = decoration != null ? $"W: {decoration.Size.Width}; H: {decoration.Size.Height}; R: {mapPoint.Rotation}" : $"R: {mapPoint.Rotation}";
+                    rotationLabel.Dock = DockStyle.Top;
+                    rotationLabel.ForeColor = Color.Black;
+
+
+
                     var distanceLabel = new Label();
                     distanceLabel.Text = $"Distance: {mapObjectNearBy.Distance:0.00}";
                     distanceLabel.Dock = DockStyle.Top;
                     distanceLabel.ForeColor = Color.Black;
-
-                    var coordinatesLabel = new Label();
-                    coordinatesLabel.Text = $"{mapPoint.X}; {mapPoint.Y}";
-                    coordinatesLabel.Dock = DockStyle.Top;
-                    coordinatesLabel.ForeColor = Color.Black;
 
                     var coordinates7dtdLabel = new Label();
                     var xCoord7dtd = mapPoint.X < 0 ? $"{Math.Abs(mapPoint.X)}W" : $"{Math.Abs(mapPoint.X)}E";
@@ -262,7 +308,7 @@ namespace _7dtd_HELP
                     var allowedGroups = config.DecorationGroups.Where(g => g.IsEnabled).ToList();
                     var groups = allowedGroups.Where(g => g.Prefabs.Count(p => p.Name == mapPoint.Name) > 0);
 
-                    foreach (var group in groups)
+                    foreach(var group in groups)
                     {
                         var groupLabel = new Label();
                         groupLabel.ImageAlign = ContentAlignment.MiddleLeft;
@@ -271,7 +317,7 @@ namespace _7dtd_HELP
                         groupLabel.Parent = toolTipPanel;
                         groupLabel.ForeColor = Color.Black;
 
-                        if (group.Icon != null)
+                        if(group.Icon != null)
                         {
                             groupLabel.Image = group.Icon.GetBitmapByFile().ResizeImage(16, 16);
                         }
@@ -288,17 +334,16 @@ namespace _7dtd_HELP
 
 
                     coordinates7dtdLabel.Parent = toolTipPanel;
-                    coordinatesLabel.Parent = toolTipPanel;
                     distanceLabel.Parent = toolTipPanel;
                     nameLabel.Parent = toolTipPanel;
-                    toolTipPanel.Controls.Add(coordinatesLabel);
                     toolTipPanel.Controls.Add(coordinates7dtdLabel);
                     toolTipPanel.Controls.Add(distanceLabel);
+                    toolTipPanel.Controls.Add(rotationLabel);
                     toolTipPanel.Controls.Add(nameLabel);
                 }
             }
 
-            if (objectsNearBy.Count > 0)
+            if(objectsNearBy.Count > 0)
             {
                 toolTipPanel.Visible = true;
             }
@@ -307,7 +352,7 @@ namespace _7dtd_HELP
 
         private void MapPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            switch (e.Button)
+            switch(e.Button)
             {
                 case MouseButtons.Left:
                 {
@@ -382,7 +427,7 @@ namespace _7dtd_HELP
 
         private void MapPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (GlobalHelper.Config?.Map == null)
+            if(GlobalHelper.Config?.Map == null)
             {
                 return;
             }
@@ -396,7 +441,7 @@ namespace _7dtd_HELP
 
 
 
-            if (e.Button == MouseButtons.Right)
+            if(e.Button == MouseButtons.Right)
             {
                 var changePoint = new Point(
                     e.Location.X - _prevRmbPosition.X,
@@ -419,7 +464,7 @@ namespace _7dtd_HELP
                     Console.WriteLine($"{message} {percentage}%");
                 }));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -437,7 +482,7 @@ namespace _7dtd_HELP
                     Console.WriteLine($"{message} {percentage}%");
                 }));
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -461,11 +506,11 @@ namespace _7dtd_HELP
 
         public void gHook_KeyDown(object sender, KeyEventArgs e)
         {
-            if (GetAsyncKeyState((int)VirtualKeyShort.MENU) == 0)
+            if(GetAsyncKeyState((int)VirtualKeyShort.MENU) == 0)
                 return;
 
 
-            switch (e.KeyCode)
+            switch(e.KeyCode)
             {
                 case Keys.NumPad1:
                     _automationConfig.LmbClick.IsTimerEnabled = !_automationConfig.LmbClick.IsTimerEnabled;
@@ -479,7 +524,7 @@ namespace _7dtd_HELP
                 {
                     gimmeTimer.Enabled = !gimmeTimer.Enabled;
                     _gimmeCounter = 0;
-                    if (gimmeTimer.Enabled)
+                    if(gimmeTimer.Enabled)
                     {
                         SystemSounds.Exclamation.Play();
                     }
@@ -524,9 +569,9 @@ namespace _7dtd_HELP
 
             GlobalHelper.Config = Config.Load(GlobalHelper.Config);
 
-            foreach (var name in GlobalHelper.Config.Maps)
+            foreach(var name in GlobalHelper.Config.Maps)
             {
-                if (name == Map.DefaultName)
+                if(name == Map.DefaultName)
                 {
                     continue;
                 }
@@ -544,7 +589,7 @@ namespace _7dtd_HELP
                         LoadMapFolder(GlobalHelper.Config.Map.DirectoryPath);
                         UpdateUI();
                     }
-                    catch (ArgumentException ex)
+                    catch(ArgumentException ex)
                     {
                         GlobalHelper.Config.Maps.Remove(name);
                         loadToolStripMenuItem.DropDownItems.Remove(item);
@@ -593,19 +638,19 @@ namespace _7dtd_HELP
 
         private Task<Bitmap> DrawBiomesAsync(Bitmap bmp, int scaledSize)
         {
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
-                if (GlobalHelper.Config.Map.Biomes.IsShown)
+                if(GlobalHelper.Config.Map.Biomes.IsShown)
                 {
                     var bitmap = GlobalHelper.Config.Map.Biomes.GetBitmap(scaledSize, scaledSize);
 
-                    if (bitmap != null)
+                    if(bitmap != null)
                     {
                         bitmap.SetResolution(96, 96);
                         bitmap = bitmap.ChangeOpacity(GlobalHelper.Config.Map.Biomes.Opacity / 100f);
 
                         //bitmap.Save("biome.png");
-                        using (var gr = Graphics.FromImage(bmp))
+                        using(var gr = Graphics.FromImage(bmp))
                         {
                             gr.DrawImage(bitmap, new Point(0, 0));
                         }
@@ -614,7 +659,6 @@ namespace _7dtd_HELP
 
                 return bmp;
             });
-            task.Start();
 
             return task;
         }
@@ -625,13 +669,13 @@ namespace _7dtd_HELP
             var oldColor = Color.FromArgb(255, 0, 0, 0);
             var newColor = Color.FromArgb(0, 0, 0, 0);
 
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
-                if (GlobalHelper.Config.Map.Radiation.IsShown)
+                if(GlobalHelper.Config.Map.Radiation.IsShown)
                 {
                     var bitmap = GlobalHelper.Config.Map.Radiation.GetBitmap(scaledSize, scaledSize);
 
-                    if (bitmap != null)
+                    if(bitmap != null)
                     {
                         bitmap.SetResolution(96, 96);
                         BitmapHelper.ReplaceColor(bitmap, oldColor, newColor);
@@ -639,7 +683,7 @@ namespace _7dtd_HELP
 
 
                         //bitmap.Save("rad.png");
-                        using (var gr = Graphics.FromImage(mapBitmap))
+                        using(var gr = Graphics.FromImage(mapBitmap))
                         {
                             gr.DrawImage(bitmap, new Point(0, 0));
                         }
@@ -648,8 +692,6 @@ namespace _7dtd_HELP
 
                 return mapBitmap;
             });
-
-            task.Start();
 
             return task;
         }
@@ -660,12 +702,12 @@ namespace _7dtd_HELP
             var oldColor = Color.FromArgb(255, 0, 0, 0);
             var newColor = Color.FromArgb(0, 0, 0, 0);
 
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
-                if (GlobalHelper.Config.Map.Cities.IsShown)
+                if(GlobalHelper.Config.Map.Cities.IsShown)
                 {
                     var bitmap = GlobalHelper.Config.Map.Cities.GetBitmap(scaledSize, scaledSize);
-                    if (bitmap != null)
+                    if(bitmap != null)
                     {
                         bitmap.SetResolution(96, 96);
                         //BitmapHelper.ReplaceColor(bitmap, oldColor, newColor);
@@ -673,7 +715,7 @@ namespace _7dtd_HELP
                         bitmap = bitmap.ChangeOpacity(GlobalHelper.Config.Map.Cities.Opacity / 100f);
                         //bitmap.Save("city.png");
 
-                        using (var gr = Graphics.FromImage(bmp))
+                        using(var gr = Graphics.FromImage(bmp))
                         {
                             gr.DrawImage(bitmap, new Point(0, 0));
                         }
@@ -682,7 +724,6 @@ namespace _7dtd_HELP
 
                 return bmp;
             });
-            task.Start();
 
             return task;
         }
@@ -690,7 +731,7 @@ namespace _7dtd_HELP
 
         private Task<Bitmap> DrawGridAsync(Bitmap bmp, int scaledSize)
         {
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
                 //DrawGrid(map);
                 var gridColor = Pens.Gray;
@@ -699,7 +740,7 @@ namespace _7dtd_HELP
                 int y0 = scaledSize / 2;
                 int sizeRectangle = 4;
 
-                using (var gr = Graphics.FromImage(bmp))
+                using(var gr = Graphics.FromImage(bmp))
                 {
                     gr.FillRectangle(
                         Brushes.Black,
@@ -711,7 +752,7 @@ namespace _7dtd_HELP
 
 
 
-                    for (var i = 0; i < rowsAndColumns; i++)
+                    for(var i = 0; i < rowsAndColumns; i++)
                     {
 
                         gr.DrawLine(gridColor,
@@ -770,115 +811,140 @@ namespace _7dtd_HELP
 
                 return bmp;
             });
-            task.Start();
 
             return task;
         }
 
 
+        private void DrawGroupAvatar(Graphics gr, int x, int y, DecorationGroup group)
+        {
+            if(group.Icon == null)
+            {
+                gr.FillRectangle(
+                    group.BrushColor,
+                    x - group.BrushSize / 2,
+                    y - group.BrushSize / 2,
+                    group.BrushSize,
+                    group.BrushSize
+                );
+            }
+            else
+            {
+                if(group.Icon.Width == -1 && group.Icon.Height == -1)
+                {
+                    var image = group.Icon.GetBitmapByFile();
+                    gr.DrawImage(
+                        image,
+                        new Point(
+                            x - image.Width / 2,
+                            y - image.Height / 2
+                        )
+                    );
+                }
+                else
+                {
+                    var image = group.Icon.GetBitmapByFile()
+                        .ResizeImage(group.Icon.Width, group.Icon.Height);
+                    gr.DrawImage(image,
+                        new Point(
+                            x - image.Width / 2,
+                            y - image.Height / 2
+                        )
+                    );
+                }
+            }
+        }
+
+
+        private void DrawDecorationGroup(Graphics gr, int x0, int y0, MapPoint prefab, DecorationGroup group)
+        {
+            var x = x0 + prefab.X / GlobalHelper.Config.Map.Scale;
+            var y = y0 - prefab.Y / GlobalHelper.Config.Map.Scale;
+
+            var prefabDetails = GlobalHelper.Config.PrefabsConfig.Prefabs.FirstOrDefault(p => p.Name == prefab.Name);
+            if(prefabDetails != null)
+            {
+                var width = prefabDetails.Size.Width / GlobalHelper.Config.Map.Scale;
+                var height = prefabDetails.Size.Height / GlobalHelper.Config.Map.Scale;
+                var centerX = x;
+                var centerY = y;
+                switch(prefab.Rotation)
+                {
+                    case 0:
+                    {
+                        y = y - height;
+                        gr.DrawRectangle(new Pen(Color.Aqua, 2), new Rectangle(x, y, width, height));
+                        centerX = x + width / 2;
+                        centerY = y + height / 2;
+                        break;
+                    }
+                    case 1:
+                    {
+                        y = y - width;
+                        gr.DrawRectangle(new Pen(Color.Aqua, 2), new Rectangle(x, y, height, width));
+                        centerX = x + height / 2;
+                        centerY = y + width / 2;
+                        break;
+                    }
+                    case 2:
+                    {
+                        y = y - height;
+                        gr.DrawRectangle(new Pen(Color.Aqua, 2), new Rectangle(x, y, width, height));
+                        centerX = x + width / 2;
+                        centerY = y + height / 2;
+                        break;
+                    }
+                    case 3:
+                    {
+                        y = y - width;
+                        gr.DrawRectangle(new Pen(Color.Aqua, 2), new Rectangle(x, y, height, width));
+                        centerX = x + height / 2;
+                        centerY = y + width / 2;
+                        break;
+                    }
+                }
+
+                DrawGroupAvatar(gr, centerX, centerY, group);
+            }
+            else
+            {
+                DrawGroupAvatar(gr, x, y, group);
+            }
+        }
+
+
         private Task<Bitmap> DrawPrefabsAsync(Bitmap bmp, int scaledSize)
         {
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
 
-                using (var gr = Graphics.FromImage(bmp))
+                using(var gr = Graphics.FromImage(bmp))
                 {
                     var allowedGroups = GlobalHelper.Config.DecorationGroups.Where(g => g.IsEnabled).ToList();
                     int x0 = scaledSize / 2;
                     int y0 = scaledSize / 2;
 
-                    foreach (var prefab in GlobalHelper.Config.Map.Prefabs)
+                    foreach(var prefab in GlobalHelper.Config.Map.Prefabs)
                     {
-                        var x = x0 + prefab.X / GlobalHelper.Config.Map.Scale;
-                        var y = y0 - prefab.Y / GlobalHelper.Config.Map.Scale;
-                        if (!GlobalHelper.Config.Map.IsShowAllPrefabIcons)
+                        if(!GlobalHelper.Config.Map.IsShowAllPrefabIcons)
                         {
-                            var firstGroup =
-                                allowedGroups.FirstOrDefault(g => g.Prefabs.Count(p => p.Name == prefab.Name) > 0);
+                            var group = allowedGroups.FirstOrDefault(g => g.Prefabs.Count(p => p.Name == prefab.Name) > 0);
 
-                            if (firstGroup == null)
+                            if(group == null)
                                 continue;
 
-                            if (firstGroup.Icon == null)
-                            {
-                                gr.FillRectangle(
-                                    firstGroup.BrushColor,
-                                    x - firstGroup.BrushSize / 2,
-                                    y - firstGroup.BrushSize / 2,
-                                    firstGroup.BrushSize,
-                                    firstGroup.BrushSize
-                                );
-                            }
-                            else
-                            {
-                                if (firstGroup.Icon.Width == -1 && firstGroup.Icon.Height == -1)
-                                {
-                                    var image = firstGroup.Icon.GetBitmapByFile();
-                                    gr.DrawImage(
-                                        image,
-                                        new Point(
-                                            x - image.Width / 2,
-                                            y - image.Height / 2
-                                        )
-                                    );
-                                }
-                                else
-                                {
-                                    var image = firstGroup.Icon.GetBitmapByFile()
-                                        .ResizeImage(firstGroup.Icon.Width, firstGroup.Icon.Height);
-                                    gr.DrawImage(image,
-                                        new Point(
-                                            x - image.Width / 2,
-                                            y - image.Height / 2
-                                        )
-                                    );
-                                }
-                            }
+                            DrawDecorationGroup(gr, x0, y0, prefab, group);
                         }
                         else
                         {
                             var groups = allowedGroups.Where(g => g.Prefabs.Count(p => p.Name == prefab.Name) > 0).ToList();
 
-                            if (!groups.Any())
+                            if(!groups.Any())
                                 continue;
 
-                            foreach (var group in groups)
+                            foreach(var group in groups)
                             {
-                                if (group.Icon == null)
-                                {
-                                    gr.FillRectangle(
-                                        group.BrushColor,
-                                        x - group.BrushSize / 2,
-                                        y - group.BrushSize / 2,
-                                        group.BrushSize,
-                                        group.BrushSize
-                                    );
-                                }
-                                else
-                                {
-                                    if (group.Icon.Width == -1 && group.Icon.Height == -1)
-                                    {
-                                        var image = group.Icon.GetBitmapByFile();
-                                        gr.DrawImage(
-                                            image,
-                                            new Point(
-                                                x - image.Width / 2,
-                                                y - image.Height / 2
-                                            )
-                                        );
-                                    }
-                                    else
-                                    {
-                                        var image = group.Icon.GetBitmapByFile()
-                                            .ResizeImage(group.Icon.Width, group.Icon.Height);
-                                        gr.DrawImage(image,
-                                            new Point(
-                                                x - image.Width / 2,
-                                                y - image.Height / 2
-                                            )
-                                        );
-                                    }
-                                }
+                                DrawDecorationGroup(gr, x0, y0, prefab, group);
                             }
                         }
                     }
@@ -887,7 +953,6 @@ namespace _7dtd_HELP
 
                 return bmp;
             });
-            task.Start();
 
             return task;
         }
@@ -895,21 +960,21 @@ namespace _7dtd_HELP
 
         private Task<Bitmap> DrawSpawnPointsAsync(Bitmap bmp, int scaledSize)
         {
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
-                if (GlobalHelper.Config.Map.SpawnPoints.IsEnabled)
+                if(GlobalHelper.Config.Map.SpawnPoints.IsEnabled)
                 {
                     int x0 = scaledSize / 2;
                     int y0 = scaledSize / 2;
 
-                    using (var gr = Graphics.FromImage(bmp))
+                    using(var gr = Graphics.FromImage(bmp))
                     {
-                        foreach (var mapPoint in GlobalHelper.Config.Map.SpawnPoints.MapPoints)
+                        foreach(var mapPoint in GlobalHelper.Config.Map.SpawnPoints.MapPoints)
                         {
                             var x = x0 + mapPoint.X / GlobalHelper.Config.Map.Scale;
                             var y = y0 - mapPoint.Y / GlobalHelper.Config.Map.Scale;
 
-                            if (GlobalHelper.Config.Map.SpawnPoints.Icon == null)
+                            if(GlobalHelper.Config.Map.SpawnPoints.Icon == null)
                             {
                                 gr.FillRectangle(
                                     GlobalHelper.Config.Map.SpawnPoints.BrushColor,
@@ -921,7 +986,7 @@ namespace _7dtd_HELP
                             }
                             else
                             {
-                                if (GlobalHelper.Config.Map.SpawnPoints.Icon.Width == -1
+                                if(GlobalHelper.Config.Map.SpawnPoints.Icon.Width == -1
                                     && GlobalHelper.Config.Map.SpawnPoints.Icon.Height == -1)
                                 {
                                     var image = GlobalHelper.Config.Map.SpawnPoints.Icon.GetBitmapByFile();
@@ -953,7 +1018,6 @@ namespace _7dtd_HELP
 
                 return bmp;
             });
-            task.Start();
 
             return task;
         }
@@ -961,12 +1025,12 @@ namespace _7dtd_HELP
 
         private Task<Bitmap> DrawMeAsync(Bitmap bmp, int scaledSize)
         {
-            var task = new Task<Bitmap>(() =>
+            var task = Task.Run<Bitmap>(() =>
             {
                 int x0 = scaledSize / 2;
                 int y0 = scaledSize / 2;
 
-                using (var gr = Graphics.FromImage(bmp))
+                using(var gr = Graphics.FromImage(bmp))
                 {
                     try
                     {
@@ -991,7 +1055,6 @@ namespace _7dtd_HELP
 
                 return bmp;
             });
-            task.Start();
 
             return task;
         }
@@ -1047,7 +1110,7 @@ namespace _7dtd_HELP
             showAllPrefabIconsToolStripMenuItem.Checked = GlobalHelper.Config.Map.IsShowAllPrefabIcons;
 
             var spawnPointsObjectCollection = GlobalHelper.Config.Map.SpawnPoints;
-            if (spawnPointsObjectCollection == null)
+            if(spawnPointsObjectCollection == null)
             {
                 spawnPointsToolStripMenuItem.Visible = false;
             }
@@ -1077,9 +1140,9 @@ namespace _7dtd_HELP
 
             isClearEveryNewRequestToolStripMenuItem.Checked = _logger.IsClearLogForEveryLog;
 
-            foreach (var groupStripMenuItem in _groupStripMenuItems)
+            foreach(var groupStripMenuItem in _groupStripMenuItems)
             {
-                if (groupsToolStripMenuItem.DropDownItems.Contains(groupStripMenuItem))
+                if(groupsToolStripMenuItem.DropDownItems.Contains(groupStripMenuItem))
                 {
                     groupsToolStripMenuItem.DropDownItems.Remove(groupStripMenuItem);
                     groupStripMenuItem.Dispose();
@@ -1088,7 +1151,7 @@ namespace _7dtd_HELP
 
             _groupStripMenuItems.Clear();
 
-            foreach (var group in GlobalHelper.Config.DecorationGroups)
+            foreach(var group in GlobalHelper.Config.DecorationGroups)
             {
                 var item = new ToolStripMenuItem()
                 {
@@ -1120,16 +1183,16 @@ namespace _7dtd_HELP
                         IsEnabled = group.IsEnabled
                     };
 
-                    if (groupPrefab.ShowDialog(this) == DialogResult.OK)
+                    if(groupPrefab.ShowDialog(this) == DialogResult.OK)
                     {
                         var decorationGroup = groupPrefab.Result;
 
                         var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
                             string.Equals(dg.Name, decorationGroup.Name, StringComparison.CurrentCultureIgnoreCase));
 
-                        if (twin != null)
+                        if(twin != null)
                         {
-                            if (group.Name == twin.Name)
+                            if(group.Name == twin.Name)
                             {
                                 GlobalHelper.Config.DecorationGroups.Remove(twin);
                             }
@@ -1163,7 +1226,7 @@ namespace _7dtd_HELP
                     var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
                             string.Equals(dg.Name, group.Name, StringComparison.CurrentCultureIgnoreCase));
 
-                    if (twin == null)
+                    if(twin == null)
                         return;
 
                     GlobalHelper.Config.DecorationGroups.Remove(twin);
@@ -1200,7 +1263,7 @@ namespace _7dtd_HELP
             {
                 return;
             }
-            if (_gimmeCounter < timeToGimme)
+            if(_gimmeCounter < timeToGimme)
                 return;
             SystemSounds.Exclamation.Play();
         }
@@ -1208,7 +1271,7 @@ namespace _7dtd_HELP
 
         private void mapFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog()
+            using(var fbd = new FolderBrowserDialog()
             {
                 RootFolder = Environment.SpecialFolder.ApplicationData,
                 SelectedPath = GlobalHelper.Paths.MapsAppDataDirectory
@@ -1216,7 +1279,7 @@ namespace _7dtd_HELP
             {
                 var result = fbd.ShowDialog();
 
-                if (result != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                if(result != DialogResult.OK || string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     return;
 
                 LoadMapFolder(fbd.SelectedPath);
@@ -1232,7 +1295,7 @@ namespace _7dtd_HELP
             var mapInfoFile = Path.Combine(worldDirectory, "map_info.xml");
             var prefabsFile = Path.Combine(worldDirectory, "prefabs.xml");
             var spawnPointsFile = Path.Combine(worldDirectory, "spawnpoints.xml");
-            if (!File.Exists(hostsFile) || !Directory.Exists(worldDirectory)
+            if(!File.Exists(hostsFile) || !Directory.Exists(worldDirectory)
                                         || !File.Exists(mapInfoFile)
                                         || !File.Exists(prefabsFile)
                                         || !File.Exists(spawnPointsFile))
@@ -1247,10 +1310,10 @@ namespace _7dtd_HELP
 
             var ip = "";
             var port = "";
-            if (hosts.Length > 0)
+            if(hosts.Length > 0)
             {
                 var host = hosts[0].Split(':');
-                if (host.Length > 1)
+                if(host.Length > 1)
                 {
                     ip = host[0];
                     port = host[1];
@@ -1262,7 +1325,7 @@ namespace _7dtd_HELP
                 Name = mapName
             };
 
-            if (!GlobalHelper.Config.Maps.Contains(mapName))
+            if(!GlobalHelper.Config.Maps.Contains(mapName))
             {
                 var item = new ToolStripMenuItem()
                 {
@@ -1291,7 +1354,7 @@ namespace _7dtd_HELP
 
         private void sizeToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (GlobalHelper.Config?.Map == null)
+            if(GlobalHelper.Config?.Map == null)
             {
                 return;
             }
@@ -1302,7 +1365,7 @@ namespace _7dtd_HELP
 
         private void sizeCellToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (GlobalHelper.Config?.Map == null)
+            if(GlobalHelper.Config?.Map == null)
             {
                 return;
             }
@@ -1326,20 +1389,20 @@ namespace _7dtd_HELP
 
         private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (GlobalHelper.Config.PrefabsConfig.Prefabs.Count == 0)
+            if(GlobalHelper.Config.PrefabsConfig.Prefabs.Count == 0)
             {
                 MessageBox.Show($"Prefabs is empty. You need to update the prefabs (Map => UpdatePrefabs)");
                 return;
             }
 
             var groupPrefabsForm = new GroupPrefabsForm();
-            if (groupPrefabsForm.ShowDialog(this) == DialogResult.OK)
+            if(groupPrefabsForm.ShowDialog(this) == DialogResult.OK)
             {
                 var decorationGroup = groupPrefabsForm.Result;
                 var twin = GlobalHelper.Config.DecorationGroups.SingleOrDefault(dg =>
                     string.Equals(dg.Name, decorationGroup.Name, StringComparison.CurrentCultureIgnoreCase));
 
-                if (twin != null)
+                if(twin != null)
                 {
                     decorationGroup.Name += "_Twin";
                     MessageBox.Show(
@@ -1388,20 +1451,20 @@ namespace _7dtd_HELP
 
                 var xWE = text[1][text[1].Length - 1];
                 var xText = Convert.ToInt32(text[1].Substring(0, text[1].Length - 1));
-                if (ySN == 'S')
+                if(ySN == 'S')
                 {
                     GlobalHelper.MyCoordinates.Y = -1 * yText;
                 }
-                else if (ySN == 'N')
+                else if(ySN == 'N')
                 {
                     GlobalHelper.MyCoordinates.Y = yText;
                 }
 
-                if (xWE == 'W')
+                if(xWE == 'W')
                 {
                     GlobalHelper.MyCoordinates.X = -1 * xText;
                 }
-                else if (xWE == 'E')
+                else if(xWE == 'E')
                 {
                     GlobalHelper.MyCoordinates.X = xText;
                 }
@@ -1417,7 +1480,7 @@ namespace _7dtd_HELP
             var setIconForm = new SetIconForm();
             setIconForm.Icon = GlobalHelper.Config.Map.SpawnPoints.Icon;
             setIconForm.PreviewIcon();
-            if (setIconForm.ShowDialog(this) == DialogResult.OK)
+            if(setIconForm.ShowDialog(this) == DialogResult.OK)
             {
                 var resultIcon = setIconForm.Icon;
                 GlobalHelper.Config.Map.SpawnPoints.Icon = resultIcon;
@@ -1435,7 +1498,7 @@ namespace _7dtd_HELP
             var colorDialog1 = new ColorDialog();
             SolidBrush color;
 
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            if(colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 color = new SolidBrush(colorDialog1.Color);
                 GlobalHelper.Config.Map.SpawnPoints.BrushColor = color;
@@ -1487,16 +1550,16 @@ namespace _7dtd_HELP
                 UseShellExecute = false,
                 Verb = "runas"
             };
-            using (var ps = Process.Start(info))
+            using(var ps = Process.Start(info))
             {
                 ps.StartInfo.Verb = "runas";
                 ps.WaitForExit();
                 var exitCode = ps.ExitCode;
-                if (exitCode == 0)
+                if(exitCode == 0)
                 {
                     var positionReaderForm = new PositionReaderForm();
                     var dlgRes = positionReaderForm.ShowDialog(this);
-                    if (dlgRes == DialogResult.OK)
+                    if(dlgRes == DialogResult.OK)
                     {
                         GlobalHelper.Config.CoordinatesRectangle = positionReaderForm.Result;
                     }
@@ -1538,7 +1601,7 @@ namespace _7dtd_HELP
                 .Replace("W", "W;");
 
             var split = res.Split(';');
-            if (split.Length < 2 || split[0].Contains("N") || split[0].Contains("D") || split[1].Contains("E") || split[1].Contains("W") || split[0].Length < 2 || split[1].Length < 2)
+            if(split.Length < 2 || split[0].Contains("N") || split[0].Contains("D") || split[1].Contains("E") || split[1].Contains("W") || split[0].Length < 2 || split[1].Length < 2)
             {
                 return "";
             }
@@ -1548,7 +1611,7 @@ namespace _7dtd_HELP
 
         public void DrawMeOnMap()
         {
-            if (GlobalHelper.Config.CoordinatesRectangle.X <= 0 || GlobalHelper.Config.CoordinatesRectangle.Y <= 0)
+            if(GlobalHelper.Config.CoordinatesRectangle.X <= 0 || GlobalHelper.Config.CoordinatesRectangle.Y <= 0)
             {
                 return;
             }
@@ -1557,7 +1620,7 @@ namespace _7dtd_HELP
             this.TopMost = false;
             var text = GetTextByScreen();
             text = GetCoordinatesByText(text);
-            if (text == "")
+            if(text == "")
             {
                 return;
             }
@@ -1711,7 +1774,7 @@ namespace _7dtd_HELP
         private void serverAboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var a2SInfo = ValveMonitoring.ValveMonitoring.GetA2S_INFO(ipToolStripTextBox.Text, portToolStripTextBox.Text, out var data);
-            if (a2SInfo == null)
+            if(a2SInfo == null)
                 return;
 
             var res = a2SInfo.GetText();
@@ -1755,7 +1818,7 @@ namespace _7dtd_HELP
             new Thread(() =>
             {
                 var a2sInfo = ValveMonitoring.ValveMonitoring.GetA2S_INFO(ipToolStripTextBox.Text, portToolStripTextBox.Text, out var data);
-                if (a2sInfo == null)
+                if(a2sInfo == null)
                     return;
 
                 Invoke(new Action(() =>
@@ -1769,29 +1832,29 @@ namespace _7dtd_HELP
                         n = Convert.ToInt32(checkNToolStripTextBox.Text);
                     }
                     catch { }
-                    switch (typeCheckToolStripComboBox.SelectedIndex)
+                    switch(typeCheckToolStripComboBox.SelectedIndex)
                     {
                         case 0:
                         {
-                            if (a2sInfo.Players < a2sInfo.MaxPlayers)
+                            if(a2sInfo.Players < a2sInfo.MaxPlayers)
                                 Console.Beep(5000, 300);
                             break;
                         }
                         case 1:
                         {
-                            if (a2sInfo.Players < a2sInfo.MaxPlayers - n)
+                            if(a2sInfo.Players < a2sInfo.MaxPlayers - n)
                                 Console.Beep(5000, 300);
                             break;
                         }
                         case 2:
                         {
-                            if (a2sInfo.Players < n)
+                            if(a2sInfo.Players < n)
                                 Console.Beep(5000, 300);
                             break;
                         }
                         case 3:
                         {
-                            if (a2sInfo.Players > n)
+                            if(a2sInfo.Players > n)
                                 Console.Beep(5000, 300);
                             break;
                         }
@@ -1837,7 +1900,7 @@ namespace _7dtd_HELP
             new Thread(() =>
             {
                 var res = ValveMonitoring.ValveMonitoring.GetServerStats(ipToolStripTextBox.Text, portToolStripTextBox.Text, out _);
-                if (res == "ERROR")
+                if(res == "ERROR")
                     return;
                 var timeStr = res.Replace("\r", "").Split('\n').Single(str => str.Contains("CurrentServerTime"))
                     .Split(':')[1];
@@ -1853,7 +1916,7 @@ namespace _7dtd_HELP
                     _logger.Log($"{day} {hour} {mins}");
 
 
-                    if (!beepIfDayToolStripMenuItem.Checked && !beepIfTimeToolStripMenuItem.Checked)
+                    if(!beepIfDayToolStripMenuItem.Checked && !beepIfTimeToolStripMenuItem.Checked)
                     {
                         return;
                     }
@@ -1883,15 +1946,15 @@ namespace _7dtd_HELP
                     try
                     {
 
-                        if (beepIfDayToolStripMenuItem.Checked)
+                        if(beepIfDayToolStripMenuItem.Checked)
                         {
                             var n = Convert.ToInt32(beepIfDayNToolStripTextBox.Text);
-                            switch (beepIfDayToolStripComboBox.SelectedIndex)
+                            switch(beepIfDayToolStripComboBox.SelectedIndex)
                             {
                                 // day == N
                                 case 0:
                                 {
-                                    if (day == n)
+                                    if(day == n)
                                     {
                                         Console.Beep(frequency, duration);
                                     }
@@ -1903,7 +1966,7 @@ namespace _7dtd_HELP
                                 {
                                     var k = Convert.ToInt32(beepIfDayKToolStripTextBox.Text);
 
-                                    if ((day + k) % n == 0)
+                                    if((day + k) % n == 0)
                                     {
                                         Console.Beep(frequency, duration);
                                     }
@@ -1913,18 +1976,18 @@ namespace _7dtd_HELP
                             }
                         }
 
-                        if (beepIfTimeToolStripMenuItem.Checked)
+                        if(beepIfTimeToolStripMenuItem.Checked)
                         {
                             var n = Convert.ToInt32(beepIfTimeNToolStripTextBox.Text);
                             var k = Convert.ToInt32(beepIfTimeKToolStripTextBox.Text);
 
-                            if (n <= hour && hour < k)
+                            if(n <= hour && hour < k)
                             {
                                 Console.Beep(frequency, duration);
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
                         _logger.Log(ex.ToString(), ex.Message);
                     }

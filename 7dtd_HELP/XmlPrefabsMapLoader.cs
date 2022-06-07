@@ -42,17 +42,23 @@ namespace _7dtd_HELP
             {
                 var nameAttribute = decoration.Attribute("name");
                 var positionAttribute = decoration.Attribute("position");
+                var rotationAttribute = decoration.Attribute("rotation");
 
-                if (nameAttribute == null || positionAttribute == null)
-                    throw new Exception($"nameAttribute (\"{nameAttribute}\") or positionAttribute (\"{positionAttribute}\") did not find.");
+                if (nameAttribute == null || positionAttribute == null || rotationAttribute == null)
+                    throw new Exception($"nameAttribute or positionAttribute or rotationAttribute could not find.");
 
-                var x = int.Parse(positionAttribute.Value.Split(',')[0]);
-                var y = int.Parse(positionAttribute.Value.Split(',')[2]);
+                var positionSplit = positionAttribute.Value.Split(',');
+                var positionX = int.Parse(positionSplit[0]);
+                var positionY = int.Parse(positionSplit[2]);
+
+                var roration = int.Parse(rotationAttribute.Value);
+
                 var mapPoint = new MapPoint()
                 {
                     Name = nameAttribute.Value,
-                    X = x,
-                    Y = y
+                    X = positionX,
+                    Y = positionY,
+                    Rotation = roration
                 };
 
                 return mapPoint;

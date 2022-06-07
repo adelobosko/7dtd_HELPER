@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Interop;
 
 namespace _7DTD_Directx
 {
@@ -20,9 +11,58 @@ namespace _7DTD_Directx
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool _isCtrlPressed = false;
+        bool _isLmbPressed = false;
+        bool _isRmbPressed = false;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.LeftCtrl)
+            {
+                _isCtrlPressed = true;
+            }
+        }
+
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.LeftCtrl)
+            {
+                _isCtrlPressed = false;
+            }
+        }
+
+
+
+
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MapWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void MapWindow_MouseMove(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+            if(Mouse.LeftButton == MouseButtonState.Pressed && Mouse.RightButton == MouseButtonState.Pressed)
+            {
+                var handle = new WindowInteropHelper(this).Handle;
+                Task.Run(() =>
+                {
+                    Utils.WinApi.User32.ReleaseCapture();
+                    Utils.WinApi.User32.SendMessage(handle, Utils.WinApi.User32.WM_NCLBUTTONDOWN, Utils.WinApi.User32.HT_CAPTION, 0);
+                });
+            }
         }
     }
 }

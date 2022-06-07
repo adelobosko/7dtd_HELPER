@@ -196,7 +196,8 @@ namespace _7dtd_HELP
                 {
                     Name = "SpawnPoint",
                     X = Convert.ToInt32(coordinates[0]),
-                    Y = Convert.ToInt32(coordinates[2])
+                    Y = Convert.ToInt32(coordinates[2]),
+                    Rotation = 0
                 });
             }
         }

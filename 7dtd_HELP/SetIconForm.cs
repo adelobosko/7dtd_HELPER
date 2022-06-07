@@ -52,7 +52,13 @@ namespace _7dtd_HELP
                     return;
                 }
 
-                Icon.Width = int.Parse(widthTextBox.Text);
+                var width = int.Parse(widthTextBox.Text);
+                if (width <= 0 && width != -1)
+                {
+                    return;
+                }
+                Icon.Width = width;
+
                 PreviewIcon();
             }
             catch { }
@@ -66,7 +72,12 @@ namespace _7dtd_HELP
                 {
                     return;
                 }
-                Icon.Height = int.Parse(heightTextBox.Text);
+                var height = int.Parse(heightTextBox.Text);
+                if (height <= 0 && height != -1)
+                {
+                    return;
+                }
+                Icon.Height = height;
                 PreviewIcon();
             }
             catch { }

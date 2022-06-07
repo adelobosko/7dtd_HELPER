@@ -127,11 +127,14 @@ namespace _7dtd_HELP
                 for (var i = 0; i < htmlFiles.Length; i++)
                 {
                     var blocks = Prefab.GetPrefabBlocksByHtml(htmlFiles[i].FullName);
+                    var prefabSize = Prefab.GetPrefabSizeByHtml(htmlFiles[i].FullName);
                     var prefab = new Prefab()
                     {
                         FileName = htmlFiles[i].FullName,
+                        ImageFullPath = htmlFiles[i].FullName.Replace(".html", ".jpg"),
                         Name = Path.GetFileNameWithoutExtension(htmlFiles[i].Name),
-                        Blocks = new List<PrefabBlock>(blocks)
+                        Blocks = new List<PrefabBlock>(blocks),
+                        Size = prefabSize
                     };
                     prefabs.Add(prefab);
                     var percentage = (i + 1) * 100.0 / htmlFiles.Length;
