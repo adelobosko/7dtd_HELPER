@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -63,6 +65,24 @@ namespace _7DTD_Directx
                     Utils.WinApi.User32.SendMessage(handle, Utils.WinApi.User32.WM_NCLBUTTONDOWN, Utils.WinApi.User32.HT_CAPTION, 0);
                 });
             }
+        }
+
+
+        private void chooseMapFolderMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using(var commonOpenFileDialog = new CommonOpenFileDialog()
+            {
+                IsFolderPicker = true,
+                InitialDirectory = Utils.GlobalHelper.Paths.MapsAppDataDirectory,
+                EnsureFileExists = true,
+                Title = "Choose a server's folder from SavesLocal."
+            })
+            {
+                if(commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok && !string.IsNullOrWhiteSpace(commonOpenFileDialog.FileName))
+                {
+                    Map.MapProvider.TryLoadMapFromSaveLocalFolder(commonOpenFileDialog.FileName);
+                }
+            }            
         }
     }
 }

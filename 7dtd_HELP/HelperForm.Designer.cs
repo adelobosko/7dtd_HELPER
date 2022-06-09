@@ -287,27 +287,27 @@
             this.prefabsXMLToolStripMenuItem,
             this.toolStripMenuItem1});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.loadToolStripMenuItem.Text = "Load";
             // 
             // prefabsXMLToolStripMenuItem
             // 
             this.prefabsXMLToolStripMenuItem.Name = "prefabsXMLToolStripMenuItem";
-            this.prefabsXMLToolStripMenuItem.Size = new System.Drawing.Size(164, 26);
+            this.prefabsXMLToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.prefabsXMLToolStripMenuItem.Text = "mapFolder";
             this.prefabsXMLToolStripMenuItem.Click += new System.EventHandler(this.mapFolderToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
             // 
             // sizeToolStripMenuItem
             // 
             this.sizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeToolStripTextBox});
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.sizeToolStripMenuItem.Text = "Size";
             // 
             // sizeToolStripTextBox
@@ -324,7 +324,7 @@
             this.sizeCellToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sizeCellToolStripTextBox});
             this.sizeCellToolStripMenuItem.Name = "sizeCellToolStripMenuItem";
-            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.sizeCellToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.sizeCellToolStripMenuItem.Text = "SizeCell";
             // 
             // sizeCellToolStripTextBox
@@ -339,7 +339,7 @@
             // updatePerfarbsToolStripMenuItem
             // 
             this.updatePerfarbsToolStripMenuItem.Name = "updatePerfarbsToolStripMenuItem";
-            this.updatePerfarbsToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.updatePerfarbsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.updatePerfarbsToolStripMenuItem.Text = "UpdatePrefabs";
             this.updatePerfarbsToolStripMenuItem.Click += new System.EventHandler(this.updatePrefabsToolStripMenuItem_Click);
             // 
@@ -349,7 +349,7 @@
             this.selectCoordinatesToolStripMenuItem,
             this.drawOnMapALTMToolStripMenuItem});
             this.positionReaderToolStripMenuItem.Name = "positionReaderToolStripMenuItem";
-            this.positionReaderToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.positionReaderToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.positionReaderToolStripMenuItem.Text = "PositionReader";
             this.positionReaderToolStripMenuItem.Click += new System.EventHandler(this.positionReaderToolStripMenuItem_Click);
             // 

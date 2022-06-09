@@ -32,16 +32,17 @@
 
             <Menu x:Name="menu" Grid.Column="0" Height="25" VerticalAlignment="Top" Grid.ColumnSpan="2">
                 <MenuItem Header="Map">
-                    <MenuItem Header="New Project" ></MenuItem>
-                    <MenuItem Header="Open Project" >
-                        <MenuItem Header="WinForms"></MenuItem>
-                        <MenuItem Header="WPF" ></MenuItem>
+                    <MenuItem Header="Load" >
+                        <MenuItem x:Name="chooseMapFolderMenuItem" Header="Choose Map Folder" Click="chooseMapFolderMenuItem_Click"></MenuItem>
+                        <Separator />
                     </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Exit" ></MenuItem>
+                    <MenuItem Header="Size" ></MenuItem>
+                    <MenuItem Header="SizeCell" ></MenuItem>
+                    <MenuItem Header="UpdatePrefabs" ></MenuItem>
+                    <MenuItem Header="PositionReader" ></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Edit" ></MenuItem>
-                <MenuItem Header="View" ></MenuItem>
+                <MenuItem Header="Help" ></MenuItem>
+                <MenuItem Header="Monitoring" ></MenuItem>
             </Menu>
             <Button x:Name="closeButton" Grid.Column="1" Grid.Row="0" Background="Red" Click="closeButton_Click">X</Button>
         </Grid>
