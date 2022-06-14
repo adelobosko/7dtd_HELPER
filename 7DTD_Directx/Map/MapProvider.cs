@@ -104,8 +104,8 @@ namespace _7DTD_Directx.Map
             var worldDirectory = Path.Combine(path, "World");
             var mapInfoFile = Path.Combine(worldDirectory, "map_info.xml");
             var mapSize = GetMapSize(mapInfoFile);
-
             map.Size = mapSize;
+
 
             var prefabsFile = Path.Combine(worldDirectory, "prefabs.xml");
             var spawnPointsFile = Path.Combine(worldDirectory, "spawnpoints.xml");
@@ -154,5 +154,90 @@ namespace _7DTD_Directx.Map
 
             throw new Exception($"Could not read MapSize from {filePath}");
         }
+
+
+
     }
+
+
+    internal class PrefabPoint : IMapPoint
+    {
+        public string Name { get; set; }
+        public bool ShouldShow { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
+        public int Rotation { get; set; }
+
+        public PrefabInfo? PrefabInfo { get; set; }
+    }
+
+
+    internal class PrefabInfo
+    {
+        public string? FileName { get; set; }
+        public string? Name { get; set; }
+        public List<PrefabBlock> Blocks { get; set; }
+        public PrefabSize Size { get; set; }
+        public string? ImageFullPath { get; internal set; }
+
+        public PrefabInfo()
+        {
+            Size = new PrefabSize();
+            Blocks = new List<PrefabBlock>();
+        }
+
+    }
+
+
+    public class PrefabBlock
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
+    }
+
+
+    public class PrefabSize
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Debth { get; set; }
+    }
+
+
+    internal class SpawnPoint : IMapPoint
+    {
+        public string Name { get; set; }
+        public bool ShouldShow { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
+        public int Rotation { get; set; }
+    }
+
+
+    internal interface IMapPoint
+    {
+        public string Name { get; set; }
+        public bool ShouldShow { get; set; }
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
+
+        /// <summary>
+        /// 0-3
+        /// </summary>
+        public int Rotation { get; set; }
+
+
+        //public static int DefaultBrushSize = 8;
+        //public static Brush DefaultBrush = Brushes.Blue;
+        //public Icon Icon { get; set; }
+        //public List<MapPoint> MapPoints { get; set; }
+        //public Brush BrushColor { get; set; }
+        //public int BrushSize { get; set; }
+    }
+
+
 }
