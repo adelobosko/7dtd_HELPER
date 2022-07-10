@@ -7,7 +7,6 @@ namespace _7DTD_Directx.Utils
     {
         public static string? ProgramDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location ?? "");
         public static string ConfigDirectory = Path.Combine(ProgramDirectory ?? "", "Config");
-        public static string MapsDirectory = Path.Combine(ConfigDirectory, "Maps");
 
         public static string PrefabsDirectory = Path.Combine(ConfigDirectory, "Prefabs");
         public static string UnzippedDirectory = Path.Combine(ConfigDirectory, "master");

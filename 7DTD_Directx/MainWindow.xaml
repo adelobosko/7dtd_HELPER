@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         Closing="MapWindow_Closing"
-        MouseMove="MapWindow_MouseMove"
+        MouseMove="MapWindow_MouseMove" Loaded="MapWindow_Loaded"
 >
     <Grid>
         <Grid.RowDefinitions>

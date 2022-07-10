@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using _7DTD_Directx.Domain;
 
 namespace _7DTD_Directx.Utils
 {
     public static class GlobalHelper
     {
-        //public static Config Config = new Config();
+        public static Config Config;
 
         //public static WebHelper WebHelper { get; set; }
-        public delegate void OnStatusChanged(object myObject, string message, int percentage);
-        public static OnStatusChanged UpdateStatus { get; set; }
-        public static OnStatusChanged UpdateSubStatus { get; set; }
+        //public delegate void OnStatusChanged(object myObject, string message, int percentage);
+        //public static OnStatusChanged UpdateStatus { get; set; }
+        //public static OnStatusChanged UpdateSubStatus { get; set; }
 
         //public static MapPoint MyCoordinates = new MapPoint()
         //{
@@ -35,15 +33,15 @@ namespace _7DTD_Directx.Utils
                 {
                     case Argument.HELP:
                     {
-                        return "Writes an information about all commands";
+                        return "Show all commands";
                     }
                     case Argument.CONSOLE:
                     {
-                        return "Opens a console";
+                        return "Open a console";
                     }
                     case Argument.LOG:
                     {
-                        return "Enables a logging";
+                        return "Enable a logging";
                     }
                     default:
                         return $"Unknown argument {argument}";
